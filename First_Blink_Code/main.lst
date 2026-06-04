@@ -1,0 +1,185 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.0 #15242 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _main
+                                     11 ;--------------------------------------------------------
+                                     12 ; ram data
+                                     13 ;--------------------------------------------------------
+                                     14 	.area DATA
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area INITIALIZED
+                                     19 ;--------------------------------------------------------
+                                     20 ; Stack segment in internal ram
+                                     21 ;--------------------------------------------------------
+                                     22 	.area SSEG
+      000000                         23 __start__stack:
+      000000                         24 	.ds	1
+                                     25 
+                                     26 ;--------------------------------------------------------
+                                     27 ; absolute external ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area DABS (ABS)
+                                     30 
+                                     31 ; default segment ordering for linker
+                                     32 	.area HOME
+                                     33 	.area GSINIT
+                                     34 	.area GSFINAL
+                                     35 	.area CONST
+                                     36 	.area INITIALIZER
+                                     37 	.area CODE
+                                     38 
+                                     39 ;--------------------------------------------------------
+                                     40 ; interrupt vector
+                                     41 ;--------------------------------------------------------
+                                     42 	.area HOME
+      000000                         43 __interrupt_vect:
+      000000 82v00u00u00             44 	int s_GSINIT ; reset
+                                     45 ;--------------------------------------------------------
+                                     46 ; global & static initialisations
+                                     47 ;--------------------------------------------------------
+                                     48 	.area HOME
+                                     49 	.area GSINIT
+                                     50 	.area GSFINAL
+                                     51 	.area GSINIT
+      000000 CDr00r00         [ 4]   52 	call	___sdcc_external_startup
+      000003 4D               [ 1]   53 	tnz	a
+      000004 27 03            [ 1]   54 	jreq	__sdcc_init_data
+      000006 CCr00r04         [ 2]   55 	jp	__sdcc_program_startup
+      000009                         56 __sdcc_init_data:
+                                     57 ; stm8_genXINIT() start
+      000009 AEr00r00         [ 2]   58 	ldw x, #l_DATA
+      00000C 27 07            [ 1]   59 	jreq	00002$
+      00000E                         60 00001$:
+      00000E 72 4FuFFuFF      [ 1]   61 	clr (s_DATA - 1, x)
+      000012 5A               [ 2]   62 	decw x
+      000013 26 F9            [ 1]   63 	jrne	00001$
+      000015                         64 00002$:
+      000015 AEr00r00         [ 2]   65 	ldw	x, #l_INITIALIZER
+      000018 27 09            [ 1]   66 	jreq	00004$
+      00001A                         67 00003$:
+      00001A D6uFFuFF         [ 1]   68 	ld	a, (s_INITIALIZER - 1, x)
+      00001D D7uFFuFF         [ 1]   69 	ld	(s_INITIALIZED - 1, x), a
+      000020 5A               [ 2]   70 	decw	x
+      000021 26 F7            [ 1]   71 	jrne	00003$
+      000023                         72 00004$:
+                                     73 ; stm8_genXINIT() end
+                                     74 	.area GSFINAL
+      000000 CCr00r04         [ 2]   75 	jp	__sdcc_program_startup
+                                     76 ;--------------------------------------------------------
+                                     77 ; Home
+                                     78 ;--------------------------------------------------------
+                                     79 	.area HOME
+                                     80 	.area HOME
+      000004                         81 __sdcc_program_startup:
+      000004 CCr00r2B         [ 2]   82 	jp	_main
+                                     83 ;	return from main will return to caller
+                                     84 ;--------------------------------------------------------
+                                     85 ; code
+                                     86 ;--------------------------------------------------------
+                                     87 	.area CODE
+                                     88 ;	main.c: 19: static void tim4_init(void)
+                                     89 ;	-----------------------------------------
+                                     90 ;	 function tim4_init
+                                     91 ;	-----------------------------------------
+      000000                         92 _tim4_init:
+                                     93 ;	main.c: 29: TIM4_PSCR = 0x07;   /* Prescaler = 128 */
+      000000 35 07 53 47      [ 1]   94 	mov	0x5347+0, #0x07
+                                     95 ;	main.c: 30: TIM4_ARR  = 124;    /* 1 ms period */
+      000004 35 7C 53 48      [ 1]   96 	mov	0x5348+0, #0x7c
+                                     97 ;	main.c: 31: TIM4_CR1  = 0x01;   /* Enable timer */
+      000008 35 01 53 40      [ 1]   98 	mov	0x5340+0, #0x01
+                                     99 ;	main.c: 32: }
+      00000C 81               [ 4]  100 	ret
+                                    101 ;	main.c: 34: static void delay_ms(uint16_t ms)
+                                    102 ;	-----------------------------------------
+                                    103 ;	 function delay_ms
+                                    104 ;	-----------------------------------------
+      00000D                        105 _delay_ms:
+                                    106 ;	main.c: 36: while(ms--)
+      00000D                        107 00104$:
+      00000D 90 93            [ 1]  108 	ldw	y, x
+      00000F 5A               [ 2]  109 	decw	x
+      000010 90 5D            [ 2]  110 	tnzw	y
+      000012 26 01            [ 1]  111 	jrne	00138$
+      000014 81               [ 4]  112 	ret
+      000015                        113 00138$:
+                                    114 ;	main.c: 38: TIM4_SR = 0;
+      000015 35 00 53 44      [ 1]  115 	mov	0x5344+0, #0x00
+                                    116 ;	main.c: 40: while((TIM4_SR & 0x01) == 0)
+      000019                        117 00101$:
+      000019 72 00 53 44 EF   [ 2]  118 	btjt	0x5344, #0, 00104$
+      00001E 20 F9            [ 2]  119 	jra	00101$
+                                    120 ;	main.c: 45: }
+      000020 81               [ 4]  121 	ret
+                                    122 ;	main.c: 47: static void led_on(void)
+                                    123 ;	-----------------------------------------
+                                    124 ;	 function led_on
+                                    125 ;	-----------------------------------------
+      000021                        126 _led_on:
+                                    127 ;	main.c: 50: PB_ODR &= ~(1 << 5);
+      000021 72 1B 50 05      [ 1]  128 	bres	0x5005, #5
+                                    129 ;	main.c: 51: }
+      000025 81               [ 4]  130 	ret
+                                    131 ;	main.c: 53: static void led_off(void)
+                                    132 ;	-----------------------------------------
+                                    133 ;	 function led_off
+                                    134 ;	-----------------------------------------
+      000026                        135 _led_off:
+                                    136 ;	main.c: 55: PB_ODR |= (1 << 5);
+      000026 72 1A 50 05      [ 1]  137 	bset	0x5005, #5
+                                    138 ;	main.c: 56: }
+      00002A 81               [ 4]  139 	ret
+                                    140 ;	main.c: 58: int main(void)
+                                    141 ;	-----------------------------------------
+                                    142 ;	 function main
+                                    143 ;	-----------------------------------------
+      00002B                        144 _main:
+                                    145 ;	main.c: 61: CLK_CKDIVR = 0x00;
+      00002B 35 00 50 C6      [ 1]  146 	mov	0x50c6+0, #0x00
+                                    147 ;	main.c: 64: led_off();
+      00002F CDr00r26         [ 4]  148 	call	_led_off
+                                    149 ;	main.c: 67: PB_DDR |= (1 << 5);
+      000032 72 1A 50 07      [ 1]  150 	bset	0x5007, #5
+                                    151 ;	main.c: 68: PB_CR1 |= (1 << 5);
+      000036 72 1A 50 08      [ 1]  152 	bset	0x5008, #5
+                                    153 ;	main.c: 69: PB_CR2 &= ~(1 << 5);
+      00003A 72 1B 50 09      [ 1]  154 	bres	0x5009, #5
+                                    155 ;	main.c: 72: tim4_init();
+      00003E CDr00r00         [ 4]  156 	call	_tim4_init
+                                    157 ;	main.c: 74: while(1)
+      000041                        158 00102$:
+                                    159 ;	main.c: 78: led_on();
+      000041 CDr00r21         [ 4]  160 	call	_led_on
+                                    161 ;	main.c: 79: delay_ms(50);
+      000044 AE 00 32         [ 2]  162 	ldw	x, #0x0032
+      000047 CDr00r0D         [ 4]  163 	call	_delay_ms
+                                    164 ;	main.c: 81: led_off();
+      00004A CDr00r26         [ 4]  165 	call	_led_off
+                                    166 ;	main.c: 82: delay_ms(60);
+      00004D AE 00 3C         [ 2]  167 	ldw	x, #0x003c
+      000050 CDr00r0D         [ 4]  168 	call	_delay_ms
+                                    169 ;	main.c: 84: led_on();
+      000053 CDr00r21         [ 4]  170 	call	_led_on
+                                    171 ;	main.c: 85: delay_ms(50);
+      000056 AE 00 32         [ 2]  172 	ldw	x, #0x0032
+      000059 CDr00r0D         [ 4]  173 	call	_delay_ms
+                                    174 ;	main.c: 87: led_off();
+      00005C CDr00r26         [ 4]  175 	call	_led_off
+                                    176 ;	main.c: 88: delay_ms(840);
+      00005F AE 03 48         [ 2]  177 	ldw	x, #0x0348
+      000062 CDr00r0D         [ 4]  178 	call	_delay_ms
+      000065 20 DA            [ 2]  179 	jra	00102$
+                                    180 ;	main.c: 90: }
+      000067 81               [ 4]  181 	ret
+                                    182 	.area CODE
+                                    183 	.area CONST
+                                    184 	.area INITIALIZER
+                                    185 	.area CABS (ABS)

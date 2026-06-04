@@ -1,0 +1,91 @@
+#include <stdint.h>
+
+/* GPIO Port B */
+#define PB_ODR     (*(volatile uint8_t *)0x5005)
+#define PB_DDR     (*(volatile uint8_t *)0x5007)
+#define PB_CR1     (*(volatile uint8_t *)0x5008)
+#define PB_CR2     (*(volatile uint8_t *)0x5009)
+
+/* Clock */
+#define CLK_CKDIVR (*(volatile uint8_t *)0x50C6)
+
+/* TIM4 */
+#define TIM4_CR1   (*(volatile uint8_t *)0x5340)
+#define TIM4_IER   (*(volatile uint8_t *)0x5343)
+#define TIM4_SR    (*(volatile uint8_t *)0x5344)
+#define TIM4_PSCR  (*(volatile uint8_t *)0x5347)
+#define TIM4_ARR   (*(volatile uint8_t *)0x5348)
+
+static void tim4_init(void)
+{
+    /*
+     * 16 MHz / 128 = 125000 Hz
+     * ARR = 124
+     *
+     * Overflow every:
+     * 125 / 125000 = 1 ms
+     */
+
+    TIM4_PSCR = 0x07;   /* Prescaler = 128 */
+    TIM4_ARR  = 124;    /* 1 ms period */
+    TIM4_CR1  = 0x01;   /* Enable timer */
+}
+
+static void delay_ms(uint16_t ms)
+{
+    while(ms--)
+    {
+        TIM4_SR = 0;
+
+        while((TIM4_SR & 0x01) == 0)
+        {
+            /* Wait for update event */
+        }
+    }
+}
+
+static void led_on(void)
+{
+    /* PB5 LED is active-low */
+    PB_ODR &= ~(1 << 5);
+}
+
+static void led_off(void)
+{
+    PB_ODR |= (1 << 5);
+}
+
+int main(void)
+{
+    /* Run HSI at full speed (16 MHz) */
+    CLK_CKDIVR = 0x00;
+
+    /* LED off before enabling output */
+    led_off();
+
+    /* Configure PB5 as push-pull output */
+    PB_DDR |= (1 << 5);
+    PB_CR1 |= (1 << 5);
+    PB_CR2 &= ~(1 << 5);
+
+    /* Start TIM4 */
+    tim4_init();
+
+    while(1)
+    {
+        /* Airbus-style double flash */
+
+        led_on();
+        delay_ms(50);
+
+        led_off();
+        delay_ms(60);
+
+        led_on();
+        delay_ms(50);
+
+        led_off();
+        delay_ms(840);
+    }
+}
+
