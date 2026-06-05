@@ -19,7 +19,7 @@ typedef struct {
 
 /* GPIO Pin Modes */
 typedef enum {
-  // Iuput selection modes
+  // Input selection modes
   GPIO_IN_FLOAT_NO_IRQ          = 0,
   GPIO_IN_FLOAT_WITH_IRQ        = 1,
   GPIO_IN_PULL_UP_NO_IRQ        = 2,
@@ -147,19 +147,27 @@ static inline void gpio_out_fast_mode_disable(GPIO_PORT_REG *port, uint8_t pin) 
   port->CR2 &= ~(1U << pin);
 }
 
-/* GPIO Read Functions */
-uint8_t gpio_read(GPIO_PORT_REG *port, uint8_t pin);
+/* GPIO Input Read Functions */
+uint8_t gpio_input_read(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline uint8_t gpio_fast_read(GPIO_PORT_REG *port, uint8_t pin) {
+static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
    return ((port->IDR >> pin) & 1);   
 }
 
 
-/* GPIO Write Function */
+/* GPIO Output Function */
+/* GPIO Write Output */
 void gpio_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin);
 
 static inline void gpio_fast_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
-  port->ODR = (state) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
+  port->ODR = (state == 1) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
+}
+
+/* GPIO Read Output */
+uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin);
+
+static inline uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
+  return ((port->ODR >> pin) & 1);
 }
 
 
