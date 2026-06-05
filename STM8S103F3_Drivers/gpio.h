@@ -170,5 +170,11 @@ static inline uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
   return ((port->ODR >> pin) & 1);
 }
 
+/* GPIO Toggle Function */
+void gpio_output_toggle(GPIO_PORT_REG *port, uint8_t pin);
+
+static inline void gpio_fast_output_toggle(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR ^= (1U << pin);
+}
 
 #endif

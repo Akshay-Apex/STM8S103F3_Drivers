@@ -39,3 +39,7 @@ void gpio_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
   port->ODR = (state) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
 }
 
+/* GPIO Toggle Function */
+void gpio_output_toggle(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR ^= (1U << pin);
+}
