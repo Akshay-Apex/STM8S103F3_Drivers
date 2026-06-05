@@ -67,7 +67,7 @@ static inline void gpio_in_float_with_irq(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR1 &= ~(1U << pin);
   port->CR2 |= (1U << pin);
 }
-
+ 
 static inline void gpio_in_pull_up_with_irq(GPIO_PORT_REG *port, uint8_t pin) {
   port->DDR &= ~(1U << pin);
   port->CR1 |= (1U << pin); 
@@ -103,11 +103,11 @@ static inline void gpio_out_push_pull_fast_mode(GPIO_PORT_REG *port, uint8_t pin
 
 /* Fast GPIO Pin Advanced Single Mode Configuration Functions */
 /* GPIO I/O Mode Selection */
-static inline void gpio_direction_output(GPIO_PORT_REG *port, uint8_t pin) {
+static inline void gpio_mode_output_init(GPIO_PORT_REG *port, uint8_t pin) {
   port->DDR |= (1U << pin);
 }
 
-static inline void gpio_direction_input(GPIO_PORT_REG *port, uint8_t pin) {
+static inline void gpio_mode_input_init(GPIO_PORT_REG *port, uint8_t pin) {
   port->DDR &= ~(1U << pin);
 }
 
