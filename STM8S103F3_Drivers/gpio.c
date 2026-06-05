@@ -23,3 +23,13 @@ void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t p
     port->CR2 &= ~(pin_mask);
   }
 }
+
+/* GPIO Read */
+uint8_t gpio_read(GPIO_PORT_REG *port, uint8_t pin) {
+  return ((port->IDR >> pin) & 1);   
+}
+
+/* GPIO Write */
+void gpio_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
+  port->ODR = (state) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
+}
