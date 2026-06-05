@@ -155,7 +155,7 @@ static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
 }
 
 
-/* GPIO Output Function */
+/* GPIO Output Functions */
 /* GPIO Write Output */
 void gpio_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin);
 
