@@ -156,18 +156,19 @@ static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
 }
 
 
+
 /* GPIO Output Functions */
 /* GPIO Write Output */
-void gpio_pin_set(GPIO_PORT_REG *port, uint8_t pin);
+void gpio_output_set(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_pin_set(GPIO_PORT_REG *port, uint8_t pin) {
-  port->ODR |= (1 << pin);
+static inline void gpio_fast_output_set(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR |= (1U << pin);
 }
 
-void gpio_pin_clear(GPIO_PORT_REG *port, uint8_t pin);
+void gpio_output_clear(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_pin_clear(GPIO_PORT_REG *port, uint8_t pin) {
-  port->ODR &= ~(1 << pin);
+static inline void gpio_fast_output_clear(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR &= ~(1U << pin);
 }
 
 

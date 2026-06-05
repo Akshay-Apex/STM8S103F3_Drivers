@@ -3,7 +3,7 @@
 
 // GPIO Pin Configuration
 void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin) {
-  uint8_t pin_mask = (1 << pin);
+  uint8_t pin_mask = (1U << pin);
 
   if(DDR_SET_HIGH(mode)) {
     port->DDR |= pin_mask;    
@@ -24,6 +24,7 @@ void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t p
   }
 }
 
+
 /* GPIO Read Input */
 uint8_t gpio_input_read(GPIO_PORT_REG *port, uint8_t pin) {
   return ((port->IDR >> pin) & 1);   
@@ -35,12 +36,12 @@ uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
 }
 
 /* GPIO Write Output */
-void gpio_pin_set(GPIO_PORT_REG *port, uint8_t pin) {
-  port->ODR |= (1 << pin);
+void gpio_output_set(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR |= (1U << pin);
 }
 
-void gpio_pin_clear(GPIO_PORT_REG *port, uint8_t pin) {
-  port->ODR &= ~(1 << pin);
+void gpio_output_clear(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR &= ~(1U << pin);
 }
 
 /* GPIO Toggle Function */
