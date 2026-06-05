@@ -36,11 +36,6 @@ typedef enum {
 #define CR1_SET_HIGH(MODE) (((MODE) >> 1) & 1)
 #define CR2_SET_HIGH(MODE) (((MODE) >> 0) & 1)
 
-typedef enum {
-  HIGH = 1,
-  LOW  = 0
-} GPIO_STATE;
-
 
 /* GPIO Pin Generic Multi Mode Configuration Function */
 void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin);
@@ -163,10 +158,16 @@ static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
 
 /* GPIO Output Functions */
 /* GPIO Write Output */
-void gpio_output_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin);
+void gpio_pin_set(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_output_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
-  port->ODR = (state == 1) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
+static inline void gpio_fast_pin_set(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR |= (1 << pin);
+}
+
+void gpio_pin_clear(GPIO_PORT_REG *port, uint8_t pin);
+
+static inline void gpio_fast_pin_clear(GPIO_PORT_REG *port, uint8_t pin) {
+  port->ODR &= ~(1 << pin);
 }
 
 
