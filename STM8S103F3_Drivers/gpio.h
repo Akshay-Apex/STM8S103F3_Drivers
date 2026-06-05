@@ -166,7 +166,7 @@ static inline void gpio_fast_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_
 /* GPIO Read Output */
 uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
+static inline uint8_t gpio_fast_output_read(GPIO_PORT_REG *port, uint8_t pin) {
   return ((port->ODR >> pin) & 1);
 }
 
