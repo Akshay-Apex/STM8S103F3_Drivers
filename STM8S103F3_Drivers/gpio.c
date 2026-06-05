@@ -35,7 +35,7 @@ uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
 }
 
 /* GPIO Write Output */
-void gpio_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
+void gpio_output_write(GPIO_PORT_REG *port, GPIO_STATE state, uint8_t pin) {
   port->ODR = (state) ? (port->ODR | (1U << pin)) : (port->ODR & ~(1U << pin));
 }
 
