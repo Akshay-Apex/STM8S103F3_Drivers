@@ -1,3 +1,13 @@
+/**
+ * @file clk.h
+ * @brief STM8S103F3 clock driver.
+ *
+ * @note The following clock features are not implemented:
+ *       - Clock Security System (CLK_CSSR)
+ *       - Clock switch interrupts
+ *       - Automatic clock fallback (AUX)
+ */
+
 #ifndef CLK_H
 #define CLK_H
 

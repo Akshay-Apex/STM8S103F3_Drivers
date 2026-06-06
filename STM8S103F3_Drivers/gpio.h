@@ -1,3 +1,10 @@
+/**
+ * @file gpio.h
+ * @brief STM8S103F3 GPIO driver.
+ *
+ * @details Implements the complete STM8S103F3 GPIO peripheral interface.
+ */
+
 #ifndef GPIO_H
 #define GPIO_H
 
