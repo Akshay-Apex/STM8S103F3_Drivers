@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-/* Register Definitions */
+/* GPIO Register Definitions */
 typedef struct {
   volatile uint8_t ODR; // Data output latch register
   volatile uint8_t IDR; // Input pin value register
