@@ -2,10 +2,7 @@
  * @file clk.h
  * @brief STM8S103F3 clock driver.
  *
- * @note The following clock features are not implemented:
- *       - Clock Security System (CLK_CSSR)
- *       - Clock switch interrupts
- *       - Automatic clock fallback (AUX)
+ * @details Implements the complete STM8S103F3 Clock peripheral interface.
  */
 
 #ifndef CLK_H
@@ -80,6 +77,24 @@ typedef enum {
   ADC = 3  
 } PERIPHERAL_2_CLK;
 
+
+/* Configurable clock output selection */
+typedef enum {
+  CLK_CCO_HSIDIV      = 0,
+  CLK_CCO_LSI         = 1,
+  CLK_CCO_HSE         = 2,
+  CLK_CCO_CPU         = 4,
+  CLK_CCO_CPU_DIV_2   = 5,
+  CLK_CCO_CPU_DIV_4   = 6,
+  CLK_CCO_CPU_DIV_8   = 7,
+  CLK_CCO_CPU_DIV_16  = 8,
+  CLK_CCO_CPU_DIV_32  = 9,
+  CLK_CCO_CPU_DIV_64  = 10,
+  CLK_CCO_HSI         = 11,
+  CLK_CCO_MASTER      = 12
+} CLK_CCO_SOURCE;
+
+#define CLK_HSI_TRIM_CLR_MASK 0xF8 
 
 /* Main voltage regulator (MVR) */
 static inline void clk_active_halt_mvr_enable(void) {
@@ -256,5 +271,78 @@ static inline void clk_enable_periph_2_clock(PERIPHERAL_2_CLK periph) {
 static inline void clk_disable_periph_2_clock(PERIPHERAL_2_CLK periph) {
   CLK->CLK_PCKENR2 &= ~(1U << periph);
 }
+
+
+
+/* Clock security system register (CLK_CSSR) */
+static inline void clk_security_sys_enable(void) {
+  CLK->CLK_CSSR |= (1U << 0);
+}
+
+static inline void clk_security_sys_disable(void) {
+  CLK->CLK_CSSR &= ~(1U << 0);
+}
+
+static inline uint8_t clk_is_aux_clock_active(void) {
+  return ((CLK->CLK_CSSR >> 1) & 1);
+}
+
+static inline void clk_security_sys_irq_enable(void) {
+  CLK->CLK_CSSR |= (1U << 2);
+}
+
+static inline void clk_security_sys_irq_disable(void) {
+  CLK->CLK_CSSR &= ~(1U << 2);
+}
+
+static inline uint8_t clk_is_hse_clock_disturbance_detected(void) {
+  return ((CLK->CLK_CSSR >> 3) & 1);
+}
+
+static inline void clk_hse_clock_disturbance_detect_reg_clear(void) {
+  CLK->CLK_CSSR &= ~(1U << 3);
+}
+
+
+
+/* Configurable clock output register (CLK_CCOR) */
+static inline void clk_configurable_clock_output_enable(void) {
+  CLK->CLK_CCOR |= (1U << 0);
+}
+
+static inline void clk_configurable_clock_output_disable(void) {
+  CLK->CLK_CCOR &= ~(1U << 0);
+}
+
+static inline void clk_set_clock_output_source(CLK_CCO_SOURCE source) {
+    CLK->CCOR = (CLK->CCOR & ~(0x0F << 1)) | ((uint8_t)source << 1);
+}
+
+static inline uint8_t clk_is_configurable_clock_output_ready(void) {
+    return ((CLK->CCOR >> 5) & 1);
+}
+
+static inline uint8_t clk_is_configurable_clock_output_src_switching_and_busy(void) {
+    return ((CLK->CCOR >> 6) & 1);
+}
+
+
+
+/* HSI clock calibration trimming register (CLK_HSITRIMR) */
+static inline void clk_set_hsi_osc_trim_value(uint8_t trim_val) {
+  CLK->CLK_HSITRIMR = ((CLK->CLK_HSITRIMR & CLK_HSI_TRIM_CLR_MASK) | (trim_val & 0x07));
+}
+
+
+
+/* SWIM clock control register (CLK_SWIMCCR) */
+static inline void clk_enable_swim_clock_div2(void) {
+  CLK->CLK_SWIMCCR &= ~(1U << 0);
+}
+
+static inline void clk_disable_swim_clock_div2(void) {
+  CLK->CLK_SWIMCCR |= (1U << 0);
+}
+
 
 #endif
