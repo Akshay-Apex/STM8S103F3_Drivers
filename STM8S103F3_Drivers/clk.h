@@ -12,20 +12,20 @@
 
 /* Clock Register Definitions */
 typedef struct {
-  volatile uint8_t CLK_ICKR; // Internal clock control register
-  volatile uint8_t CLK_ECKR; // External clock control register
+  volatile uint8_t ICKR;     // Internal clock control register
+  volatile uint8_t ECKR;     // External clock control register
   volatile uint8_t RESERVED_0;
-  volatile uint8_t CLK_CMSR; // Clock master status register
-  volatile uint8_t CLK_SWR; // Clock master switch register
-  volatile uint8_t CLK_SWCR; // Clock switch control register
-  volatile uint8_t CLK_CKDIVR; // Clock divider register
-  volatile uint8_t CLK_PCKENR1; // Peripheral clock gating register 1
-  volatile uint8_t CLK_CSSR; // Clock security system register
-  volatile uint8_t CLK_CCOR; // Configurable clock control register
-  volatile uint8_t CLK_PCKENR2; // Peripheral clock gating register 2
+  volatile uint8_t CMSR;     // Clock master status register
+  volatile uint8_t SWR;      // Clock master switch register
+  volatile uint8_t SWCR;     // Clock switch control register
+  volatile uint8_t CKDIVR;   // Clock divider register
+  volatile uint8_t PCKENR1;  // Peripheral clock gating register 1
+  volatile uint8_t CSSR;     // Clock security system register
+  volatile uint8_t CCOR;     // Configurable clock control register
+  volatile uint8_t PCKENR2;  // Peripheral clock gating register 2
   volatile uint8_t RESERVED_1;  
-  volatile uint8_t CLK_HSITRIMR; // HSI clock calibration trimming
-  volatile uint8_t CLK_SWIMCCR; // SWIM clock control register
+  volatile uint8_t HSITRIMR; // HSI clock calibration trimming
+  volatile uint8_t SWIMCCR;  // SWIM clock control register
 } CLK_REG;
 
 #define CLK ((CLK_REG *)0x50C0) // Base address binding of clock registers
@@ -98,134 +98,134 @@ typedef enum {
 
 /* Main voltage regulator (MVR) */
 static inline void clk_active_halt_mvr_enable(void) {
-  CLK->CLK_ICKR &= ~(1U << 5);
+  CLK->ICKR &= ~(1U << 5);
 }
 
 static inline void clk_active_halt_mvr_disable(void) {
-  CLK->CLK_ICKR |= (1U << 5);
+  CLK->ICKR |= (1U << 5);
 }
 
 static inline uint8_t clk_is_active_halt_mvr_enabled(void) {
-  return !((CLK->CLK_ICKR >> 5) & 1);
+  return !((CLK->ICKR >> 5) & 1);
 }
 
 
 
 /* Low speed internal oscillator ready */
 static inline uint8_t clk_is_lsi_osc_ready(void) {
-  return ((CLK->CLK_ICKR >> 4) & 1);
+  return ((CLK->ICKR >> 4) & 1);
 }
 
 /* Low speed internal RC oscillator enable */
 static inline uint8_t clk_is_lsi_osc_enabled(void) {
-  return ((CLK->CLK_ICKR >> 3) & 1);
+  return ((CLK->ICKR >> 3) & 1);
 }
 
 static inline void clk_lsi_osc_enable(void) {
-  CLK->CLK_ICKR |= (1U << 3);
+  CLK->ICKR |= (1U << 3);
 }
 
 static inline void clk_lsi_osc_disable(void) {
-  CLK->CLK_ICKR &= ~(1U << 3);
+  CLK->ICKR &= ~(1U << 3);
 }
 
 
 
 /* Fast wakeup from Halt/Active-halt modes (FHWU) */
 static inline uint8_t clk_is_fast_hlt_wake_up_enabled(void) {
-  return ((CLK->CLK_ICKR >> 2) & 1);
+  return ((CLK->ICKR >> 2) & 1);
 }
 
 static inline void clk_fast_hlt_wake_up_enable(void) {
-  CLK->CLK_ICKR |= (1U << 2);
+  CLK->ICKR |= (1U << 2);
 }
 
 static inline void clk_fast_hlt_wake_up_disable(void) {
-  CLK->CLK_ICKR &= ~(1U << 2);
+  CLK->ICKR &= ~(1U << 2);
 }
 
 
 
 /* High speed internal oscillator ready */
 static inline uint8_t clk_is_hsi_osc_ready(void) {
-  return ((CLK->CLK_ICKR >> 1) & 1);
+  return ((CLK->ICKR >> 1) & 1);
 }
 
 /* High speed internal RC oscillator enable */
 static inline uint8_t clk_is_hsi_osc_enabled(void) {
-  return ((CLK->CLK_ICKR >> 0) & 1);
+  return ((CLK->ICKR >> 0) & 1);
 }
 
 static inline void clk_hsi_osc_enable(void) {
-  CLK->CLK_ICKR |= (1U << 0);
+  CLK->ICKR |= (1U << 0);
 }
 
 static inline void clk_hsi_osc_disable(void) {
-  CLK->CLK_ICKR &= ~(1U << 0);
+  CLK->ICKR &= ~(1U << 0);
 }
 
 
 
 /* High speed external crystal oscillator ready */
 static inline uint8_t clk_is_hse_osc_ready(void) {
-  return ((CLK->CLK_ECKR >> 1) & 1);
+  return ((CLK->ECKR >> 1) & 1);
 }
 
 static inline void clk_hse_osc_enable(void) {
-  CLK->CLK_ECKR |= (1U << 0);
+  CLK->ECKR |= (1U << 0);
 }
 
 static inline void clk_hse_osc_disable(void) {
-  CLK->CLK_ECKR &= ~(1U << 0);
+  CLK->ECKR &= ~(1U << 0);
 }
 
 
 
 /* Clock master status register (CLK_CMSR) */
 static inline uint8_t clk_get_master_clock_source(void) {
-  return CLK->CLK_CMSR;
+  return CLK->CMSR;
 }
 
 /* Clock master switch register (CLK_SWR) */
 static inline void clk_switch_clk_master_src(MASTER_CLK_SRC src) {
-  CLK->CLK_SWR = src;
+  CLK->SWR = src;
 }
 
 /* Switch control register (CLK_SWCR) */
 static inline uint8_t clk_is_clk_switch_ongoing(void) {
-  return ((CLk->CLK_SWCR >> 0) & 1);
+  return ((CLK->SWCR >> 0) & 1);
 }
 
 static inline void clk_reset_clk_switch_process(void) {
-  CLK->CLK_SWCR &= ~(1U << 0);
+  CLK->SWCR &= ~(1U << 0);
 }
 
 static inline void clk_switch_exec_enable(void) {
-  CLK->CLK_SWCR |= (1U << 1);
+  CLK->SWCR |= (1U << 1);
 }
 
 static inline void clk_switch_exec_disable(void) {
-  CLK->CLK_SWCR &= ~(1U << 1);
+  CLK->SWCR &= ~(1U << 1);
 }
 
 static inline void clk_switch_irq_enable(void) {
-  CLK->CLK_SWCR |= (1U << 2);
+  CLK->SWCR |= (1U << 2);
 }
 
 static inline void clk_switch_irq_disable(void) {
-  CLK->CLK_SWCR &= ~(1U << 2);
+  CLK->SWCR &= ~(1U << 2);
 }
 
 static inline uint8_t clk_target_src_clk_ready_manual_mode(void) {
-  return ((CLK->CLK_SWCR >> 3) & 1) ;
+  return ((CLK->SWCR >> 3) & 1) ;
 }
 
 static inline uint8_t clk_switch_event_occured_auto_mode(void) {
-  return ((CLK->CLK_SWCR >> 3) & 1) ;
+  return ((CLK->SWCR >> 3) & 1) ;
 }
 
 static inline void clk_switch_irq_flag_clear(void) {
-  CLK->CLK_SWCR &= ~(1U << 3);
+  CLK->SWCR &= ~(1U << 3);
 }
 
 
@@ -233,23 +233,23 @@ static inline void clk_switch_irq_flag_clear(void) {
 
 /* Clock divider register (CLK_CKDIVR) */
 static inline void clk_set_cpu_div_prescalar(CPU_DIV_PRESCALAR value) {
-  CLK->CLK_CKDIVR = ((CLK->CLK_CKDIVR & CLK_CKDIVR_CPU_CLR_MASK) | ((uint8_t)value) << 0);
+  CLK->CKDIVR = ((CLK->CKDIVR & CLK_CKDIVR_CPU_CLR_MASK) | ((uint8_t)value) << 0);
 }
 
 static inline CPU_DIV_PRESCALAR clk_read_cpu_div_prescalar(void) {
-  return ((CPU_DIV_PRESCALAR)(CLK->CLK_CKDIVR & ~(CLK_CKDIVR_CPU_CLR_MASK)));
+  return ((CPU_DIV_PRESCALAR)(CLK->CKDIVR & ~(CLK_CKDIVR_CPU_CLR_MASK)));
 }
 
 static inline void clk_set_hsi_div_prescalar(HSI_DIV_PRESCALAR value) {
-  CLK->CLK_CKDIVR = (CLK->CLK_CKDIVR & CLK_CKDIVR_HSI_CLR_MASK) | ((uint8_t)value << 3);
+  CLK->CKDIVR = (CLK->CKDIVR & CLK_CKDIVR_HSI_CLR_MASK) | ((uint8_t)value << 3);
 }
 
 static inline HSI_DIV_PRESCALAR clk_read_hsi_div_prescalar(HSI_DIV_PRESCALAR value) {
-  return ((HSI_DIV_PRESCALAR)(CLK->CLK_CKDIVR & ~(CLK_CKDIVR_HSI_CLR_MASK)));
+  return ((HSI_DIV_PRESCALAR)(CLK->CKDIVR & ~(CLK_CKDIVR_HSI_CLR_MASK)));
 }
 
 static inline void  clk_set_hsi_and_cpu_div_prescalar(HSI_DIV_PRESCALAR hsi_value, CPU_DIV_PRESCALAR cpu_value) {
-  CLK->CLK_CKDIVR = (CLK->CLK_CKDIVR & (CLK_CKDIVR_HSI_CLR_MASK & CLK_CKDIVR_CPU_CLR_MASK)) 
+  CLK->CKDIVR = (CLK->CKDIVR & (CLK_CKDIVR_HSI_CLR_MASK & CLK_CKDIVR_CPU_CLR_MASK)) 
                   | ((((uint8_t)hsi_value << 3) | ((uint8_t)cpu_value) << 0));
 }
 
@@ -257,61 +257,61 @@ static inline void  clk_set_hsi_and_cpu_div_prescalar(HSI_DIV_PRESCALAR hsi_valu
 
 /* Peripheral clock gating register 1 (CLK_PCKENR1) */
 static inline void clk_enable_periph_1_clock(PERIPHERAL_1_CLK periph) {
-  CLK->CLK_PCKENR1 |= (1U << periph);
+  CLK->PCKENR1 |= (1U << periph);
 }
 
 static inline void clk_disable_periph_1_clock(PERIPHERAL_1_CLK periph) {
-  CLK->CLK_PCKENR1 &= ~(1U << periph);
+  CLK->PCKENR1 &= ~(1U << periph);
 }
 
 static inline void clk_enable_periph_2_clock(PERIPHERAL_2_CLK periph) {
-  CLK->CLK_PCKENR2 |= (1U << periph);
+  CLK->PCKENR2 |= (1U << periph);
 }
 
 static inline void clk_disable_periph_2_clock(PERIPHERAL_2_CLK periph) {
-  CLK->CLK_PCKENR2 &= ~(1U << periph);
+  CLK->PCKENR2 &= ~(1U << periph);
 }
 
 
 
 /* Clock security system register (CLK_CSSR) */
 static inline void clk_security_sys_enable(void) {
-  CLK->CLK_CSSR |= (1U << 0);
+  CLK->CSSR |= (1U << 0);
 }
 
 static inline void clk_security_sys_disable(void) {
-  CLK->CLK_CSSR &= ~(1U << 0);
+  CLK->CSSR &= ~(1U << 0);
 }
 
 static inline uint8_t clk_is_aux_clock_active(void) {
-  return ((CLK->CLK_CSSR >> 1) & 1);
+  return ((CLK->CSSR >> 1) & 1);
 }
 
 static inline void clk_security_sys_irq_enable(void) {
-  CLK->CLK_CSSR |= (1U << 2);
+  CLK->CSSR |= (1U << 2);
 }
 
 static inline void clk_security_sys_irq_disable(void) {
-  CLK->CLK_CSSR &= ~(1U << 2);
+  CLK->CSSR &= ~(1U << 2);
 }
 
 static inline uint8_t clk_is_hse_clock_disturbance_detected(void) {
-  return ((CLK->CLK_CSSR >> 3) & 1);
+  return ((CLK->CSSR >> 3) & 1);
 }
 
 static inline void clk_hse_clock_disturbance_detect_reg_clear(void) {
-  CLK->CLK_CSSR &= ~(1U << 3);
+  CLK->CSSR &= ~(1U << 3);
 }
 
 
 
 /* Configurable clock output register (CLK_CCOR) */
 static inline void clk_configurable_clock_output_enable(void) {
-  CLK->CLK_CCOR |= (1U << 0);
+  CLK->CCOR |= (1U << 0);
 }
 
 static inline void clk_configurable_clock_output_disable(void) {
-  CLK->CLK_CCOR &= ~(1U << 0);
+  CLK->CCOR &= ~(1U << 0);
 }
 
 static inline void clk_set_clock_output_source(CLK_CCO_SOURCE source) {
@@ -330,18 +330,18 @@ static inline uint8_t clk_is_configurable_clock_output_src_switching_and_busy(vo
 
 /* HSI clock calibration trimming register (CLK_HSITRIMR) */
 static inline void clk_set_hsi_osc_trim_value(uint8_t trim_val) {
-  CLK->CLK_HSITRIMR = ((CLK->CLK_HSITRIMR & CLK_HSI_TRIM_CLR_MASK) | (trim_val & 0x07));
+  CLK->HSITRIMR = ((CLK->HSITRIMR & CLK_HSI_TRIM_CLR_MASK) | (trim_val & 0x07));
 }
 
 
 
 /* SWIM clock control register (CLK_SWIMCCR) */
 static inline void clk_enable_swim_clock_div2(void) {
-  CLK->CLK_SWIMCCR &= ~(1U << 0);
+  CLK->SWIMCCR &= ~(1U << 0);
 }
 
 static inline void clk_disable_swim_clock_div2(void) {
-  CLK->CLK_SWIMCCR |= (1U << 0);
+  CLK->SWIMCCR |= (1U << 0);
 }
 
 
