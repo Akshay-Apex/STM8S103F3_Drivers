@@ -46,12 +46,30 @@ typedef enum {
 #define CLK_CKDIVR_CPU_CLR_MASK 0xF8
 #define CLK_CKDIVR_HSI_CLR_MASK 0xE7
 
+
 /* Clock Master Source Selection and Comparision Constants */
 typedef enum {
   CLK_MASTER_SRC_HSI = 0xE1,
   CLK_MASTER_SRC_LSI = 0xD2,
   CLK_MASTER_SRC_HSE = 0xB4
 } MASTER_CLK_SRC;
+
+
+/* Peripheral clock gating bit assignments in CLK_PCKENR1/2 registers */
+typedef enum {
+  I2C   = 0,
+  SPI   = 1,
+  UART1 = 3,
+  TIM4  = 4,
+  TIM2  = 5,
+  TIM1  = 7
+} PERIPHERAL_1_CLK;
+
+typedef enum {
+  AWU = 2,
+  ADC = 3  
+} PERIPHERAL_2_CLK;
+
 
 /* Main voltage regulator (MVR) */
 static inline void clk_active_halt_mvr_enable(void) {
@@ -210,5 +228,23 @@ static inline void  clk_set_hsi_and_cpu_div_prescalar(HSI_DIV_PRESCALAR hsi_valu
                   | ((((uint8_t)hsi_value << 3) | ((uint8_t)cpu_value) << 0));
 }
 
+
+
+/* Peripheral clock gating register 1 (CLK_PCKENR1) */
+static inline void clk_enable_periph_1_clock(PERIPHERAL_1_CLK periph) {
+  CLK->CLK_PCKENR1 |= (1U << periph);
+}
+
+static inline void clk_disable_periph_1_clock(PERIPHERAL_1_CLK periph) {
+  CLK->CLK_PCKENR1 &= ~(1U << periph);
+}
+
+static inline void clk_enable_periph_2_clock(PERIPHERAL_2_CLK periph) {
+  CLK->CLK_PCKENR2 |= (1U << periph);
+}
+
+static inline void clk_disable_periph_2_clock(PERIPHERAL_2_CLK periph) {
+  CLK->CLK_PCKENR2 &= ~(1U << periph);
+}
 
 #endif
