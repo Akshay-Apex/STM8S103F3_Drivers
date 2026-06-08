@@ -244,7 +244,7 @@ static inline void clk_set_hsi_div_prescalar(HSI_DIV_PRESCALAR value) {
   CLK->CKDIVR = (CLK->CKDIVR & CLK_CKDIVR_HSI_CLR_MASK) | ((uint8_t)value << 3);
 }
 
-static inline HSI_DIV_PRESCALAR clk_read_hsi_div_prescalar(HSI_DIV_PRESCALAR value) {
+static inline HSI_DIV_PRESCALAR clk_read_hsi_div_prescalar(void) {
   return ((HSI_DIV_PRESCALAR)(CLK->CKDIVR & ~(CLK_CKDIVR_HSI_CLR_MASK)));
 }
 
