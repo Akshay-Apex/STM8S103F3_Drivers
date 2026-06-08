@@ -97,6 +97,12 @@ typedef struct {
 
 
 /* TIM4 Timer Functions */
+static inline void tim4_counter_enable(void) {
+  TIM4->CR1 |= (1U << 0);
+}
 
+static inline void tim4_counter_disable(void) {
+  TIM4->CR1 &= ~(1U << 0);
+} 
 
 #endif
