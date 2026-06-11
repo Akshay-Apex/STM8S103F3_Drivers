@@ -105,4 +105,28 @@ static inline void tim4_counter_disable(void) {
   TIM4->CR1 &= ~(1U << 0);
 } 
 
+static inline void tim4_auto_update_event_enable(void) {
+  TIM4->CR1 &= ~(1U << 1);
+}
+
+static inline void tim4_auto_update_event_disable(void) {
+  TIM4->CR1 |= (1U << 1);
+}
+
+static inline void tim4_set_update_req_src_any_event(void) {
+  TIM4->CR1 &= ~(1U << 2);
+}
+
+static inline void tim4_set_update_req_src_overflow_underflow_only(void) {
+  TIM4->CR1 |= (1U << 2);
+}
+
+static inline void tim4_one_pulse_mode_enable(void) {
+  TIM4->CR1 |= (1U << 3);
+}
+
+static inline void tim4_one_pulse_mode_disable(void) {
+  TIM4->CR1 &= ~(1U << 3);
+}
+
 #endif

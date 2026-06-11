@@ -47,7 +47,7 @@ typedef enum {
 /* GPIO Pin Generic Multi Mode Configuration Function */
 void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin);
 
-static inline void gpio_fast_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin) {
+static inline void gpio_multi_mode_fast_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR = (DDR_SET_HIGH(mode)) ? (port->DDR | pin_mask) : (port->DDR & ~(pin_mask));
   port->CR1 = (CR1_SET_HIGH(mode)) ? (port->CR1 | pin_mask) : (port->CR1 & ~(pin_mask));
@@ -158,7 +158,7 @@ static inline void gpio_out_fast_mode_disable(GPIO_PORT_REG *port, uint8_t pin) 
 /* GPIO Input Read Functions */
 uint8_t gpio_input_read(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
+static inline uint8_t gpio_input_fast_read(GPIO_PORT_REG *port, uint8_t pin) {
    return ((port->IDR >> pin) & 1);   
 }
 
@@ -168,13 +168,13 @@ static inline uint8_t gpio_fast_input_read(GPIO_PORT_REG *port, uint8_t pin) {
 /* GPIO Write Output */
 void gpio_output_set(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_output_set(GPIO_PORT_REG *port, uint8_t pin) {
+static inline void gpio_output_fast_set(GPIO_PORT_REG *port, uint8_t pin) {
   port->ODR |= (1U << pin);
 }
 
 void gpio_output_clear(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_output_clear(GPIO_PORT_REG *port, uint8_t pin) {
+static inline void gpio_output_fast_clear(GPIO_PORT_REG *port, uint8_t pin) {
   port->ODR &= ~(1U << pin);
 }
 
@@ -182,7 +182,7 @@ static inline void gpio_fast_output_clear(GPIO_PORT_REG *port, uint8_t pin) {
 /* GPIO Read Output */
 uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline uint8_t gpio_fast_output_read(GPIO_PORT_REG *port, uint8_t pin) {
+static inline uint8_t gpio_output_fast_read(GPIO_PORT_REG *port, uint8_t pin) {
   return ((port->ODR >> pin) & 1);
 }
 
@@ -190,7 +190,7 @@ static inline uint8_t gpio_fast_output_read(GPIO_PORT_REG *port, uint8_t pin) {
 /* GPIO Toggle Function */
 void gpio_output_toggle(GPIO_PORT_REG *port, uint8_t pin);
 
-static inline void gpio_fast_output_toggle(GPIO_PORT_REG *port, uint8_t pin) {
+static inline void gpio_output_fast_toggle(GPIO_PORT_REG *port, uint8_t pin) {
   port->ODR ^= (1U << pin);
 }
 
