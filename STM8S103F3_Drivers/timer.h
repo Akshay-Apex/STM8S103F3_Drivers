@@ -113,11 +113,11 @@ static inline void tim4_auto_update_event_disable(void) {
   TIM4->CR1 |= (1U << 1);
 }
 
-static inline void tim4_set_update_req_src_any_event(void) {
+static inline void tim4_update_req_src_any_event_set(void) {
   TIM4->CR1 &= ~(1U << 2);
 }
 
-static inline void tim4_set_update_req_src_overflow_underflow_only(void) {
+static inline void tim4_update_req_src_overflow_underflow_only_set(void) {
   TIM4->CR1 |= (1U << 2);
 }
 
