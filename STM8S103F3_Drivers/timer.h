@@ -155,6 +155,90 @@ typedef enum {
     TIM2_IC_FILTER_FM32_N8 = 0x0F
 } TIM2_INPUT_CAPTURE_FILTER;
 
+typedef enum {
+    TIM1_EDGE_ALIGNED   = 0x00,  
+    TIM1_CENTER_MODE1   = 0x01,  
+    TIM1_CENTER_MODE2   = 0x02,  
+    TIM1_CENTER_MODE3   = 0x03   
+} TIM1_CENTER_ALIGNED_MODE;
+
+typedef enum {
+    TIM1_MASTER_MODE_RESET         = 0x00,
+    TIM1_MASTER_MODE_ENABLE        = 0x01,
+    TIM1_MASTER_MODE_UPDATE        = 0x02,
+    TIM1_MASTER_MODE_COMPARE_PULSE = 0x03,
+    TIM1_MASTER_MODE_OC1REF        = 0x04,
+    TIM1_MASTER_MODE_OC2REF        = 0x05,
+    TIM1_MASTER_MODE_OC3REF        = 0x06,
+    TIM1_MASTER_MODE_OC4REF        = 0x07
+} TIM1_MASTER_MODE;
+
+#define TIM1_MASTER_MODE_SELECTION_CLR_MASK 0x8F
+
+typedef enum {
+    TIM1_SM_DISABLED         = 0x00,
+    TIM1_SM_ENCODER1         = 0x01,
+    TIM1_SM_ENCODER2         = 0x02,
+    TIM1_SM_ENCODER3         = 0x03,
+    TIM1_SM_RESET            = 0x04,
+    TIM1_SM_TRIGGER_GATED    = 0x05,
+    TIM1_SM_TRIGGER_STANDARD = 0x06,
+    TIM1_SM_EXTERNAL_CLOCK1  = 0x07
+} TIM1_SLAVE_MODE;
+
+#define TIM1_SLAVE_MODE_CLR_MASK 0xF8
+
+typedef enum {
+    TIM1_INTERNAL_TRIGGER_ITR0  = 0x00,
+    TIM1_TRIGGER_RESERVED_0     = 0x01,
+    TIM1_TRIGGER_RESERVED_1     = 0x02,
+    TIM1_INTERNAL_TRIGGER_ITR3  = 0x03,
+    TIM1_TI1_EDGE_DETECTOR      = 0x04,
+    TIM1_FILTERED_TIMER_INPUT_1 = 0x05,
+    TIM1_FILTERED_TIMER_INPUT_2 = 0x06,
+    TIM1_External_TRIGGER_INPUT = 0x07
+} TIM1_TRIGGER_SOURCE;
+
+#define TIM1_TRIGGER_SELECTION_CLR_MASK 0x8F
+
+typedef enum {
+    TIM1_ETF_NO_FILTER      = 0x00,
+
+    TIM1_ETF_FMASTER_N2     = 0x01,
+    TIM1_ETF_FMASTER_N4     = 0x02,
+    TIM1_ETF_FMASTER_N8     = 0x03,
+
+    TIM1_ETF_FMASTER_2_N6   = 0x04,
+    TIM1_ETF_FMASTER_2_N8   = 0x05,
+
+    TIM1_ETF_FMASTER_4_N6   = 0x06,
+    TIM1_ETF_FMASTER_4_N8   = 0x07,
+
+    TIM1_ETF_FMASTER_8_N6   = 0x08,
+    TIM1_ETF_FMASTER_8_N8   = 0x09,
+
+    TIM1_ETF_FMASTER_16_N5  = 0x0A,
+    TIM1_ETF_FMASTER_16_N6  = 0x0B,
+    TIM1_ETF_FMASTER_16_N8  = 0x0C,
+
+    TIM1_ETF_FMASTER_32_N5  = 0x0D,
+    TIM1_ETF_FMASTER_32_N6  = 0x0E,
+    TIM1_ETF_FMASTER_32_N8  = 0x0F
+} TIM1_EXTERNAL_TRIGGER_FILTER;
+
+#define TIM1_EXTERNAL_TRIGGER_PSC_CLR_MASK 0xF0
+
+typedef enum {
+    TIM1_PRESCALER_OFF   = 0x00,
+    TIM1_PRESCALER_DIV2  = 0x01,
+    TIM1_PRESCALER_DIV4  = 0x02,
+    TIM1_PRESCALER_DIV8  = 0x03
+} TIM1_EXTERNAL_TRIGGER_PRESCALER;
+
+#define TIM1_EXTERNAL_TRIGGER_PRESCALER_CLR_MASK 0xCF
+
+
+
 /* TIM4 Timer Functions */
 /* TIM4 control register 1 (CR1) */
 static inline void tim4_counter_enable(void) {
@@ -698,6 +782,154 @@ static inline uint16_t tim2_capture_compare3_read(void) {
   uint8_t high_byte = TIM2->CCR3H;
   uint8_t low_byte = TIM2->CCR3L;
   return ((uint16_t)high_byte << 8) | low_byte;
+}
+
+
+
+/* TIM1 Control Register 1 (CR1) */
+static inline void tim1_counter_enable(void) {
+  TIM1->CR1 |= (1U << 0);
+}
+
+static inline void tim1_counter_disable(void) {
+  TIM1->CR1 &= ~(1U << 0);
+}
+
+static inline void tim1_auto_update_event_enable(void) {
+  TIM1->CR1 &= ~(1U << 1);
+}
+
+static inline void tim1_auto_update_event_disable(void) {
+  TIM1->CR1 |= (1U << 1);
+}
+
+static inline void tim1_update_req_src_any_event_set(void) {
+  TIM1->CR1 &= ~(1U << 2);
+}
+
+static inline void tim1_update_req_src_overflow_underflow_only_set(void) {
+  TIM1->CR1 |= (1U << 2);
+}
+
+static inline void tim1_one_pulse_mode_enable(void) {
+  TIM1->CR1 |= (1U << 3);
+}
+
+static inline void tim1_one_pulse_mode_disable(void) {
+  TIM1->CR1 &= ~(1U << 3);
+}
+
+static inline void tim1_direction_up_counter(void) {
+  TIM1->CR1 &= ~(1U << 4);
+}
+
+static inline void tim1_direction_down_counter(void) {
+  TIM1->CR1 |= (1U << 4);
+}
+
+static inline void tim1_center_aligned_mode_set(TIM1_CENTER_ALIGNED_MODE mode) {
+  TIM1->CR1 = (TIM1->CR1 & 0x9F) | ((uint8_t)mode << 5);
+}
+
+static inline TIM1_CENTER_ALIGNED_MODE tim1_center_aligned_mode_read(void) {
+  return (TIM1_CENTER_ALIGNED_MODE)((TIM1->CR1 >> 5) & 0x03);
+}
+
+static inline void tim1_auto_reload_preload_enable(void) {
+  TIM1->CR1 |= (1U << 7);
+}
+
+static inline void tim1_auto_reload_preload_disable(void) {
+  TIM1->CR1 &= ~(1U << 7);
+}
+
+
+
+/* TIM1 Control Register 2 (CR2) */
+static inline void tim1_capture_compare_preload_control_enable(void) {
+  TIM1->CR2 |= (1U << 0);
+}
+
+static inline void tim1_capture_compare_preload_control_disable(void) {
+  TIM1->CR2 &= ~(1U << 0);
+}
+
+static inline void tim1_capture_compare_control_update_selection_enable(void) {
+  TIM1->CR2 |= (1U << 1);
+}
+
+static inline void tim1_capture_compare_control_update_selection_disable(void) {
+  TIM1->CR2 &= ~(1U << 1);
+}
+
+static inline void tim1_master_mode_selection_set(TIM1_MASTER_MODE mode) {
+  TIM1->CR2 = (TIM1->CR2 & TIM1_MASTER_MODE_SELECTION_CLR_MASK) | ((uint8_t)mode << 4);
+}
+
+static inline TIM1_MASTER_MODE tim1_master_mode_selection_read(void) {
+  return (TIM1_MASTER_MODE)((TIM1->CR2 >> 4) & 0x07);
+}
+
+
+
+/* TIM1 Slave Mode Control Register (SMCR) */
+static inline void tim1_slave_mode_set(TIM1_SLAVE_MODE mode) {
+  TIM1->SMCR = (TIM1->SMCR & TIM1_SLAVE_MODE_CLR_MASK) | (mode & 0x07);
+}
+
+static inline TIM1_SLAVE_MODE tim1_slave_mode_read(void) {
+  return (TIM1_SLAVE_MODE)(TIM1->SMCR & 0x07);
+}
+
+static inline void tim1_trigger_selection_set(TIM1_TRIGGER_SOURCE source) {
+  TIM1->SMCR = (TIM1->SMCR & TIM1_TRIGGER_SELECTION_CLR_MASK) | ((uint8_t)source << 4);
+}
+
+static inline TIM1_TRIGGER_SOURCE tim1_trigger_selection_read(void) {
+  return (TIM1_TRIGGER_SOURCE)((TIM1->SMCR >> 4) & 0x07);
+}
+
+static inline void tim1_master_slave_mode_enable(void) {
+  TIM1->SMCR |= (1U << 7);
+}
+
+static inline void tim1_master_slave_mode_disable(void) {
+  TIM1->SMCR &= ~(1U << 7);
+}
+
+
+
+/* TIM1 External Trigger Register (ETR) */
+static inline void tim1_external_trigger_filter_set(TIM1_EXTERNAL_TRIGGER_FILTER filter) {
+  TIM1->ETR = (TIM1->ETR & TIM1_EXTERNAL_TRIGGER_PSC_CLR_MASK) | filter;
+}
+
+static inline TIM1_EXTERNAL_TRIGGER_FILTER tim1_external_trigger_filter_read(void) {
+  return (TIM1_EXTERNAL_TRIGGER_FILTER)(TIM1->ETR & 0x0F);
+}
+
+static inline void tim1_external_trigger_prescaler_set(TIM1_EXTERNAL_TRIGGER_PRESCALER psc) {
+  TIM1->ETR = (TIM1->ETR & TIM1_EXTERNAL_TRIGGER_PRESCALER_CLR_MASK) | ((uint8_t)psc << 4);
+}
+
+static inline TIM1_EXTERNAL_TRIGGER_PRESCALER tim1_external_trigger_prescaler_read(void) {
+  return (TIM1_EXTERNAL_TRIGGER_PRESCALER)((TIM1->ETR >> 4) & 0x03);
+}
+
+static inline void tim1_external_clock_mode_2_enable(void) {
+  TIM1->ETR |= (1U << 6);
+}
+
+static inline void tim1_external_clock_mode_2_disable(void) {
+  TIM1->ETR &= ~(1U << 6);
+}
+
+static inline void tim1_external_trigger_polarity_high(void) {
+  TIM1->ETR &= ~(1U << 7);
+}
+
+static inline void tim1_external_trigger_polarity_low(void) {
+  TIM1->ETR |= (1U << 7);
 }
 
 #endif
