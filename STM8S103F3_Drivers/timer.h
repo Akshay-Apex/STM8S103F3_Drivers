@@ -564,4 +564,140 @@ static inline void tim2_capture_compare1_enable(void) {
   TIM2->CCER1 |= (1U << 0);
 }
 
+static inline void tim2_capture_compare1_disable(void) {
+  TIM2->CCER1 &= ~(1U << 0);
+}
+
+static inline void tim2_capture_compare1_polarity_high(void) {
+  TIM2->CCER1 &= ~(1U << 1);
+}
+
+static inline void tim2_capture_compare1_polarity_low(void) {
+  TIM2->CCER1 |= (1U << 1);
+}
+
+static inline void tim2_capture_compare2_enable(void) {
+  TIM2->CCER1 |= (1U << 4);
+}
+
+static inline void tim2_capture_compare2_disable(void) {
+  TIM2->CCER1 &= ~(1U << 4);
+}
+
+static inline void tim2_capture_compare2_polarity_high(void) {
+  TIM2->CCER1 &= ~(1U << 5);
+}
+
+static inline void tim2_capture_compare2_polarity_low(void) {
+  TIM2->CCER1 |= (1U << 5);
+}
+
+
+
+/* TIM2 Capture/Compare enable register 2 (CCER2) */
+static inline void tim2_capture_compare3_enable(void) {
+  TIM2->CCER2 |= (1U << 0);
+}
+
+static inline void tim2_capture_compare3_disable(void) {
+  TIM2->CCER2 &= ~(1U << 0);
+}
+
+static inline void tim2_capture_compare3_polarity_high(void) {
+  TIM2->CCER2 &= ~(1U << 1);
+}
+
+static inline void tim2_capture_compare3_polarity_low(void) {
+  TIM2->CCER2 |= (1U << 1);
+}
+
+
+
+/* TIM2 Counter register (CNTRH/CNTRL) */
+static inline void tim2_counter_write(uint16_t value) {
+  // Write high byte first to automatically latch the low byte
+  TIM2->CNTRH = (uint8_t)((value >> 8) & 0xFF);
+  TIM2->CNTRL = (uint8_t)(value & 0xFF);
+}
+
+static inline uint16_t tim2_counter_read(void) {
+  // Read high byte first to automatically latch the low byte 
+  uint8_t high_byte = TIM2->CNTRH; 
+  uint8_t low_byte = TIM2->CNTRL;  
+  return ((uint16_t)high_byte << 8) | low_byte;
+}
+
+
+
+/* TIM2 Prescaler register (PSCR) */
+static inline void tim2_prescaler_set(uint8_t prescaler) {
+  TIM2->PSCR = (prescaler & 0x07);
+}
+
+static inline uint8_t tim2_prescaler_read(void) {
+  return (TIM2->PSCR & 0x07);
+}
+
+
+
+/* TIM2 Auto Reload register (ARRH/ARRL) */
+static inline void tim2_auto_reload_write(uint16_t value) {
+  // Write high byte first to automatically latch the low byte
+  TIM2->ARRH = (uint8_t)((value >> 8) & 0xFF);
+  TIM2->ARRL = (uint8_t)(value & 0xFF);
+}
+
+static inline uint16_t tim2_auto_reload_read(void) {
+  // Read high byte first to automatically latch the low byte
+  uint8_t high_byte = TIM2->ARRH;
+  uint8_t low_byte = TIM2->ARRL;
+  return ((uint16_t)high_byte << 8) | low_byte;
+}
+
+
+
+/* TIM2 Capture/Compare1 register (CCRH/CCRL) */ 
+static inline void tim2_capture_compare1_write(uint16_t value) {
+  // Write high byte first to automatically latch the low byte
+  TIM2->CCR1H = (uint8_t)((value >> 8) & 0xFF);
+  TIM2->CCR1L = (uint8_t)(value & 0xFF);
+}
+
+static inline uint16_t tim2_capture_compare1_read(void) {
+  // Read high byte first to automatically latch the low byte
+  uint8_t high_byte = TIM2->CCR1H;
+  uint8_t low_byte = TIM2->CCR1L;
+  return ((uint16_t)high_byte << 8) | low_byte;
+}
+
+
+
+/* TIM2 Capture/Compare2 register (CCRH/CCRL) */
+static inline void tim2_capture_compare2_write(uint16_t value) {
+  // Write high byte first to automatically latch the low byte
+  TIM2->CCR2H = (uint8_t)((value >> 8) & 0xFF);
+  TIM2->CCR2L = (uint8_t)(value & 0xFF);
+}
+
+static inline uint16_t tim2_capture_compare2_read(void) {
+  // Read high byte first to automatically latch the low byte
+  uint8_t high_byte = TIM2->CCR2H;
+  uint8_t low_byte = TIM2->CCR2L;
+  return ((uint16_t)high_byte << 8) | low_byte;
+}
+
+/* TIM2 Capture/Compare3 register (CCRH/CCRL) */
+static inline void tim2_capture_compare3_write(uint16_t value) {
+  // Write high byte first to automatically latch the low byte
+  TIM2->CCR3H = (uint8_t)((value >> 8) & 0xFF);
+  TIM2->CCR3L = (uint8_t)(value & 0xFF);
+}
+
+static inline uint16_t tim2_capture_compare3_read(void) {
+  // Read high byte first to automatically latch the low byte
+  uint8_t high_byte = TIM2->CCR3H;
+  uint8_t low_byte = TIM2->CCR3L;
+  return ((uint16_t)high_byte << 8) | low_byte;
+}
+
 #endif
