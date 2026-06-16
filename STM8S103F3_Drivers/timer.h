@@ -97,6 +97,7 @@ typedef struct {
 
 
 /* TIM4 Timer Functions */
+/* TIM4 control register 1 (CR1) */
 static inline void tim4_counter_enable(void) {
   TIM4->CR1 |= (1U << 0);
 }
@@ -128,5 +129,201 @@ static inline void tim4_one_pulse_mode_enable(void) {
 static inline void tim4_one_pulse_mode_disable(void) {
   TIM4->CR1 &= ~(1U << 3);
 }
+
+static inline void tim4_auto_reload_preload_enable(void) {
+  TIM4->CR1 |= (1U << 7);
+}
+
+static inline void tim4_auto_reload_preload_disable(void) {
+  TIM4->CR1 &= ~(1U << 7);
+}
+
+
+
+/* TIM4 interrupt enable register (IER) */
+static inline void tim4_update_irq_enable(void) {
+  TIM4->IER |= (1U << 0);
+}
+
+static inline void tim4_update_irq_disable(void) {
+  TIM4->IER &= ~(1U << 0);
+}
+
+
+
+/* TIM4 status register (SR) */
+static inline void tim4_update_irq_flag_clear(void) {
+  TIM4->SR &= ~(1U << 0);
+}
+
+static inline uint8_t tim4_update_irq_flag_read(void) {
+  return ((TIM4->SR >> 0) & 1);
+}
+
+
+
+/* TIM4 event generation register (EGR) */
+static inline void tim4_update_event_generate(void) {
+  TIM4->EGR |= (1U << 0);
+}
+
+
+
+/* TIM4 counter (CNTR) */
+static inline void tim4_counter_write(uint8_t value) {
+  TIM4->CNTR = value;    
+}
+
+static inline uint8_t tim4_counter_read(void) {
+  return TIM4->CNTR;
+}
+
+
+
+/* TIM4 prescaler register (PSCR) */
+static inline void tim4_prescaler_set(uint8_t value) {
+  TIM4->PSCR = value & 0x0F;
+}
+
+static inline uint8_t tim4_prescalar_read(void) {
+  return TIM4->PSCR;
+}
+
+
+
+/* TIM4 auto-reload register (ARR) */
+static inline void tim4_auto_reload_set(uint8_t value) {
+  TIM4->ARR = value;
+}
+
+static inline uint8_t tim4_auto_reload_read(void) {
+  return TIM4->ARR;
+}
+
+
+
+/* TIM2 Timer Functions */
+/* TIM2 control register 1 (CR1) */
+static inline void tim2_counter_enable(void) {
+  TIM2->CR1 |= (1U << 0);
+}
+
+static inline void tim2_counter_disable(void) {
+  TIM2->CR1 &= ~(1U << 0);
+}
+
+static inline void tim2_auto_update_event_enable(void) {
+  TIM2->CR1 &= ~(1U << 1);
+}
+
+static inline void tim2_auto_update_event_disable(void) {
+  TIM2->CR1 |= (1U << 1);
+}
+
+static inline void tim2_update_req_src_any_event_set(void) {
+  TIM2->CR1 &= ~(1U << 2);
+}
+
+static inline void tim2_update_req_src_overflow_underflow_only_set(void) {
+  TIM2->CR1 |= (1U << 2);
+}
+
+static inline void tim2_one_pulse_mode_enable(void) {
+  TIM2->CR1 |= (1U << 3);
+}
+
+static inline void tim2_one_pulse_mode_disable(void) {
+  TIM2->CR1 &= ~(1U << 3);
+}
+
+static inline void tim2_auto_reload_preload_enable(void) {
+  TIM2->CR1 |= (1U << 7);
+}
+
+static inline void tim2_auto_reload_preload_disable(void) {
+  TIM2->CR1 &= ~(1U << 7);
+}
+
+
+
+/* TIM2 interrupt enable register (IER) */
+static inline void tim2_update_irq_enable(void) {
+  TIM2->IER |= (1U << 0);
+}
+
+static inline void tim2_update_irq_disable(void) {
+  TIM2->IER &= ~(1U << 0);
+}
+
+static inline void tim2_capture_compare1_irq_enable(void) {
+  TIM2->IER |= (1U << 1);
+}
+
+static inline void tim2_capture_compare1_irq_disable(void) {
+  TIM2->IER &= ~(1U << 1);
+}
+
+static inline void tim2_capture_compare2_irq_enable(void) {
+  TIM2->IER |= (1U << 2);
+}
+
+static inline void tim2_capture_compare2_irq_disable(void) {
+  TIM2->IER &= ~(1U << 2);
+}
+
+static inline void tim2_capture_compare3_irq_enable(void) {
+  TIM2->IER |= (1U << 3);
+}
+
+static inline void tim2_capture_compare3_irq_disable(void) {
+  TIM2->IER &= ~(1U << 3);
+}
+
+
+
+/* TIM2 status register 1 (SR1) */
+static inline void tim2_update_irq_flag_clear(void) {
+  TIM2->SR1 &= ~(1U << 0);
+}
+
+static inline uint8_t tim2_update_irq_flag_read(void) {
+  return ((TIM2->SR1 >> 0) & 1);
+}
+
+static inline void tim2_capture_compare1_irq_flag_clear(void) {
+  TIM2->SR1 &= ~(1U << 1);
+}
+
+static inline uint8_t tim2_capture_compare1_irq_flag_read(void) {
+  return ((TIM2->SR1 >> 1) & 1);
+}
+
+static inline void tim2_capture_compare2_irq_flag_clear(void) {
+  TIM2->SR1 &= ~(1U << 2);
+}
+
+static inline uint8_t tim2_capture_compare2_irq_flag_read(void) {
+  return ((TIM2->SR1 >> 2) & 1);
+}
+
+static inline void tim2_capture_compare3_irq_flag_clear(void) {
+  TIM2->SR1 &= ~(1U << 3);
+}
+
+static inline uint8_t tim2_capture_compare3_irq_flag_read(void) {
+  return ((TIM2->SR1 >> 3) & 1);
+}
+
+
+/* TIM2 status register 2 (SR2) */
+static inline void tim2_capture_compare1_overcapture_flag_clear(void) {
+  TIM2->SR2 &= ~(1U << 1);
+}
+
+static inline uint8_t tim2_capture_compare1_overcapture_flag_read(void) {
+  return ((TIM2->SR2 >> 1) & 1);
+}
+
+
 
 #endif
