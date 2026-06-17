@@ -932,4 +932,365 @@ static inline void tim1_external_trigger_polarity_low(void) {
   TIM1->ETR |= (1U << 7);
 }
 
+
+
+/* TIM1 Interrupt Enable Register (IER) */
+typedef enum {
+  TIM1_UPDATE_IRQ      = 0,
+  TIM1_COMMUTATION_IRQ = 5,
+  TIM1_TRIGGER_IRQ     = 6,
+  TIM1_BREAK_IRQ       = 7
+} TIM1_IRQ;
+
+static inline void tim1_irq_enable(TIM1_IRQ irq) {
+  TIM1->IER |= (1U << irq);
+}
+
+static inline void tim1_irq_disable(TIM1_IRQ irq) {
+  TIM1->IER &= ~(1U << irq);
+}
+
+typedef enum {
+    TIM1_CC1_IRQ = 1,
+    TIM1_CC2_IRQ = 2,
+    TIM1_CC3_IRQ = 3,
+    TIM1_CC4_IRQ = 4
+} TIM1_CAPTURE_COMPARE_IRQ;
+
+static inline void tim1_capture_compare_irq_enable(TIM1_CAPTURE_COMPARE_IRQ cc_irq) {
+  TIM1->IER |= (1U << cc_irq);
+}
+
+static inline void tim1_capture_compare_irq_disable(TIM1_CAPTURE_COMPARE_IRQ cc_irq) {
+  TIM1->IER &= ~(1U << cc_irq);
+}
+
+
+
+/* TIM1 Status Register 1 (SR1) */
+typedef enum {
+  TIM1_UPDATE_IRQ_FLAG      = 0,
+  TIM1_COMMUTATION_IRQ_FLAG = 5,
+  TIM1_TRIGGER_IRQ_FLAG     = 6,
+  TIM1_BREAK_IRQ_FLAG       = 7
+} TIM1_IRQ_FLAG;
+
+static inline void tim1_irq_flag_clear(TIM1_IRQ_FLAG irq_flag) {
+  TIM1->SR1 &= ~(1U << irq_flag);
+}
+
+static inline uint8_t tim1_irq_flag_read(TIM1_IRQ_FLAG irq_flag) {
+  return ((TIM1->SR1 >> irq_flag) & 1);
+}
+
+typedef enum {
+    TIM1_CC1_IRQ_FLAG = 1,
+    TIM1_CC2_IRQ_FLAG = 2,
+    TIM1_CC3_IRQ_FLAG = 3,
+    TIM1_CC4_IRQ_FLAG = 4
+} TIM1_CAPTURE_COMPARE_IRQ_FLAG;
+
+static inline void tim1_capture_compare_irq_flag_clear(TIM1_CAPTURE_COMPARE_IRQ_FLAG cc_irq_flag) {
+  TIM1->SR1 &= ~(1U << cc_irq_flag);
+}
+
+static inline uint8_t tim1_capture_compare_irq_flag_read(TIM1_CAPTURE_COMPARE_IRQ_FLAG cc_irq_flag) {
+  return ((TIM1->SR1 >> cc_irq_flag) & 1);
+}
+
+
+
+/* TIM1 Status Register 2 (SR2) */
+typedef enum {
+  TIM1_CC1_OVER_CAPTURE_FLAG = 1,
+  TIM1_CC2_OVER_CAPTURE_FLAG = 2,
+  TIM1_CC3_OVER_CAPTURE_FLAG = 3,
+  TIM1_CC4_OVER_CAPTURE_FLAG = 4
+} TIM1_OVER_CAPTURE_FLAG;
+
+static inline void tim1_capture_compare_overcapture_flag_clear(TIM1_OVER_CAPTURE_FLAG oc_flag) {
+  TIM1->SR2 &= ~(1U << oc_flag);
+}
+
+static inline uint8_t tim1_capture_compare_overcapture_flag_read(TIM1_OVER_CAPTURE_FLAG oc_flag) {
+  return ((TIM1->SR2 >> oc_flag) & 1);
+}
+
+
+
+/* TIM1 Event Generation Register (EGR) */
+typedef enum {
+  TIM1_UPDATE_EVENT             = 0,
+  TIM1_CC_CONTROL_UPDATE_EVENT  = 5,
+  TIM1_TRIGGER_EVENT            = 6,
+  TIM1_BREAK_EVENT              = 7
+} TIM1_EVENT;
+
+static inline void tim1_event_generate(TIM1_EVENT event) {
+  TIM1->EGR |= (1U << event);
+}
+
+typedef enum {
+  TIM1_CC1_EVENT = 1,
+  TIM1_CC2_EVENT = 2,
+  TIM1_CC3_EVENT = 3,
+  TIM1_CC4_EVENT = 4
+} TIM1_CAPTURE_COMPARE_EVENT;
+
+static inline void tim1_capture_compare_event_generate(TIM1_CAPTURE_COMPARE_EVENT cc_event) {
+  TIM1->EGR |= (1U << cc_event);
+}
+
+
+
+/* TIM1 Capture/Compare Mode Register 1 (CCMR1) */
+/* General Functions */
+typedef enum {
+    TIM1_CC1_CHANNEL_MODE_OUTPUT    = 0,
+    TIM1_CC1_CHANNEL_MODE_INPUT_TI1 = 1,
+    TIM1_CC1_CHANNEL_MODE_INPUT_TI2 = 2,
+    TIM1_CC1_CHANNEL_MODE_INPUT_TRC = 3
+} TIM1_CC1_CHANNEL_MODE;
+
+static inline void tim1_capture_compare1_channel_mode_set(TIM1_CC1_CHANNEL_MODE mode) {
+  TIM1->CCMR1 = (TIM1->CCMR1 & 0xFC) | mode;
+}
+
+static inline TIM1_CC1_CHANNEL_MODE tim1_capture_compare1_channel_mode_read(void) {
+  return (TIM1_CC1_CHANNEL_MODE)(TIM1->CCMR1 & 0x03);
+}
+
+/* Output Mode */
+static inline void tim1_capture_compare1_fast_enable(void) {
+  TIM1->CCMR1 |= (1U << 2);
+}
+
+static inline void tim1_capture_compare1_fast_disable(void) {
+  TIM1->CCMR1 &= ~(1U << 2);
+}
+
+static inline void tim1_capture_compare1_preload_enable(void) {
+  TIM1->CCMR1 |= (1U << 3);
+}
+
+static inline void tim1_capture_compare1_preload_disable(void) {
+  TIM1->CCMR1 &= ~(1U << 3);
+}
+
+typedef enum {
+    TIM1_OUTPUT_COMPARE_MODE_FROZEN            = 0,
+    TIM1_OUTPUT_COMPARE_MODE_ACTIVE_ON_MATCH   = 1,
+    TIM1_OUTPUT_COMPARE_MODE_INACTIVE_ON_MATCH = 2,
+    TIM1_OUTPUT_COMPARE_MODE_TOGGLE            = 3,
+    TIM1_OUTPUT_COMPARE_MODE_FORCE_INACTIVE    = 4,
+    TIM1_OUTPUT_COMPARE_MODE_FORCE_ACTIVE      = 5,
+    TIM1_OUTPUT_COMPARE_MODE_PWM_MODE_1        = 6,
+    TIM1_OUTPUT_COMPARE_MODE_PWM_MODE_2        = 7
+} TIM1_OUTPUT_COMPARE_MODE;
+
+static inline void tim1_output_compare1_mode_set(TIM1_OUTPUT_COMPARE_MODE mode) {
+  TIM1->CCMR1 = (TIM1->CCMR1 & 0x8F) | ((uint8_t)mode << 4);
+}
+
+static inline TIM1_OUTPUT_COMPARE_MODE tim1_output_compare1_mode_read(void) {
+  return (TIM1_OUTPUT_COMPARE_MODE)((TIM1->CCMR1 >> 4) & 0x07);
+}
+
+static inline void tim1_output_compare1_clear_enable(void) {
+  TIM1->CCMR1 |= (1U << 7);
+}
+
+static inline void tim1_output_compare1_clear_disable(void) {
+  TIM1->CCMR1 &= ~(1U << 7);
+}
+
+/* Input Mode */
+typedef enum {
+    TIM1_INPUT_CAPTURE_PSC_OFF = 0,
+    TIM1_INPUT_CAPTURE_PSC_DIV2 = 1,
+    TIM1_INPUT_CAPTURE_PSC_DIV4 = 2,
+    TIM1_INPUT_CAPTURE_PSC_DIV8 = 3
+} TIM1_INPUT_CAPTURE_PRESCALER;
+
+static inline void tim1_input_capture1_prescaler_set(TIM1_INPUT_CAPTURE_PRESCALER psc) {
+  TIM1->CCMR1 = (TIM1->CCMR1 & 0xF3) | ((uint8_t)psc << 2);
+}
+
+static inline TIM1_INPUT_CAPTURE_PRESCALER tim1_input_capture1_prescaler_read(void) {
+  return (TIM1_INPUT_CAPTURE_PRESCALER)((TIM1->CCMR1 >> 2) & 0x03);
+}
+
+typedef enum {
+    TIM1_IC_FILTER_NO_FILTER      = 0x00,
+
+    TIM1_IC_FILTER_FMASTER_N2     = 0x01,
+    TIM1_IC_FILTER_FMASTER_N4     = 0x02,
+    TIM1_IC_FILTER_FMASTER_N8     = 0x03,
+
+    TIM1_IC_FILTER_FMASTER_2_N6   = 0x04,
+    TIM1_IC_FILTER_FMASTER_2_N8   = 0x05,
+
+    TIM1_IC_FILTER_FMASTER_4_N6   = 0x06,
+    TIM1_IC_FILTER_FMASTER_4_N8   = 0x07,
+
+    TIM1_IC_FILTER_FMASTER_8_N6   = 0x08,
+    TIM1_IC_FILTER_FMASTER_8_N8   = 0x09,
+
+    TIM1_IC_FILTER_FMASTER_16_N5  = 0x0A,
+    TIM1_IC_FILTER_FMASTER_16_N6  = 0x0B,
+    TIM1_IC_FILTER_FMASTER_16_N8  = 0x0C,
+
+    TIM1_IC_FILTER_FMASTER_32_N5  = 0x0D,
+    TIM1_IC_FILTER_FMASTER_32_N6  = 0x0E,
+    TIM1_IC_FILTER_FMASTER_32_N8  = 0x0F
+} TIM1_INPUT_CAPTURE_FILTER;
+
+static inline void tim1_input_capture1_filter_set(TIM1_INPUT_CAPTURE_FILTER filter) {
+  TIM1->CCMR1 = (TIM1->CCMR1 & 0x0F) | ((uint8_t)filter << 4);
+}
+
+static inline TIM1_INPUT_CAPTURE_FILTER tim1_input_capture1_filter_read(void) {
+  return (TIM1_INPUT_CAPTURE_FILTER)((TIM1->CCMR1 >> 4) & 0x0F);
+}
+
+
+
+/* TIM1 Capture/Compare Mode Register 2 (CCMR2) */
+/* Generic Functions */
+typedef enum {
+    TIM1_CC2_CHANNEL_MODE_OUTPUT    = 0,
+    TIM1_CC2_CHANNEL_MODE_INPUT_TI2 = 1,
+    TIM1_CC2_CHANNEL_MODE_INPUT_TI1 = 2    
+} TIM1_CC2_CHANNEL_MODE;
+
+static inline void tim1_capture_compare2_channel_mode_set(TIM1_CC2_CHANNEL_MODE mode) {
+  TIM1->CCMR2 = (TIM1->CCMR2 & 0xFC) | mode;
+}
+
+static inline TIM1_CC2_CHANNEL_MODE tim1_capture_compare2_channel_mode_read(void) {
+  return (TIM1_CC2_CHANNEL_MODE)(TIM1->CCMR2 & 0x03);
+}
+
+/* Output Mode */
+static inline void tim1_capture_compare2_fast_enable(void) {
+  TIM1->CCMR2 |= (1U << 2);
+}
+
+static inline void tim1_capture_compare2_fast_disable(void) {
+  TIM1->CCMR2 &= ~(1U << 2);
+}
+
+static inline void tim1_capture_compare2_preload_enable(void) {
+  TIM1->CCMR2 |= (1U << 3);
+}
+
+static inline void tim1_capture_compare2_preload_disable(void) {
+  TIM1->CCMR2 &= ~(1U << 3);
+}
+
+static inline void tim1_output_compare2_mode_set(TIM1_OUTPUT_COMPARE_MODE mode) {
+  TIM1->CCMR2 = (TIM1->CCMR2 & 0x8F) | ((uint8_t)mode << 4);
+}
+
+static inline TIM1_OUTPUT_COMPARE_MODE tim1_output_compare2_mode_read(void) {
+  return (TIM1_OUTPUT_COMPARE_MODE)((TIM1->CCMR2 >> 4) & 0x07);
+}
+
+static inline void tim1_output_compare2_clear_enable(void) {
+  TIM1->CCMR2 |= (1U << 7);
+}
+
+static inline void tim1_output_compare2_clear_disable(void) {
+  TIM1->CCMR2 &= ~(1U << 7);
+}
+
+/* Input Mode */
+static inline void tim1_input_capture2_prescaler_set(TIM1_INPUT_CAPTURE_PRESCALER psc) {
+  TIM1->CCMR2 = (TIM1->CCMR2 & 0xF3) | ((uint8_t)psc << 2);
+}
+
+static inline TIM1_INPUT_CAPTURE_PRESCALER tim1_input_capture2_prescaler_read(void) {
+  return (TIM1_INPUT_CAPTURE_PRESCALER)((TIM1->CCMR2 >> 2) & 0x03);
+}
+
+static inline void tim1_input_capture2_filter_set(TIM1_INPUT_CAPTURE_FILTER filter) {
+  TIM1->CCMR2 = (TIM1->CCMR2 & 0x0F) | ((uint8_t)filter << 4);
+}
+
+static inline TIM1_INPUT_CAPTURE_FILTER tim1_input_capture2_filter_read(void) {
+  return (TIM1_INPUT_CAPTURE_FILTER)((TIM1->CCMR2 >> 4) & 0x0F);
+}
+
+
+
+/* TIM1 Capture/Compare Mode Register 3 (CCMR3) */
+/* General Mode */
+typedef enum {
+    TIM1_CC3_CHANNEL_MODE_OUTPUT    = 0,
+    TIM1_CC3_CHANNEL_MODE_INPUT_TI3 = 1,
+    TIM1_CC3_CHANNEL_MODE_INPUT_TI4 = 2    
+} TIM1_CC3_CHANNEL_MODE;
+
+static inline void tim1_capture_compare3_channel_mode_set(TIM1_CC3_CHANNEL_MODE mode) {
+  TIM1->CCMR3 = (TIM1->CCMR3 & 0xFC) | mode;
+}
+
+static inline TIM1_CC3_CHANNEL_MODE tim1_capture_compare3_channel_mode_read(void) {
+  return (TIM1_CC3_CHANNEL_MODE)(TIM1->CCMR3 & 0x03);
+}
+
+/* Output Mode */
+static inline void tim1_capture_compare3_fast_enable(void) {
+  TIM1->CCMR3 |= (1U << 2);
+}
+
+static inline void tim1_capture_compare3_fast_disable(void) {
+  TIM1->CCMR3 &= ~(1U << 2);
+}
+
+static inline void tim1_capture_compare3_preload_enable(void) {
+  TIM1->CCMR3 |= (1U << 3);
+}
+
+static inline void tim1_capture_compare3_preload_disable(void) {
+  TIM1->CCMR3 &= ~(1U << 3);
+}
+
+static inline void tim1_output_compare3_mode_set(TIM1_OUTPUT_COMPARE_MODE mode) {
+  TIM1->CCMR3 = (TIM1->CCMR3 & 0x8F) | ((uint8_t)mode << 4);
+}
+
+static inline TIM1_OUTPUT_COMPARE_MODE tim1_output_compare3_mode_read(void) {
+  return (TIM1_OUTPUT_COMPARE_MODE)((TIM1->CCMR3 >> 4) & 0x07);
+}
+
+static inline void tim1_output_compare3_clear_enable(void) {
+  TIM1->CCMR3 |= (1U << 7);
+}
+
+static inline void tim1_output_compare3_clear_disable(void) {
+  TIM1->CCMR3 &= ~(1U << 7);
+}
+
+/* Input Mode */
+static inline void tim1_input_capture3_prescaler_set(TIM1_INPUT_CAPTURE_PRESCALER psc) {
+  TIM1->CCMR3 = (TIM1->CCMR3 & 0xF3) | ((uint8_t)psc << 2);
+}
+
+static inline TIM1_INPUT_CAPTURE_PRESCALER tim1_input_capture3_prescaler_read(void) {
+  return (TIM1_INPUT_CAPTURE_PRESCALER)((TIM1->CCMR3 >> 2) & 0x03);
+}
+
+static inline void tim1_input_capture3_filter_set(TIM1_INPUT_CAPTURE_FILTER filter) {
+  TIM1->CCMR3 = (TIM1->CCMR3 & 0x0F) | ((uint8_t)filter << 4);
+}
+
+static inline TIM1_INPUT_CAPTURE_FILTER tim1_input_capture3_filter_read(void) {
+  return (TIM1_INPUT_CAPTURE_FILTER)((TIM1->CCMR3 >> 4) & 0x0F);
+}
+
+
+
+/* TIM1 Capture/Compare Mode Register 4 (CCMR4) */
+
 #endif
