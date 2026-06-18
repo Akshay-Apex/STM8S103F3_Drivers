@@ -64,7 +64,7 @@ typedef struct {
   volatile uint8_t CCER2; // TIM2 capture/compare enable register 2
   volatile uint8_t CNTRH; // TIM2 counter high
   volatile uint8_t CNTRL; // TIM2 counter low
-  volatile uint8_t PSCR;  // IM2 prescaler register
+  volatile uint8_t PSCR;  // TIM2 prescaler register
   volatile uint8_t ARRH;  // TIM2 auto-reload register high
   volatile uint8_t ARRL;  // TIM2 auto-reload register low
 
@@ -196,7 +196,7 @@ typedef enum {
     TIM1_TI1_EDGE_DETECTOR      = 0x04,
     TIM1_FILTERED_TIMER_INPUT_1 = 0x05,
     TIM1_FILTERED_TIMER_INPUT_2 = 0x06,
-    TIM1_External_TRIGGER_INPUT = 0x07
+    TIM1_EXTERNAL_TRIGGER_INPUT = 0x07
 } TIM1_TRIGGER_SOURCE;
 
 #define TIM1_TRIGGER_SELECTION_CLR_MASK 0x8F
@@ -328,7 +328,7 @@ static inline void tim4_prescaler_set(uint8_t value) {
   TIM4->PSCR = value & 0x0F;
 }
 
-static inline uint8_t tim4_prescalar_read(void) {
+static inline uint8_t tim4_prescaler_read(void) {
   return TIM4->PSCR;
 }
 
