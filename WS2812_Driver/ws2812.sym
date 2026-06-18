@@ -1,0 +1,414 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+    ___sdcc_external_startup                                       ****** GX
+  5 __interrupt_vect                                               000000 R
+  6 __sdcc_init_data                                               000009 R
+  5 __sdcc_program_startup                                         000004 R
+  3 __start__stack                                                 000000 R
+  A _clk_active_halt_mvr_disable                                   000005 R
+  A _clk_active_halt_mvr_enable                                    000000 R
+  A _clk_active_halt_mvr_is_enabled                                00000A R
+  A _clk_aux_clock_is_active                                       000166 R
+  A _clk_configurable_clock_output_disable                         000189 R
+  A _clk_configurable_clock_output_enable                          000184 R
+  A _clk_configurable_clock_output_is_ready                        00019D R
+  A _clk_configurable_clock_output_src_is_switching                0001A5 R
+  A _clk_cpu_div_prescalar_read                                    0000B4 R
+  A _clk_cpu_div_prescalar_set                                     0000A6 R
+  A _clk_fast_hlt_wake_up_disable                                  00003D R
+  A _clk_fast_hlt_wake_up_enable                                   000038 R
+  A _clk_fast_hlt_wake_up_is_enabled                               000030 R
+  A _clk_hse_clock_disturbance_detect_reg_clear                    00017F R
+  A _clk_hse_clock_disturbance_is_detected                         000177 R
+  A _clk_hse_osc_disable                                           000065 R
+  A _clk_hse_osc_enable                                            000060 R
+  A _clk_hse_osc_is_ready                                          000059 R
+  A _clk_hsi_and_cpu_div_prescalar_set                             0000D1 R
+  A _clk_hsi_div_prescalar_read                                    0000CB R
+  A _clk_hsi_div_prescalar_set                                     0000BA R
+  A _clk_hsi_osc_disable                                           000054 R
+  A _clk_hsi_osc_enable                                            00004F R
+  A _clk_hsi_osc_is_enabled                                        000049 R
+  A _clk_hsi_osc_is_ready                                          000042 R
+  A _clk_hsi_osc_trim_value_set                                    0001AD R
+  A _clk_lsi_osc_disable                                           00002B R
+  A _clk_lsi_osc_enable                                            000026 R
+  A _clk_lsi_osc_is_enabled                                        00001E R
+  A _clk_lsi_osc_is_ready                                          000014 R
+  A _clk_master_clock_get_source                                   00006A R
+  A _clk_master_switch_src                                         00006E R
+  A _clk_output_source_set                                         00018E R
+  A _clk_periph_1_clock_disable                                    000109 R
+  A _clk_periph_1_clock_enable                                     0000EE R
+  A _clk_periph_2_clock_disable                                    000140 R
+  A _clk_periph_2_clock_enable                                     000125 R
+  A _clk_security_sys_disable                                      000161 R
+  A _clk_security_sys_enable                                       00015C R
+  A _clk_security_sys_irq_disable                                  000172 R
+  A _clk_security_sys_irq_enable                                   00016D R
+  A _clk_swim_clock_div2_disable                                   0001C5 R
+  A _clk_swim_clock_div2_enable                                    0001C0 R
+  A _clk_switch_event_occured_auto_mode                            000099 R
+  A _clk_switch_exec_disable                                       000082 R
+  A _clk_switch_exec_enable                                        00007D R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 2
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _clk_switch_irq_disable                                        00008C R
+  A _clk_switch_irq_enable                                         000087 R
+  A _clk_switch_irq_flag_clear                                     0000A1 R
+  A _clk_switch_is_ongoing                                         000072 R
+  A _clk_switch_process_reset                                      000078 R
+  A _clk_target_src_clk_ready_manual_mode                          000091 R
+  A _gpio_in_float_no_irq                                          000240 R
+  A _gpio_in_float_with_irq                                        0002A8 R
+  A _gpio_in_irq_disable                                           000465 R
+  A _gpio_in_irq_enable                                            000448 R
+  A _gpio_in_pull_up_disable                                       00042A R
+  A _gpio_in_pull_up_enable                                        00040D R
+  A _gpio_in_pull_up_no_irq                                        000273 R
+  A _gpio_in_pull_up_with_irq                                      0002DD R
+  A _gpio_input_fast_read                                          0004F9 R
+  A _gpio_mode_input_init                                          0003F0 R
+  A _gpio_mode_output_init                                         0003D4 R
+  A _gpio_multi_mode_fast_config                                   0001CA R
+  A _gpio_out_fast_mode_disable                                    0004DB R
+  A _gpio_out_fast_mode_enable                                     0004BE R
+  A _gpio_out_open_drain                                           00030E R
+  A _gpio_out_open_drain_enable                                    0004A0 R
+  A _gpio_out_open_drain_fast_mode                                 000373 R
+  A _gpio_out_push_pull                                            000340 R
+  A _gpio_out_push_pull_enable                                     000483 R
+  A _gpio_out_push_pull_fast_mode                                  0003A6 R
+  A _gpio_output_fast_clear                                        000528 R
+  A _gpio_output_fast_read                                         000543 R
+  A _gpio_output_fast_set                                          00050E R
+  A _gpio_output_fast_toggle                                       000557 R
+  A _main                                                          00108C GR
+  A _tim1_auto_reload_preload_disable                              0008FB R
+  A _tim1_auto_reload_preload_enable                               0008F6 R
+  A _tim1_auto_reload_read                                         000F80 R
+  A _tim1_auto_reload_write                                        000F77 R
+  A _tim1_auto_update_event_disable                                0008B4 R
+  A _tim1_auto_update_event_enable                                 0008AF R
+  A _tim1_automatic_output_disable                                 001046 R
+  A _tim1_automatic_output_enable                                  001041 R
+  A _tim1_break_input_disable                                      001032 R
+  A _tim1_break_input_enable                                       00102D R
+  A _tim1_break_input_polarity_high                                001037 R
+  A _tim1_break_input_polarity_low                                 00103C R
+  A _tim1_capture_compare1_channel_mode_read                       000AEE R
+  A _tim1_capture_compare1_channel_mode_set                        000ADF R
+  A _tim1_capture_compare1_fast_disable                            000AF9 R
+  A _tim1_capture_compare1_fast_enable                             000AF4 R
+  A _tim1_capture_compare1_preload_disable                         000B03 R
+  A _tim1_capture_compare1_preload_enable                          000AFE R
+  A _tim1_capture_compare1_read                                    000FA0 R
+  A _tim1_capture_compare1_write                                   000F97 R
+  A _tim1_capture_compare2_channel_mode_read                       000B6F R
+  A _tim1_capture_compare2_channel_mode_set                        000B60 R
+  A _tim1_capture_compare2_fast_disable                            000B7A R
+  A _tim1_capture_compare2_fast_enable                             000B75 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 3
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _tim1_capture_compare2_preload_disable                         000B84 R
+  A _tim1_capture_compare2_preload_enable                          000B7F R
+  A _tim1_capture_compare2_read                                    000FB8 R
+  A _tim1_capture_compare2_write                                   000FAF R
+  A _tim1_capture_compare3_channel_mode_read                       000BF0 R
+  A _tim1_capture_compare3_channel_mode_set                        000BE1 R
+  A _tim1_capture_compare3_fast_disable                            000BFB R
+  A _tim1_capture_compare3_fast_enable                             000BF6 R
+  A _tim1_capture_compare3_preload_disable                         000C05 R
+  A _tim1_capture_compare3_preload_enable                          000C00 R
+  A _tim1_capture_compare3_read                                    000FD0 R
+  A _tim1_capture_compare3_write                                   000FC7 R
+  A _tim1_capture_compare4_channel_mode_read                       000C71 R
+  A _tim1_capture_compare4_channel_mode_set                        000C62 R
+  A _tim1_capture_compare4_fast_disable                            000C7C R
+  A _tim1_capture_compare4_fast_enable                             000C77 R
+  A _tim1_capture_compare4_preload_disable                         000C86 R
+  A _tim1_capture_compare4_preload_enable                          000C81 R
+  A _tim1_capture_compare4_read                                    000FE8 R
+  A _tim1_capture_compare4_write                                   000FDF R
+  A _tim1_capture_compare_1_2_complementary_output_disable         000D97 R
+  A _tim1_capture_compare_1_2_complementary_output_enable          000D7C R
+  A _tim1_capture_compare_1_2_complementary_output_is_enabled      000DB3 R
+  A _tim1_capture_compare_1_2_complementary_output_polarity_high   000DC5 R
+  A _tim1_capture_compare_1_2_complementary_output_polarity_is_h   000DFC R
+  A _tim1_capture_compare_1_2_complementary_output_polarity_low    000DE1 R
+  A _tim1_capture_compare_1_2_output_disable                       000CFE R
+  A _tim1_capture_compare_1_2_output_enable                        000CE3 R
+  A _tim1_capture_compare_1_2_output_is_enabled                    000D1A R
+  A _tim1_capture_compare_1_2_output_polarity_high                 000D2C R
+  A _tim1_capture_compare_1_2_output_polarity_is_high              000D63 R
+  A _tim1_capture_compare_1_2_output_polarity_low                  000D48 R
+  A _tim1_capture_compare_3_4_output_disable                       000E30 R
+  A _tim1_capture_compare_3_4_output_enable                        000E15 R
+  A _tim1_capture_compare_3_4_output_is_enabled                    000E4C R
+  A _tim1_capture_compare_3_4_output_polarity_high                 000E5E R
+  A _tim1_capture_compare_3_4_output_polarity_is_high              000E95 R
+  A _tim1_capture_compare_3_4_output_polarity_low                  000E7A R
+  A _tim1_capture_compare_3_complementary_output_disable           000EC9 R
+  A _tim1_capture_compare_3_complementary_output_enable            000EAE R
+  A _tim1_capture_compare_3_complementary_output_is_enabled        000EE5 R
+  A _tim1_capture_compare_3_complementary_output_polarity_high     000EF7 R
+  A _tim1_capture_compare_3_complementary_output_polarity_is_hig   000F2E R
+  A _tim1_capture_compare_3_complementary_output_polarity_low      000F13 R
+  A _tim1_capture_compare_control_update_selection_disable         00090F R
+  A _tim1_capture_compare_control_update_selection_enable          00090A R
+  A _tim1_capture_compare_event_generate                           000AC4 R
+  A _tim1_capture_compare_irq_disable                              000A03 R
+  A _tim1_capture_compare_irq_enable                               0009E8 R
+  A _tim1_capture_compare_irq_flag_clear                           000A4D R
+  A _tim1_capture_compare_irq_flag_read                            000A69 R
+  A _tim1_capture_compare_overcapture_flag_clear                   000A7B R
+  A _tim1_capture_compare_overcapture_flag_read                    000A97 R
+  A _tim1_capture_compare_preload_control_disable                  000905 R
+  A _tim1_capture_compare_preload_control_enable                   000900 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 4
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _tim1_center_aligned_mode_read                                 0008EC R
+  A _tim1_center_aligned_mode_set                                  0008D7 R
+  A _tim1_counter_disable                                          0008AA R
+  A _tim1_counter_enable                                           0008A5 R
+  A _tim1_counter_read                                             000F50 R
+  A _tim1_counter_write                                            000F47 R
+  A _tim1_dead_time_read                                           001059 R
+  A _tim1_dead_time_set                                            001055 R
+  A _tim1_direction_down_counter                                   0008D2 R
+  A _tim1_direction_up_counter                                     0008CD R
+  A _tim1_event_generate                                           000AA9 R
+  A _tim1_external_clock_mode_2_disable                            0009A2 R
+  A _tim1_external_clock_mode_2_enable                             00099D R
+  A _tim1_external_trigger_filter_read                             00097C R
+  A _tim1_external_trigger_filter_set                              00096D R
+  A _tim1_external_trigger_polarity_high                           0009A7 R
+  A _tim1_external_trigger_polarity_low                            0009AC R
+  A _tim1_external_trigger_prescaler_read                          000996 R
+  A _tim1_external_trigger_prescaler_set                           000982 R
+  A _tim1_input_capture1_filter_read                               000B59 R
+  A _tim1_input_capture1_filter_set                                000B45 R
+  A _tim1_input_capture1_prescaler_read                            000B3D R
+  A _tim1_input_capture1_prescaler_set                             000B2D R
+  A _tim1_input_capture2_filter_read                               000BDA R
+  A _tim1_input_capture2_filter_set                                000BC6 R
+  A _tim1_input_capture2_prescaler_read                            000BBE R
+  A _tim1_input_capture2_prescaler_set                             000BAE R
+  A _tim1_input_capture3_filter_read                               000C5B R
+  A _tim1_input_capture3_filter_set                                000C47 R
+  A _tim1_input_capture3_prescaler_read                            000C3F R
+  A _tim1_input_capture3_prescaler_set                             000C2F R
+  A _tim1_input_capture4_filter_read                               000CDC R
+  A _tim1_input_capture4_filter_set                                000CC8 R
+  A _tim1_input_capture4_prescaler_read                            000CC0 R
+  A _tim1_input_capture4_prescaler_set                             000CB0 R
+  A _tim1_irq_disable                                              0009CC R
+  A _tim1_irq_enable                                               0009B1 R
+  A _tim1_irq_flag_clear                                           000A1F R
+  A _tim1_irq_flag_read                                            000A3B R
+  A _tim1_lock_control_read                                        001006 R
+  A _tim1_lock_control_set                                         000FF7 R
+  A _tim1_main_output_disable                                      001050 R
+  A _tim1_main_output_enable                                       00104B R
+  A _tim1_master_mode_selection_read                               000928 R
+  A _tim1_master_mode_selection_set                                000914 R
+  A _tim1_master_slave_mode_disable                                000968 R
+  A _tim1_master_slave_mode_enable                                 000963 R
+  A _tim1_off_state_idle_mode_set                                  00100C R
+  A _tim1_off_state_run_mode_set                                   00101C R
+  A _tim1_one_pulse_mode_disable                                   0008C8 R
+  A _tim1_one_pulse_mode_enable                                    0008C3 R
+  A _tim1_output_compare1_clear_disable                            000B28 R
+  A _tim1_output_compare1_clear_enable                             000B23 R
+  A _tim1_output_compare1_mode_read                                000B1C R
+  A _tim1_output_compare1_mode_set                                 000B08 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 5
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _tim1_output_compare2_clear_disable                            000BA9 R
+  A _tim1_output_compare2_clear_enable                             000BA4 R
+  A _tim1_output_compare2_mode_read                                000B9D R
+  A _tim1_output_compare2_mode_set                                 000B89 R
+  A _tim1_output_compare3_clear_disable                            000C2A R
+  A _tim1_output_compare3_clear_enable                             000C25 R
+  A _tim1_output_compare3_mode_read                                000C1E R
+  A _tim1_output_compare3_mode_set                                 000C0A R
+  A _tim1_output_compare4_clear_disable                            000CAB R
+  A _tim1_output_compare4_clear_enable                             000CA6 R
+  A _tim1_output_compare4_mode_read                                000C9F R
+  A _tim1_output_compare4_mode_set                                 000C8B R
+  A _tim1_output_compare_idle_state_set                            00105D R
+  A _tim1_prescaler_read                                           000F68 R
+  A _tim1_prescaler_write                                          000F5F R
+  A _tim1_repetition_counter_read                                  000F93 R
+  A _tim1_repetition_counter_write                                 000F8F R
+  A _tim1_slave_mode_read                                          000942 R
+  A _tim1_slave_mode_set                                           00092F R
+  A _tim1_trigger_selection_read                                   00095C R
+  A _tim1_trigger_selection_set                                    000948 R
+  A _tim1_update_req_src_any_event_set                             0008B9 R
+  A _tim1_update_req_src_overflow_underflow_only_set               0008BE R
+  A _tim2_auto_reload_preload_disable                              000604 R
+  A _tim2_auto_reload_preload_enable                               0005FF R
+  A _tim2_auto_reload_read                                         00084E R
+  A _tim2_auto_reload_write                                        000845 R
+  A _tim2_auto_update_event_disable                                0005E6 R
+  A _tim2_auto_update_event_enable                                 0005E1 R
+  A _tim2_capture_compare1_channel_mode_read                       0006AB R
+  A _tim2_capture_compare1_channel_mode_set                        00069C R
+  A _tim2_capture_compare1_disable                                 0007EA R
+  A _tim2_capture_compare1_enable                                  0007E5 R
+  A _tim2_capture_compare1_event_generate                          00068D R
+  A _tim2_capture_compare1_irq_disable                             000618 R
+  A _tim2_capture_compare1_irq_enable                              000613 R
+  A _tim2_capture_compare1_irq_flag_clear                          00063C R
+  A _tim2_capture_compare1_irq_flag_read                           000641 R
+  A _tim2_capture_compare1_overcapture_flag_clear                  000662 R
+  A _tim2_capture_compare1_overcapture_flag_read                   000667 R
+  A _tim2_capture_compare1_polarity_high                           0007EF R
+  A _tim2_capture_compare1_polarity_low                            0007F4 R
+  A _tim2_capture_compare1_preload_disable                         0006B6 R
+  A _tim2_capture_compare1_preload_enable                          0006B1 R
+  A _tim2_capture_compare1_read                                    000866 R
+  A _tim2_capture_compare1_write                                   00085D R
+  A _tim2_capture_compare2_channel_mode_read                       000718 R
+  A _tim2_capture_compare2_channel_mode_set                        000709 R
+  A _tim2_capture_compare2_disable                                 0007FE R
+  A _tim2_capture_compare2_enable                                  0007F9 R
+  A _tim2_capture_compare2_event_generate                          000692 R
+  A _tim2_capture_compare2_irq_disable                             000622 R
+  A _tim2_capture_compare2_irq_enable                              00061D R
+  A _tim2_capture_compare2_irq_flag_clear                          000648 R
+  A _tim2_capture_compare2_irq_flag_read                           00064D R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 6
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _tim2_capture_compare2_overcapture_flag_clear                  00066E R
+  A _tim2_capture_compare2_overcapture_flag_read                   000673 R
+  A _tim2_capture_compare2_polarity_high                           000803 R
+  A _tim2_capture_compare2_polarity_low                            000808 R
+  A _tim2_capture_compare2_preload_disable                         000723 R
+  A _tim2_capture_compare2_preload_enable                          00071E R
+  A _tim2_capture_compare2_read                                    00087E R
+  A _tim2_capture_compare2_write                                   000875 R
+  A _tim2_capture_compare3_channel_mode_read                       000784 R
+  A _tim2_capture_compare3_channel_mode_set                        000776 R
+  A _tim2_capture_compare3_disable                                 000812 R
+  A _tim2_capture_compare3_enable                                  00080D R
+  A _tim2_capture_compare3_event_generate                          000697 R
+  A _tim2_capture_compare3_irq_disable                             00062C R
+  A _tim2_capture_compare3_irq_enable                              000627 R
+  A _tim2_capture_compare3_irq_flag_clear                          000655 R
+  A _tim2_capture_compare3_irq_flag_read                           00065A R
+  A _tim2_capture_compare3_overcapture_flag_clear                  00067B R
+  A _tim2_capture_compare3_overcapture_flag_read                   000680 R
+  A _tim2_capture_compare3_polarity_high                           000817 R
+  A _tim2_capture_compare3_polarity_low                            00081C R
+  A _tim2_capture_compare3_preload_disable                         000792 R
+  A _tim2_capture_compare3_preload_enable                          00078D R
+  A _tim2_capture_compare3_read                                    000896 R
+  A _tim2_capture_compare3_write                                   00088D R
+  A _tim2_counter_disable                                          0005DC R
+  A _tim2_counter_enable                                           0005D7 R
+  A _tim2_counter_read                                             00082A R
+  A _tim2_counter_write                                            000821 R
+  A _tim2_input_capture1_filter_read                               000702 R
+  A _tim2_input_capture1_filter_set                                0006EE R
+  A _tim2_input_capture1_prescaler_read                            0006E6 R
+  A _tim2_input_capture1_prescaler_set                             0006D6 R
+  A _tim2_input_capture2_filter_read                               00076F R
+  A _tim2_input_capture2_filter_set                                00075B R
+  A _tim2_input_capture2_prescaler_read                            000753 R
+  A _tim2_input_capture2_prescaler_set                             000743 R
+  A _tim2_input_capture3_filter_read                               0007DE R
+  A _tim2_input_capture3_filter_set                                0007CA R
+  A _tim2_input_capture3_prescaler_read                            0007C2 R
+  A _tim2_input_capture3_prescaler_set                             0007B2 R
+  A _tim2_one_pulse_mode_disable                                   0005FA R
+  A _tim2_one_pulse_mode_enable                                    0005F5 R
+  A _tim2_output_compare1_mode_read                                0006CF R
+  A _tim2_output_compare1_mode_set                                 0006BB R
+  A _tim2_output_compare2_mode_read                                00073C R
+  A _tim2_output_compare2_mode_set                                 000728 R
+  A _tim2_output_compare3_mode_read                                0007AB R
+  A _tim2_output_compare3_mode_set                                 000797 R
+  A _tim2_prescaler_read                                           00083F R
+  A _tim2_prescaler_set                                            000839 R
+  A _tim2_update_event_generate                                    000688 R
+  A _tim2_update_irq_disable                                       00060E R
+  A _tim2_update_irq_enable                                        000609 R
+  A _tim2_update_irq_flag_clear                                    000631 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 7
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  A _tim2_update_irq_flag_read                                     000636 R
+  A _tim2_update_req_src_any_event_set                             0005EB R
+  A _tim2_update_req_src_overflow_underflow_only_set               0005F0 R
+  A _tim4_auto_reload_preload_disable                              00059E R
+  A _tim4_auto_reload_preload_enable                               000599 R
+  A _tim4_auto_reload_read                                         0005D3 R
+  A _tim4_auto_reload_set                                          0005CF R
+  A _tim4_auto_update_event_disable                                000580 R
+  A _tim4_auto_update_event_enable                                 00057B R
+  A _tim4_counter_disable                                          000576 R
+  A _tim4_counter_enable                                           000571 R
+  A _tim4_counter_read                                             0005C1 R
+  A _tim4_counter_write                                            0005BD R
+  A _tim4_one_pulse_mode_disable                                   000594 R
+  A _tim4_one_pulse_mode_enable                                    00058F R
+  A _tim4_prescaler_read                                           0005CB R
+  A _tim4_prescaler_set                                            0005C5 R
+  A _tim4_update_event_generate                                    0005B8 R
+  A _tim4_update_irq_disable                                       0005A8 R
+  A _tim4_update_irq_enable                                        0005A3 R
+  A _tim4_update_irq_flag_clear                                    0005AD R
+  A _tim4_update_irq_flag_read                                     0005B2 R
+  A _tim4_update_req_src_any_event_set                             000585 R
+  A _tim4_update_req_src_overflow_underflow_only_set               00058A R
+    l_DATA                                                         ****** GX
+    l_INITIALIZER                                                  ****** GX
+    s_DATA                                                         ****** GX
+    s_GSINIT                                                       ****** GX
+    s_INITIALIZED                                                  ****** GX
+    s_INITIALIZER                                                  ****** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 8
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size      0   flags    0
+   3 SSEG                                       size      1   flags    0
+   4 DABS                                       size      0   flags    8
+   5 HOME                                       size      7   flags    0
+   6 GSINIT                                     size     23   flags    0
+   7 GSFINAL                                    size      3   flags    0
+   8 CONST                                      size      0   flags    0
+   9 INITIALIZER                                size      0   flags    0
+   A CODE                                       size   1092   flags    0
+   B CABS                                       size      0   flags    8
+

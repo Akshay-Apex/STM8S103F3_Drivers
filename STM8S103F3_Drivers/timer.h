@@ -1475,29 +1475,33 @@ static inline uint8_t tim1_capture_compare_3_4_output_polarity_is_high(TIM1_CAPT
 
 typedef enum {
   TIM1_CC3_COMPLEMENTARY = 2  
-} TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE;
+} TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE;
 
-static inline void tim1_capture_compare_3_4_complementary_output_enable(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+static inline void tim1_capture_compare_3_complementary_output_enable(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 |= (1U << cc_enable);
 }
 
-static inline void tim1_capture_compare_3_4_complementary_output_disable(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+static inline void tim1_capture_compare_3_complementary_output_disable(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 &= ~(1U << cc_enable);
 }
 
-static inline uint8_t tim1_capture_compare_3_4_complementary_output_is_enabled(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+static inline uint8_t tim1_capture_compare_3_complementary_output_is_enabled(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   return ((TIM1->CCER2 >> cc_enable) & 1);
 }
 
-static inline void tim1_capture_compare_3_4_complementary_output_polarity_high(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+typedef enum {
+  TIM1_CC3_COMPLEMENTARY_POLARITY = 3  
+} TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY;
+
+static inline void tim1_capture_compare_3_complementary_output_polarity_high(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 &= ~(1U << polarity);
 }
 
-static inline void tim1_capture_compare_3_4_complementary_output_polarity_low(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+static inline void tim1_capture_compare_3_complementary_output_polarity_low(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 |= (1U << polarity);
 }
 
-static inline uint8_t tim1_capture_compare_3_4_complementary_output_polarity_is_high(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+static inline uint8_t tim1_capture_compare_3_complementary_output_polarity_is_high(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   return ((TIM1->CCER2 >> polarity) & 1) == 0;
 }
 
