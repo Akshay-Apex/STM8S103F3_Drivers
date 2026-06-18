@@ -21,8 +21,8 @@
                                      21 ; Stack segment in internal ram
                                      22 ;--------------------------------------------------------
                                      23 	.area SSEG
-      000000                         24 __start__stack:
-      000000                         25 	.ds	1
+      000001                         24 __start__stack:
+      000001                         25 	.ds	1
                                      26 
                                      27 ;--------------------------------------------------------
                                      28 ; absolute external ram data
@@ -41,8 +41,8 @@
                                      41 ; interrupt vector
                                      42 ;--------------------------------------------------------
                                      43 	.area HOME
-      000000                         44 __interrupt_vect:
-      000000 82v00u00u00             45 	int s_GSINIT ; reset
+      008000                         44 __interrupt_vect:
+      008000 82 00 80 07             45 	int s_GSINIT ; reset
                                      46 ;--------------------------------------------------------
                                      47 ; global & static initialisations
                                      48 ;--------------------------------------------------------
@@ -50,37 +50,37 @@
                                      50 	.area GSINIT
                                      51 	.area GSFINAL
                                      52 	.area GSINIT
-      000000 CDr00r00         [ 4]   53 	call	___sdcc_external_startup
-      000003 4D               [ 1]   54 	tnz	a
-      000004 27 03            [ 1]   55 	jreq	__sdcc_init_data
-      000006 CCr00r04         [ 2]   56 	jp	__sdcc_program_startup
-      000009                         57 __sdcc_init_data:
+      008007 CD 80 38         [ 4]   53 	call	___sdcc_external_startup
+      00800A 4D               [ 1]   54 	tnz	a
+      00800B 27 03            [ 1]   55 	jreq	__sdcc_init_data
+      00800D CC 80 04         [ 2]   56 	jp	__sdcc_program_startup
+      008010                         57 __sdcc_init_data:
                                      58 ; stm8_genXINIT() start
-      000009 AEr00r00         [ 2]   59 	ldw x, #l_DATA
-      00000C 27 07            [ 1]   60 	jreq	00002$
-      00000E                         61 00001$:
-      00000E 72 4FuFFuFF      [ 1]   62 	clr (s_DATA - 1, x)
-      000012 5A               [ 2]   63 	decw x
-      000013 26 F9            [ 1]   64 	jrne	00001$
-      000015                         65 00002$:
-      000015 AEr00r00         [ 2]   66 	ldw	x, #l_INITIALIZER
-      000018 27 09            [ 1]   67 	jreq	00004$
-      00001A                         68 00003$:
-      00001A D6uFFuFF         [ 1]   69 	ld	a, (s_INITIALIZER - 1, x)
-      00001D D7uFFuFF         [ 1]   70 	ld	(s_INITIALIZED - 1, x), a
-      000020 5A               [ 2]   71 	decw	x
-      000021 26 F7            [ 1]   72 	jrne	00003$
-      000023                         73 00004$:
+      008010 AE 00 00         [ 2]   59 	ldw x, #l_DATA
+      008013 27 07            [ 1]   60 	jreq	00002$
+      008015                         61 00001$:
+      008015 72 4F 00 00      [ 1]   62 	clr (s_DATA - 1, x)
+      008019 5A               [ 2]   63 	decw x
+      00801A 26 F9            [ 1]   64 	jrne	00001$
+      00801C                         65 00002$:
+      00801C AE 00 00         [ 2]   66 	ldw	x, #l_INITIALIZER
+      00801F 27 09            [ 1]   67 	jreq	00004$
+      008021                         68 00003$:
+      008021 D6 80 2C         [ 1]   69 	ld	a, (s_INITIALIZER - 1, x)
+      008024 D7 00 00         [ 1]   70 	ld	(s_INITIALIZED - 1, x), a
+      008027 5A               [ 2]   71 	decw	x
+      008028 26 F7            [ 1]   72 	jrne	00003$
+      00802A                         73 00004$:
                                      74 ; stm8_genXINIT() end
                                      75 	.area GSFINAL
-      000000 CCr00r04         [ 2]   76 	jp	__sdcc_program_startup
+      00802A CC 80 04         [ 2]   76 	jp	__sdcc_program_startup
                                      77 ;--------------------------------------------------------
                                      78 ; Home
                                      79 ;--------------------------------------------------------
                                      80 	.area HOME
                                      81 	.area HOME
-      000004                         82 __sdcc_program_startup:
-      000004 CCr00r05         [ 2]   83 	jp	_main
+      008004                         82 __sdcc_program_startup:
+      008004 CC 80 32         [ 2]   83 	jp	_main
                                      84 ;	return from main will return to caller
                                      85 ;--------------------------------------------------------
                                      86 ; code
@@ -90,23 +90,23 @@
                                      90 ;	-----------------------------------------
                                      91 ;	 function clk_active_halt_mvr_enable
                                      92 ;	-----------------------------------------
-      000000                         93 _clk_active_halt_mvr_enable:
+      00802D                         93 _clk_active_halt_mvr_enable:
                                      94 ;	.\../STM8S103F3_Drivers/clk.h: 101: CLK->ICKR &= ~(1U << 5);
-      000000 72 1B 50 C0      [ 1]   95 	bres	0x50c0, #5
+      00802D 72 1B 50 C0      [ 1]   95 	bres	0x50c0, #5
                                      96 ;	.\../STM8S103F3_Drivers/clk.h: 102: }
-      000004 81               [ 4]   97 	ret
+      008031 81               [ 4]   97 	ret
                                      98 ;	.\ws2812.c: 7: int main(void) {
                                      99 ;	-----------------------------------------
                                     100 ;	 function main
                                     101 ;	-----------------------------------------
-      000005                        102 _main:
+      008032                        102 _main:
                                     103 ;	.\ws2812.c: 8: clk_active_halt_mvr_enable();
-      000005 CDr00r00         [ 4]  104 	call	_clk_active_halt_mvr_enable
+      008032 CD 80 2D         [ 4]  104 	call	_clk_active_halt_mvr_enable
                                     105 ;	.\ws2812.c: 9: while (1) {
-      000008                        106 00102$:
-      000008 20 FE            [ 2]  107 	jra	00102$
+      008035                        106 00102$:
+      008035 20 FE            [ 2]  107 	jra	00102$
                                     108 ;	.\ws2812.c: 12: }
-      00000A 81               [ 4]  109 	ret
+      008037 81               [ 4]  109 	ret
                                     110 	.area CODE
                                     111 	.area CONST
                                     112 	.area INITIALIZER
