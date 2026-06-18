@@ -1473,6 +1473,10 @@ static inline uint8_t tim1_capture_compare_3_4_output_polarity_is_high(TIM1_CAPT
   return ((TIM1->CCER2 >> polarity) & 1) == 0;
 } 
 
+typedef enum {
+  TIM1_CC3_COMPLEMENTARY = 2  
+} TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE;
+
 static inline void tim1_capture_compare_3_4_complementary_output_enable(TIM1_CAPTURE_COMPARE_3_4_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 |= (1U << cc_enable);
 }
