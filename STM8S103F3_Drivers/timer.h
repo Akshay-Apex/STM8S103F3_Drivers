@@ -265,29 +265,29 @@ inline void tim2_update_irq_disable(void) {
 }
 
 
-inline void tim2_capture_compare1_irq_enable(void) {
+inline void tim2_cc1_irq_enable(void) {
   TIM2->IER |= (1U << 1);
 }
 
-inline void tim2_capture_compare1_irq_disable(void) {
+inline void tim2_cc1_irq_disable(void) {
   TIM2->IER &= ~(1U << 1);
 }
 
 
-inline void tim2_capture_compare2_irq_enable(void) {
+inline void tim2_cc2_irq_enable(void) {
   TIM2->IER |= (1U << 2);
 }
 
-inline void tim2_capture_compare2_irq_disable(void) {
+inline void tim2_cc2_irq_disable(void) {
   TIM2->IER &= ~(1U << 2);
 }
 
 
-inline void tim2_capture_compare3_irq_enable(void) {
+inline void tim2_cc3_irq_enable(void) {
   TIM2->IER |= (1U << 3);
 }
 
-inline void tim2_capture_compare3_irq_disable(void) {
+inline void tim2_cc3_irq_disable(void) {
   TIM2->IER &= ~(1U << 3);
 }
 
@@ -303,58 +303,58 @@ inline uint8_t tim2_update_irq_flag_read(void) {
 }
 
 
-inline void tim2_capture_compare1_irq_flag_clear(void) {
+inline void tim2_cc1_irq_flag_clear(void) {
   TIM2->SR1 &= ~(1U << 1);
 }
 
-inline uint8_t tim2_capture_compare1_irq_flag_read(void) {
+inline uint8_t tim2_cc1_irq_flag_read(void) {
   return ((TIM2->SR1 >> 1) & 1);
 }
 
 
-inline void tim2_capture_compare2_irq_flag_clear(void) {
+inline void tim2_cc2_irq_flag_clear(void) {
   TIM2->SR1 &= ~(1U << 2);
 }
 
-inline uint8_t tim2_capture_compare2_irq_flag_read(void) {
+inline uint8_t tim2_cc2_irq_flag_read(void) {
   return ((TIM2->SR1 >> 2) & 1);
 }
 
 
-inline void tim2_capture_compare3_irq_flag_clear(void) {
+inline void tim2_cc3_irq_flag_clear(void) {
   TIM2->SR1 &= ~(1U << 3);
 }
 
-inline uint8_t tim2_capture_compare3_irq_flag_read(void) {
+inline uint8_t tim2_cc3_irq_flag_read(void) {
   return ((TIM2->SR1 >> 3) & 1);
 }
 
 
 
 /* TIM2 status register 2 (SR2) */
-inline void tim2_capture_compare1_overcapture_flag_clear(void) {
+inline void tim2_cc1_overcapture_flag_clear(void) {
   TIM2->SR2 &= ~(1U << 1);
 }
 
-inline uint8_t tim2_capture_compare1_overcapture_flag_read(void) {
+inline uint8_t tim2_cc1_overcapture_flag_read(void) {
   return ((TIM2->SR2 >> 1) & 1);
 }
 
 
-inline void tim2_capture_compare2_overcapture_flag_clear(void) {
+inline void tim2_cc2_overcapture_flag_clear(void) {
   TIM2->SR2 &= ~(1U << 2);
 }
 
-inline uint8_t tim2_capture_compare2_overcapture_flag_read(void) {
+inline uint8_t tim2_cc2_overcapture_flag_read(void) {
   return ((TIM2->SR2 >> 2) & 1);
 }
 
 
-inline void tim2_capture_compare3_overcapture_flag_clear(void) {
+inline void tim2_cc3_overcapture_flag_clear(void) {
   TIM2->SR2 &= ~(1U << 3);
 }
 
-inline uint8_t tim2_capture_compare3_overcapture_flag_read(void) {
+inline uint8_t tim2_cc3_overcapture_flag_read(void) {
   return ((TIM2->SR2 >> 3) & 1);
 }
 
@@ -365,15 +365,15 @@ inline void tim2_update_event_generate(void) {
   TIM2->EGR |= (1U << 0);
 }
 
-inline void tim2_capture_compare1_event_generate(void) {
+inline void tim2_cc1_event_generate(void) {
   TIM2->EGR |= (1U << 1);
 }
 
-inline void tim2_capture_compare2_event_generate(void) {
+inline void tim2_cc2_event_generate(void) {
   TIM2->EGR |= (1U << 2);
 }
 
-inline void tim2_capture_compare3_event_generate(void) {
+inline void tim2_cc3_event_generate(void) {
   TIM2->EGR |= (1U << 3);
 }
 
@@ -389,20 +389,20 @@ typedef enum {
 
 #define TIM2_CC1_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim2_capture_compare1_channel_mode_set(TIM2_CC1_CHANNEL_MODE mode) {
+inline void tim2_cc1_channel_mode_set(TIM2_CC1_CHANNEL_MODE mode) {
   TIM2->CCMR1 = (TIM2->CCMR1 & TIM2_CC1_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM2_CC1_CHANNEL_MODE tim2_capture_compare1_channel_mode_read(void) {
+inline TIM2_CC1_CHANNEL_MODE tim2_cc1_channel_mode_read(void) {
   return (TIM2_CC1_CHANNEL_MODE)(TIM2->CCMR1 & ~TIM2_CC1_CHANNEL_MODE_CLR_MASK);
 }
 
 /* Output mode functions */
-inline void tim2_capture_compare1_preload_enable(void) {
+inline void tim2_cc1_preload_enable(void) {
   TIM2->CCMR1 |= (1U << 3);
 }
 
-inline void tim2_capture_compare1_preload_disable(void) {
+inline void tim2_cc1_preload_disable(void) {
   TIM2->CCMR1 &= ~(1U << 3);
 }
 
@@ -494,20 +494,20 @@ typedef enum {
 
 #define TIM2_CC2_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim2_capture_compare2_channel_mode_set(TIM2_CC2_CHANNEL_MODE mode) {
+inline void tim2_cc2_channel_mode_set(TIM2_CC2_CHANNEL_MODE mode) {
   TIM2->CCMR2 = (TIM2->CCMR2 & TIM2_CC2_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM2_CC2_CHANNEL_MODE tim2_capture_compare2_channel_mode_read(void) {
+inline TIM2_CC2_CHANNEL_MODE tim2_cc2_channel_mode_read(void) {
   return (TIM2_CC2_CHANNEL_MODE)(TIM2->CCMR2 & 0x03);
 }
 
 /* Output mode functions */
-inline void tim2_capture_compare2_preload_enable(void) {
+inline void tim2_cc2_preload_enable(void) {
   TIM2->CCMR2 |= (1U << 3);
 }
 
-inline void tim2_capture_compare2_preload_disable(void) {
+inline void tim2_cc2_preload_disable(void) {
   TIM2->CCMR2 &= ~(1U << 3);
 }
 
@@ -555,20 +555,20 @@ typedef enum {
 
 #define TIM2_CC3_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim2_capture_compare3_channel_mode_set(TIM2_CC3_CHANNEL_MODE mode) {
+inline void tim2_cc3_channel_mode_set(TIM2_CC3_CHANNEL_MODE mode) {
   TIM2->CCMR3 = (TIM2->CCMR3 & TIM2_CC3_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM2_CC3_CHANNEL_MODE tim2_capture_compare3_channel_mode_read(void) {
+inline TIM2_CC3_CHANNEL_MODE tim2_cc3_channel_mode_read(void) {
   return (TIM2_CC3_CHANNEL_MODE)(TIM2->CCMR3 & 0x03);
 }
 
 /* Output mode functions */
-inline void tim2_capture_compare3_preload_enable(void) {
+inline void tim2_cc3_preload_enable(void) {
   TIM2->CCMR3 |= (1U << 3);
 }
 
-inline void tim2_capture_compare3_preload_disable(void) {
+inline void tim2_cc3_preload_disable(void) {
   TIM2->CCMR3 &= ~(1U << 3);
 }
 
@@ -608,57 +608,57 @@ inline TIM2_INPUT_CAPTURE_FILTER tim2_input_capture3_filter_read(void) {
 
 
 /* TIM2 Capture/Compare enable register 1 (CCER1) */
-inline void tim2_capture_compare1_enable(void) {
+inline void tim2_cc1_enable(void) {
   TIM2->CCER1 |= (1U << 0);
 }
 
-inline void tim2_capture_compare1_disable(void) {
+inline void tim2_cc1_disable(void) {
   TIM2->CCER1 &= ~(1U << 0);
 }
 
 
-inline void tim2_capture_compare1_polarity_high(void) {
+inline void tim2_cc1_polarity_high(void) {
   TIM2->CCER1 &= ~(1U << 1);
 }
 
-inline void tim2_capture_compare1_polarity_low(void) {
+inline void tim2_cc1_polarity_low(void) {
   TIM2->CCER1 |= (1U << 1);
 }
 
 
-inline void tim2_capture_compare2_enable(void) {
+inline void tim2_cc2_enable(void) {
   TIM2->CCER1 |= (1U << 4);
 }
 
-inline void tim2_capture_compare2_disable(void) {
+inline void tim2_cc2_disable(void) {
   TIM2->CCER1 &= ~(1U << 4);
 }
 
 
-inline void tim2_capture_compare2_polarity_high(void) {
+inline void tim2_cc2_polarity_high(void) {
   TIM2->CCER1 &= ~(1U << 5);
 }
 
-inline void tim2_capture_compare2_polarity_low(void) {
+inline void tim2_cc2_polarity_low(void) {
   TIM2->CCER1 |= (1U << 5);
 }
 
 
 
 /* TIM2 Capture/Compare enable register 2 (CCER2) */
-inline void tim2_capture_compare3_enable(void) {
+inline void tim2_cc3_enable(void) {
   TIM2->CCER2 |= (1U << 0);
 }
 
-inline void tim2_capture_compare3_disable(void) {
+inline void tim2_cc3_disable(void) {
   TIM2->CCER2 &= ~(1U << 0);
 }
 
-inline void tim2_capture_compare3_polarity_high(void) {
+inline void tim2_cc3_polarity_high(void) {
   TIM2->CCER2 &= ~(1U << 1);
 }
 
-inline void tim2_capture_compare3_polarity_low(void) {
+inline void tim2_cc3_polarity_low(void) {
   TIM2->CCER2 |= (1U << 1);
 }
 
@@ -708,13 +708,13 @@ inline uint16_t tim2_auto_reload_read(void) {
 
 
 /* TIM2 Capture/Compare1 register (CCR1H/CCR1L) */ 
-inline void tim2_capture_compare1_write(uint16_t value) {
+inline void tim2_cc1_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM2->CCR1H = (uint8_t)((value >> 8) & 0xFF);
   TIM2->CCR1L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim2_capture_compare1_read(void) {
+inline uint16_t tim2_cc1_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM2->CCR1H;
   uint8_t low_byte = TIM2->CCR1L;
@@ -724,13 +724,13 @@ inline uint16_t tim2_capture_compare1_read(void) {
 
 
 /* TIM2 Capture/Compare2 register (CCR2H/CCR2L) */
-inline void tim2_capture_compare2_write(uint16_t value) {
+inline void tim2_cc2_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM2->CCR2H = (uint8_t)((value >> 8) & 0xFF);
   TIM2->CCR2L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim2_capture_compare2_read(void) {
+inline uint16_t tim2_cc2_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM2->CCR2H;
   uint8_t low_byte = TIM2->CCR2L;
@@ -740,13 +740,13 @@ inline uint16_t tim2_capture_compare2_read(void) {
 
 
 /* TIM2 Capture/Compare3 register (CCR3H/CCR3L) */
-inline void tim2_capture_compare3_write(uint16_t value) {
+inline void tim2_cc3_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM2->CCR3H = (uint8_t)((value >> 8) & 0xFF);
   TIM2->CCR3L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim2_capture_compare3_read(void) {
+inline uint16_t tim2_cc3_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM2->CCR3H;
   uint8_t low_byte = TIM2->CCR3L;
@@ -830,20 +830,20 @@ inline void tim1_auto_reload_preload_disable(void) {
 
 
 /* TIM1 Control Register 2 (CR2) */
-inline void tim1_capture_compare_preload_control_enable(void) {
+inline void tim1_cc_preload_control_enable(void) {
   TIM1->CR2 |= (1U << 0);
 }
 
-inline void tim1_capture_compare_preload_control_disable(void) {
+inline void tim1_cc_preload_control_disable(void) {
   TIM1->CR2 &= ~(1U << 0);
 }
 
 
-inline void tim1_capture_compare_control_update_selection_enable(void) {
+inline void tim1_cc_control_update_selection_enable(void) {
   TIM1->CR2 |= (1U << 1);
 }
 
-inline void tim1_capture_compare_control_update_selection_disable(void) {
+inline void tim1_cc_control_update_selection_disable(void) {
   TIM1->CR2 &= ~(1U << 1);
 }
 
@@ -1021,13 +1021,13 @@ typedef enum {
     TIM1_CC2_IRQ = 2,
     TIM1_CC3_IRQ = 3,
     TIM1_CC4_IRQ = 4
-} TIM1_CAPTURE_COMPARE_IRQ;
+} TIM1_CC_IRQ;
 
-inline void tim1_capture_compare_irq_enable(TIM1_CAPTURE_COMPARE_IRQ cc_irq) {
+inline void tim1_cc_irq_enable(TIM1_CC_IRQ cc_irq) {
   TIM1->IER |= (1U << cc_irq);
 }
 
-inline void tim1_capture_compare_irq_disable(TIM1_CAPTURE_COMPARE_IRQ cc_irq) {
+inline void tim1_cc_irq_disable(TIM1_CC_IRQ cc_irq) {
   TIM1->IER &= ~(1U << cc_irq);
 }
 
@@ -1054,13 +1054,13 @@ typedef enum {
     TIM1_CC2_IRQ_FLAG = 2,
     TIM1_CC3_IRQ_FLAG = 3,
     TIM1_CC4_IRQ_FLAG = 4
-} TIM1_CAPTURE_COMPARE_IRQ_FLAG;
+} TIM1_CC_IRQ_FLAG;
 
-inline void tim1_capture_compare_irq_flag_clear(TIM1_CAPTURE_COMPARE_IRQ_FLAG cc_irq_flag) {
+inline void tim1_cc_irq_flag_clear(TIM1_CC_IRQ_FLAG cc_irq_flag) {
   TIM1->SR1 &= ~(1U << cc_irq_flag);
 }
 
-inline uint8_t tim1_capture_compare_irq_flag_read(TIM1_CAPTURE_COMPARE_IRQ_FLAG cc_irq_flag) {
+inline uint8_t tim1_cc_irq_flag_read(TIM1_CC_IRQ_FLAG cc_irq_flag) {
   return ((TIM1->SR1 >> cc_irq_flag) & 1);
 }
 
@@ -1074,11 +1074,11 @@ typedef enum {
   TIM1_CC4_OVER_CAPTURE_FLAG = 4
 } TIM1_OVER_CAPTURE_FLAG;
 
-inline void tim1_capture_compare_overcapture_flag_clear(TIM1_OVER_CAPTURE_FLAG oc_flag) {
+inline void tim1_cc_overcapture_flag_clear(TIM1_OVER_CAPTURE_FLAG oc_flag) {
   TIM1->SR2 &= ~(1U << oc_flag);
 }
 
-inline uint8_t tim1_capture_compare_overcapture_flag_read(TIM1_OVER_CAPTURE_FLAG oc_flag) {
+inline uint8_t tim1_cc_overcapture_flag_read(TIM1_OVER_CAPTURE_FLAG oc_flag) {
   return ((TIM1->SR2 >> oc_flag) & 1);
 }
 
@@ -1101,9 +1101,9 @@ typedef enum {
   TIM1_CC2_EVENT = 2,
   TIM1_CC3_EVENT = 3,
   TIM1_CC4_EVENT = 4
-} TIM1_CAPTURE_COMPARE_EVENT;
+} TIM1_CC_EVENT;
 
-inline void tim1_capture_compare_event_generate(TIM1_CAPTURE_COMPARE_EVENT cc_event) {
+inline void tim1_cc_event_generate(TIM1_CC_EVENT cc_event) {
   TIM1->EGR |= (1U << cc_event);
 }
 
@@ -1120,29 +1120,29 @@ typedef enum {
 
 #define TIM1_CC1_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim1_capture_compare1_channel_mode_set(TIM1_CC1_CHANNEL_MODE mode) {
+inline void tim1_cc1_channel_mode_set(TIM1_CC1_CHANNEL_MODE mode) {
   TIM1->CCMR1 = (TIM1->CCMR1 & TIM1_CC1_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM1_CC1_CHANNEL_MODE tim1_capture_compare1_channel_mode_read(void) {
+inline TIM1_CC1_CHANNEL_MODE tim1_cc1_channel_mode_read(void) {
   return (TIM1_CC1_CHANNEL_MODE)(TIM1->CCMR1 & 0x03);
 }
 
 /* Output Mode */
-inline void tim1_capture_compare1_fast_enable(void) {
+inline void tim1_cc1_fast_enable(void) {
   TIM1->CCMR1 |= (1U << 2);
 }
 
-inline void tim1_capture_compare1_fast_disable(void) {
+inline void tim1_cc1_fast_disable(void) {
   TIM1->CCMR1 &= ~(1U << 2);
 }
 
 
-inline void tim1_capture_compare1_preload_enable(void) {
+inline void tim1_cc1_preload_enable(void) {
   TIM1->CCMR1 |= (1U << 3);
 }
 
-inline void tim1_capture_compare1_preload_disable(void) {
+inline void tim1_cc1_preload_disable(void) {
   TIM1->CCMR1 &= ~(1U << 3);
 }
 
@@ -1243,29 +1243,29 @@ typedef enum {
 
 #define TIM1_CC2_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim1_capture_compare2_channel_mode_set(TIM1_CC2_CHANNEL_MODE mode) {
+inline void tim1_cc2_channel_mode_set(TIM1_CC2_CHANNEL_MODE mode) {
   TIM1->CCMR2 = (TIM1->CCMR2 & TIM1_CC2_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM1_CC2_CHANNEL_MODE tim1_capture_compare2_channel_mode_read(void) {
+inline TIM1_CC2_CHANNEL_MODE tim1_cc2_channel_mode_read(void) {
   return (TIM1_CC2_CHANNEL_MODE)(TIM1->CCMR2 & 0x03);
 }
 
 /* Output Mode */
-inline void tim1_capture_compare2_fast_enable(void) {
+inline void tim1_cc2_fast_enable(void) {
   TIM1->CCMR2 |= (1U << 2);
 }
 
-inline void tim1_capture_compare2_fast_disable(void) {
+inline void tim1_cc2_fast_disable(void) {
   TIM1->CCMR2 &= ~(1U << 2);
 }
 
 
-inline void tim1_capture_compare2_preload_enable(void) {
+inline void tim1_cc2_preload_enable(void) {
   TIM1->CCMR2 |= (1U << 3);
 }
 
-inline void tim1_capture_compare2_preload_disable(void) {
+inline void tim1_cc2_preload_disable(void) {
   TIM1->CCMR2 &= ~(1U << 3);
 }
 
@@ -1323,29 +1323,29 @@ typedef enum {
 
 #define TIM1_CC3_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim1_capture_compare3_channel_mode_set(TIM1_CC3_CHANNEL_MODE mode) {
+inline void tim1_cc3_channel_mode_set(TIM1_CC3_CHANNEL_MODE mode) {
   TIM1->CCMR3 = (TIM1->CCMR3 & TIM1_CC3_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM1_CC3_CHANNEL_MODE tim1_capture_compare3_channel_mode_read(void) {
+inline TIM1_CC3_CHANNEL_MODE tim1_cc3_channel_mode_read(void) {
   return (TIM1_CC3_CHANNEL_MODE)(TIM1->CCMR3 & 0x03);
 }
 
 /* Output Mode */
-inline void tim1_capture_compare3_fast_enable(void) {
+inline void tim1_cc3_fast_enable(void) {
   TIM1->CCMR3 |= (1U << 2);
 }
 
-inline void tim1_capture_compare3_fast_disable(void) {
+inline void tim1_cc3_fast_disable(void) {
   TIM1->CCMR3 &= ~(1U << 2);
 }
 
 
-inline void tim1_capture_compare3_preload_enable(void) {
+inline void tim1_cc3_preload_enable(void) {
   TIM1->CCMR3 |= (1U << 3);
 }
 
-inline void tim1_capture_compare3_preload_disable(void) {
+inline void tim1_cc3_preload_disable(void) {
   TIM1->CCMR3 &= ~(1U << 3);
 }
 
@@ -1403,29 +1403,29 @@ typedef enum {
 
 #define TIM1_CC4_CHANNEL_MODE_CLR_MASK 0xFC
 
-inline void tim1_capture_compare4_channel_mode_set(TIM1_CC4_CHANNEL_MODE mode) {
+inline void tim1_cc4_channel_mode_set(TIM1_CC4_CHANNEL_MODE mode) {
   TIM1->CCMR4 = (TIM1->CCMR4 & TIM1_CC4_CHANNEL_MODE_CLR_MASK) | mode;
 }
 
-inline TIM1_CC4_CHANNEL_MODE tim1_capture_compare4_channel_mode_read(void) {
+inline TIM1_CC4_CHANNEL_MODE tim1_cc4_channel_mode_read(void) {
   return (TIM1_CC4_CHANNEL_MODE)(TIM1->CCMR4 & 0x03);
 }
 
 /* Output Mode */
-inline void tim1_capture_compare4_fast_enable(void) {
+inline void tim1_cc4_fast_enable(void) {
   TIM1->CCMR4 |= (1U << 2);
 }
 
-inline void tim1_capture_compare4_fast_disable(void) {
+inline void tim1_cc4_fast_disable(void) {
   TIM1->CCMR4 &= ~(1U << 2);
 }
 
 
-inline void tim1_capture_compare4_preload_enable(void) {
+inline void tim1_cc4_preload_enable(void) {
   TIM1->CCMR4 |= (1U << 3);
 }
 
-inline void tim1_capture_compare4_preload_disable(void) {
+inline void tim1_cc4_preload_disable(void) {
   TIM1->CCMR4 &= ~(1U << 3);
 }
 
@@ -1477,17 +1477,17 @@ inline TIM1_INPUT_CAPTURE_FILTER tim1_input_capture4_filter_read(void) {
 typedef enum {
   TIM1_CC1 = 0,
   TIM1_CC2 = 4
-} TIM1_CAPTURE_COMPARE_1_2_OUTPUT_ENABLE;
+} TIM1_CC_1_2_OUTPUT_ENABLE;
 
-inline void tim1_capture_compare_1_2_output_enable(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_1_2_output_enable(TIM1_CC_1_2_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER1 |= (1U << cc_enable);
 }
 
-inline void tim1_capture_compare_1_2_output_disable(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_1_2_output_disable(TIM1_CC_1_2_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER1 &= ~(1U << cc_enable);
 }
 
-inline uint8_t tim1_capture_compare_1_2_output_is_enabled(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_ENABLE cc_enable) {
+inline uint8_t tim1_cc_1_2_output_is_enabled(TIM1_CC_1_2_OUTPUT_ENABLE cc_enable) {
   return ((TIM1->CCER1 >> cc_enable) & 1);
 }
 
@@ -1495,17 +1495,17 @@ inline uint8_t tim1_capture_compare_1_2_output_is_enabled(TIM1_CAPTURE_COMPARE_1
 typedef enum {
   TIM1_CC1_POLARITY = 1,
   TIM1_CC2_POLARITY = 5
-} TIM1_CAPTURE_COMPARE_1_2_OUTPUT_POLARITY;
+} TIM1_CC_1_2_OUTPUT_POLARITY;
 
-inline void tim1_capture_compare_1_2_output_polarity_high(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_1_2_output_polarity_high(TIM1_CC_1_2_OUTPUT_POLARITY polarity) {
   TIM1->CCER1 &= ~(1U << polarity);
 }
 
-inline void tim1_capture_compare_1_2_output_polarity_low(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_1_2_output_polarity_low(TIM1_CC_1_2_OUTPUT_POLARITY polarity) {
   TIM1->CCER1 |= (1U << polarity);
 }
 
-inline uint8_t tim1_capture_compare_1_2_output_polarity_is_high(TIM1_CAPTURE_COMPARE_1_2_OUTPUT_POLARITY polarity) {
+inline uint8_t tim1_cc_1_2_output_polarity_is_high(TIM1_CC_1_2_OUTPUT_POLARITY polarity) {
   return ((TIM1->CCER1 >> polarity) & 1) == 0;
 }
 
@@ -1513,17 +1513,17 @@ inline uint8_t tim1_capture_compare_1_2_output_polarity_is_high(TIM1_CAPTURE_COM
 typedef enum {
   TIM1_CC1_COMPLEMENTARY = 2,
   TIM1_CC2_COMPLEMENTARY = 6
-} TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_ENABLE;
+} TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_ENABLE;
 
-inline void tim1_capture_compare_1_2_complementary_output_enable(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_1_2_complementary_output_enable(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER1 |= (1U << cc_enable);
 }
 
-inline void tim1_capture_compare_1_2_complementary_output_disable(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_1_2_complementary_output_disable(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER1 &= ~(1U << cc_enable);
 }
 
-inline uint8_t tim1_capture_compare_1_2_complementary_output_is_enabled(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline uint8_t tim1_cc_1_2_complementary_output_is_enabled(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   return ((TIM1->CCER1 >> cc_enable) & 1);
 }
 
@@ -1531,17 +1531,17 @@ inline uint8_t tim1_capture_compare_1_2_complementary_output_is_enabled(TIM1_CAP
 typedef enum {
   TIM1_CC1_COMPLEMENTARY_POLARITY = 3,
   TIM1_CC2_COMPLEMENTARY_POLARITY = 7
-} TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_POLARITY;
+} TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_POLARITY;
 
-inline void tim1_capture_compare_1_2_complementary_output_polarity_high(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_1_2_complementary_output_polarity_high(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER1 &= ~(1U << polarity);
 }
 
-inline void tim1_capture_compare_1_2_complementary_output_polarity_low(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_1_2_complementary_output_polarity_low(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER1 |= (1U << polarity);
 }
 
-inline uint8_t tim1_capture_compare_1_2_complementary_output_polarity_is_high(TIM1_CAPTURE_COMPARE_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline uint8_t tim1_cc_1_2_complementary_output_polarity_is_high(TIM1_CC_1_2_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   return ((TIM1->CCER1 >> polarity) & 1) == 0;
 }
 
@@ -1551,17 +1551,17 @@ inline uint8_t tim1_capture_compare_1_2_complementary_output_polarity_is_high(TI
 typedef enum {
   TIM1_CC3 = 0,
   TIM1_CC4 = 4
-} TIM1_CAPTURE_COMPARE_3_4_OUTPUT_ENABLE;
+} TIM1_CC_3_4_OUTPUT_ENABLE;
 
-inline void tim1_capture_compare_3_4_output_enable(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_3_4_output_enable(TIM1_CC_3_4_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 |= (1U << cc_enable);
 }
 
-inline void tim1_capture_compare_3_4_output_disable(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_3_4_output_disable(TIM1_CC_3_4_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 &= ~(1U << cc_enable);
 }
 
-inline uint8_t tim1_capture_compare_3_4_output_is_enabled(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_ENABLE cc_enable) {
+inline uint8_t tim1_cc_3_4_output_is_enabled(TIM1_CC_3_4_OUTPUT_ENABLE cc_enable) {
   return ((TIM1->CCER2 >> cc_enable) & 1);
 }
 
@@ -1569,51 +1569,51 @@ inline uint8_t tim1_capture_compare_3_4_output_is_enabled(TIM1_CAPTURE_COMPARE_3
 typedef enum {
   TIM1_CC3_POLARITY = 1,
   TIM1_CC4_POLARITY = 5
-} TIM1_CAPTURE_COMPARE_3_4_OUTPUT_POLARITY;
+} TIM1_CC_3_4_OUTPUT_POLARITY;
 
-inline void tim1_capture_compare_3_4_output_polarity_high(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_3_4_output_polarity_high(TIM1_CC_3_4_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 &= ~(1U << polarity);
 }
 
-inline void tim1_capture_compare_3_4_output_polarity_low(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_3_4_output_polarity_low(TIM1_CC_3_4_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 |= (1U << polarity);
 }
 
-inline uint8_t tim1_capture_compare_3_4_output_polarity_is_high(TIM1_CAPTURE_COMPARE_3_4_OUTPUT_POLARITY polarity) {
+inline uint8_t tim1_cc_3_4_output_polarity_is_high(TIM1_CC_3_4_OUTPUT_POLARITY polarity) {
   return ((TIM1->CCER2 >> polarity) & 1) == 0;
 } 
 
 
 typedef enum {
   TIM1_CC3_COMPLEMENTARY = 2  
-} TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE;
+} TIM1_CC_3_COMPLEMENTARY_OUTPUT_ENABLE;
 
-inline void tim1_capture_compare_3_complementary_output_enable(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_3_complementary_output_enable(TIM1_CC_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 |= (1U << cc_enable);
 }
 
-inline void tim1_capture_compare_3_complementary_output_disable(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline void tim1_cc_3_complementary_output_disable(TIM1_CC_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   TIM1->CCER2 &= ~(1U << cc_enable);
 }
 
-inline uint8_t tim1_capture_compare_3_complementary_output_is_enabled(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
+inline uint8_t tim1_cc_3_complementary_output_is_enabled(TIM1_CC_3_COMPLEMENTARY_OUTPUT_ENABLE cc_enable) {
   return ((TIM1->CCER2 >> cc_enable) & 1);
 }
 
 
 typedef enum {
   TIM1_CC3_COMPLEMENTARY_POLARITY = 3  
-} TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY;
+} TIM1_CC_3_COMPLEMENTARY_OUTPUT_POLARITY;
 
-inline void tim1_capture_compare_3_complementary_output_polarity_high(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_3_complementary_output_polarity_high(TIM1_CC_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 &= ~(1U << polarity);
 }
 
-inline void tim1_capture_compare_3_complementary_output_polarity_low(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline void tim1_cc_3_complementary_output_polarity_low(TIM1_CC_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   TIM1->CCER2 |= (1U << polarity);
 }
 
-inline uint8_t tim1_capture_compare_3_complementary_output_polarity_is_high(TIM1_CAPTURE_COMPARE_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
+inline uint8_t tim1_cc_3_complementary_output_polarity_is_high(TIM1_CC_3_COMPLEMENTARY_OUTPUT_POLARITY polarity) {
   return ((TIM1->CCER2 >> polarity) & 1) == 0;
 }
 
@@ -1679,13 +1679,13 @@ inline uint8_t tim1_repetition_counter_read(void) {
 
 
 /* TIM1 Capture/Compare Register 1 (CCR1H/CCR1L) */
-inline void tim1_capture_compare1_write(uint16_t value) {
+inline void tim1_cc1_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM1->CCR1H = (uint8_t)((value >> 8) & 0xFF);
   TIM1->CCR1L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim1_capture_compare1_read(void) {
+inline uint16_t tim1_cc1_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM1->CCR1H; 
   uint8_t low_byte = TIM1->CCR1L;  
@@ -1695,13 +1695,13 @@ inline uint16_t tim1_capture_compare1_read(void) {
 
 
 /* TIM1 Capture/Compare Register 2 (CCR2H/CCR2L) */
-inline void tim1_capture_compare2_write(uint16_t value) {
+inline void tim1_cc2_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM1->CCR2H = (uint8_t)((value >> 8) & 0xFF);
   TIM1->CCR2L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim1_capture_compare2_read(void) {
+inline uint16_t tim1_cc2_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM1->CCR2H; 
   uint8_t low_byte = TIM1->CCR2L;  
@@ -1711,13 +1711,13 @@ inline uint16_t tim1_capture_compare2_read(void) {
 
 
 /* TIM1 Capture/Compare Register 3 (CCR3H/CCR3L) */
-inline void tim1_capture_compare3_write(uint16_t value) {
+inline void tim1_cc3_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM1->CCR3H = (uint8_t)((value >> 8) & 0xFF);
   TIM1->CCR3L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim1_capture_compare3_read(void) {
+inline uint16_t tim1_cc3_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM1->CCR3H; 
   uint8_t low_byte = TIM1->CCR3L;  
@@ -1727,13 +1727,13 @@ inline uint16_t tim1_capture_compare3_read(void) {
 
 
 /* TIM1 Capture/Compare Register 4 (CCR4H/CCR4L) */
-inline void tim1_capture_compare4_write(uint16_t value) {
+inline void tim1_cc4_write(uint16_t value) {
   // Write high byte first to automatically latch the low byte
   TIM1->CCR4H = (uint8_t)((value >> 8) & 0xFF);
   TIM1->CCR4L = (uint8_t)(value & 0xFF);
 }
 
-inline uint16_t tim1_capture_compare4_read(void) {
+inline uint16_t tim1_cc4_read(void) {
   // Read high byte first to automatically latch the low byte
   uint8_t high_byte = TIM1->CCR4H; 
   uint8_t low_byte = TIM1->CCR4L;  
