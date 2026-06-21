@@ -32,6 +32,19 @@ typedef struct {
 
 
 
+/*=============================================================*
+ * 
+ * Clock Public API Declarations BEGIN 
+ *
+ *=============================================================*/
+
+uint32_t clk_fmaster_freq_get(void);
+
+/*=============================================================*
+ * Clock Public API Declarations END
+ *=============================================================*/
+
+
 /* Main voltage regulator (MVR) */
 inline void clk_active_halt_mvr_enable(void) {
   CLK->ICKR &= ~(1U << 5);
@@ -118,19 +131,19 @@ inline void clk_hse_osc_disable(void) {
 
 
 /* Clock master status register (CLK_CMSR) */
-inline uint8_t clk_master_clock_get_source(void) {
-  return CLK->CMSR;
-}
-
-/* Clock master switch register (CLK_SWR) */
 /* Clock Master Source Selection and Comparision Constants */
 typedef enum {
   CLK_MASTER_SRC_HSI = 0xE1,
   CLK_MASTER_SRC_LSI = 0xD2,
   CLK_MASTER_SRC_HSE = 0xB4
-} MASTER_CLK_SRC;
+} CLK_MASTER_SRC;
 
-inline void clk_master_switch_src(MASTER_CLK_SRC src) {
+inline CLK_MASTER_SRC clk_master_get_source(void) {
+  return (CLK_MASTER_SRC)CLK->CMSR;
+}
+
+/* Clock master switch register (CLK_SWR) */
+inline void clk_master_switch_src(CLK_MASTER_SRC src) {
   CLK->SWR = src;
 }
 
