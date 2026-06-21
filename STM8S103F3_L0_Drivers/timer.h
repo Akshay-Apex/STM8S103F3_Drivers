@@ -198,8 +198,19 @@ inline uint8_t tim4_counter_read(void) {
 
 
 /* TIM4 prescaler register (PSCR) */
-inline void tim4_prescaler_set(uint8_t value) {
-  TIM4->PSCR = value & 0x0F;
+typedef enum {
+  TIM4_PRESCALER_1   = 0x00, // No prescaling
+  TIM4_PRESCALER_2   = 0x01, // Clock divided by 2
+  TIM4_PRESCALER_4   = 0x02, // Clock divided by 4
+  TIM4_PRESCALER_8   = 0x03, // Clock divided by 8
+  TIM4_PRESCALER_16  = 0x04, // Clock divided by 16
+  TIM4_PRESCALER_32  = 0x05, // Clock divided by 32
+  TIM4_PRESCALER_64  = 0x06, // Clock divided by 64
+  TIM4_PRESCALER_128 = 0x07  // Clock divided by 128
+} TIM4_PRESCALER_MODES;
+
+inline void tim4_prescaler_set(TIM4_PRESCALER_MODES value) {
+  TIM4->PSCR = value;
 }
 
 inline uint8_t tim4_prescaler_read(void) {
