@@ -104,7 +104,12 @@ typedef struct {
 
 
 
-/* TIM4 Timer Functions */
+/*=============================================================*
+ * 
+ * TIM4 - 8-bit Basic Timer
+ *
+ *=============================================================*/
+
 /* TIM4 control register 1 (CR1) */
 inline void tim4_counter_enable(void) {
   TIM4->CR1 |= (1U << 0);
@@ -214,7 +219,12 @@ inline uint8_t tim4_auto_reload_read(void) {
 
 
 
-/* TIM2 Timer Functions */
+/*=============================================================*
+ *
+ * TIM2 - 16-bit General Purpose Timer
+ *
+ *=============================================================*/
+
 /* TIM2 control register 1 (CR1) */
 inline void tim2_counter_enable(void) {
   TIM2->CR1 |= (1U << 0);
@@ -761,6 +771,12 @@ inline uint16_t tim2_cc3_read(void) {
 }
 
 
+
+/*=============================================================*
+ *
+ * TIM1 - 16-bit Advanced Control Timer
+ *
+ *=============================================================*/
 
 /* TIM1 Control Register 1 (CR1) */
 inline void tim1_counter_enable(void) {
