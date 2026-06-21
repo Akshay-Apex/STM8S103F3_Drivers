@@ -21,8 +21,8 @@ void time_delay_us(uint16_t us) {
   tim4_prescaler_set(prescaler);
 
   while(us > 0) {
-    uint8_t chunk = (us >= 256) ? 255 : (us - 1);
-    tim4_auto_reload_set(chunk);
+    uint16_t chunk = (us >= 256) ? 256 : us;
+    tim4_auto_reload_set((chunk - 1));
     tim4_update_event_generate();
     tim4_update_irq_flag_clear();
 
@@ -31,7 +31,7 @@ void time_delay_us(uint16_t us) {
     while(!tim4_update_irq_flag_read());
 
     tim4_counter_disable();
-    us -= (chunk + 1);
+    us -= chunk;
   }  
 
   tim4_update_irq_flag_clear();  
