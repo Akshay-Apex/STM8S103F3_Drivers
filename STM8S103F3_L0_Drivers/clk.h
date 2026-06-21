@@ -30,71 +30,7 @@ typedef struct {
 
 #define CLK ((CLK_REG *)0x50C0) // Base address binding of clock registers
 
-/* HSI Divider Values */
-typedef enum {
-  CLK_HSI_DIV_1 = 0,
-  CLK_HSI_DIV_2 = 1,
-  CLK_HSI_DIV_4 = 2,
-  CLK_HSI_DIV_8 = 3
-} HSI_DIV_PRESCALAR;
 
-/* CPU Divider Values */
-typedef enum {
-  CLK_CPU_DIV_1   = 0,
-  CLK_CPU_DIV_2   = 1,
-  CLK_CPU_DIV_4   = 2,
-  CLK_CPU_DIV_8   = 3,
-  CLK_CPU_DIV_16  = 4,
-  CLK_CPU_DIV_32  = 5,
-  CLK_CPU_DIV_64  = 6,
-  CLK_CPU_DIV_128 = 7
-} CPU_DIV_PRESCALAR;
-
-#define CLK_CKDIVR_CPU_CLR_MASK 0xF8
-#define CLK_CKDIVR_HSI_CLR_MASK 0xE7
-
-
-/* Clock Master Source Selection and Comparision Constants */
-typedef enum {
-  CLK_MASTER_SRC_HSI = 0xE1,
-  CLK_MASTER_SRC_LSI = 0xD2,
-  CLK_MASTER_SRC_HSE = 0xB4
-} MASTER_CLK_SRC;
-
-
-/* Peripheral clock gating bit assignments in CLK_PCKENR1/2 registers */
-typedef enum {
-  I2C   = 0,
-  SPI   = 1,
-  UART1 = 3,
-  TIM4  = 4,
-  TIM2  = 5,
-  TIM1  = 7
-} PERIPHERAL_1_CLK;
-
-typedef enum {
-  AWU = 2,
-  ADC = 3  
-} PERIPHERAL_2_CLK;
-
-
-/* Configurable clock output selection */
-typedef enum {
-  CLK_CCO_HSIDIV      = 0,
-  CLK_CCO_LSI         = 1,
-  CLK_CCO_HSE         = 2,
-  CLK_CCO_CPU         = 4,
-  CLK_CCO_CPU_DIV_2   = 5,
-  CLK_CCO_CPU_DIV_4   = 6,
-  CLK_CCO_CPU_DIV_8   = 7,
-  CLK_CCO_CPU_DIV_16  = 8,
-  CLK_CCO_CPU_DIV_32  = 9,
-  CLK_CCO_CPU_DIV_64  = 10,
-  CLK_CCO_HSI         = 11,
-  CLK_CCO_MASTER      = 12
-} CLK_CCO_SOURCE;
-
-#define CLK_HSI_TRIM_CLR_MASK 0xF8 
 
 /* Main voltage regulator (MVR) */
 inline void clk_active_halt_mvr_enable(void) {
@@ -187,6 +123,13 @@ inline uint8_t clk_master_clock_get_source(void) {
 }
 
 /* Clock master switch register (CLK_SWR) */
+/* Clock Master Source Selection and Comparision Constants */
+typedef enum {
+  CLK_MASTER_SRC_HSI = 0xE1,
+  CLK_MASTER_SRC_LSI = 0xD2,
+  CLK_MASTER_SRC_HSE = 0xB4
+} MASTER_CLK_SRC;
+
 inline void clk_master_switch_src(MASTER_CLK_SRC src) {
   CLK->SWR = src;
 }
@@ -232,6 +175,20 @@ inline void clk_switch_irq_flag_clear(void) {
 
 
 /* Clock divider register (CLK_CKDIVR) */
+/* CPU Divider Values */
+typedef enum {
+  CLK_CPU_DIV_1   = 0,
+  CLK_CPU_DIV_2   = 1,
+  CLK_CPU_DIV_4   = 2,
+  CLK_CPU_DIV_8   = 3,
+  CLK_CPU_DIV_16  = 4,
+  CLK_CPU_DIV_32  = 5,
+  CLK_CPU_DIV_64  = 6,
+  CLK_CPU_DIV_128 = 7
+} CPU_DIV_PRESCALAR;
+
+#define CLK_CKDIVR_CPU_CLR_MASK 0xF8
+
 inline void clk_cpu_div_prescalar_set(CPU_DIV_PRESCALAR value) {
   CLK->CKDIVR = ((CLK->CKDIVR & CLK_CKDIVR_CPU_CLR_MASK) | ((uint8_t)value) << 0);
 }
@@ -239,6 +196,17 @@ inline void clk_cpu_div_prescalar_set(CPU_DIV_PRESCALAR value) {
 inline CPU_DIV_PRESCALAR clk_cpu_div_prescalar_read(void) {
   return ((CPU_DIV_PRESCALAR)(CLK->CKDIVR & ~(CLK_CKDIVR_CPU_CLR_MASK)));
 }
+
+
+/* HSI Divider Values */
+typedef enum {
+  CLK_HSI_DIV_1 = 0,
+  CLK_HSI_DIV_2 = 1,
+  CLK_HSI_DIV_4 = 2,
+  CLK_HSI_DIV_8 = 3
+} HSI_DIV_PRESCALAR;
+
+#define CLK_CKDIVR_HSI_CLR_MASK 0xE7
 
 inline void clk_hsi_div_prescalar_set(HSI_DIV_PRESCALAR value) {
   CLK->CKDIVR = (CLK->CKDIVR & CLK_CKDIVR_HSI_CLR_MASK) | ((uint8_t)value << 3);
@@ -256,6 +224,16 @@ inline void  clk_hsi_and_cpu_div_prescalar_set(HSI_DIV_PRESCALAR hsi_value, CPU_
 
 
 /* Peripheral clock gating register 1 (CLK_PCKENR1) */
+/* Peripheral clock gating bit assignments in CLK_PCKENR1/2 registers */
+typedef enum {
+  I2C   = 0,
+  SPI   = 1,
+  UART1 = 3,
+  TIM4  = 4,
+  TIM2  = 5,
+  TIM1  = 7
+} PERIPHERAL_1_CLK;
+
 inline void clk_periph_1_clock_enable(PERIPHERAL_1_CLK periph) {
   CLK->PCKENR1 |= (1U << periph);
 }
@@ -263,6 +241,11 @@ inline void clk_periph_1_clock_enable(PERIPHERAL_1_CLK periph) {
 inline void clk_periph_1_clock_disable(PERIPHERAL_1_CLK periph) {
   CLK->PCKENR1 &= ~(1U << periph);
 }
+
+typedef enum {
+  AWU = 2,
+  ADC = 3  
+} PERIPHERAL_2_CLK;
 
 inline void clk_periph_2_clock_enable(PERIPHERAL_2_CLK periph) {
   CLK->PCKENR2 |= (1U << periph);
@@ -314,6 +297,22 @@ inline void clk_configurable_clock_output_disable(void) {
   CLK->CCOR &= ~(1U << 0);
 }
 
+/* Configurable clock output selection */
+typedef enum {
+  CLK_CCO_HSIDIV      = 0,
+  CLK_CCO_LSI         = 1,
+  CLK_CCO_HSE         = 2,
+  CLK_CCO_CPU         = 4,
+  CLK_CCO_CPU_DIV_2   = 5,
+  CLK_CCO_CPU_DIV_4   = 6,
+  CLK_CCO_CPU_DIV_8   = 7,
+  CLK_CCO_CPU_DIV_16  = 8,
+  CLK_CCO_CPU_DIV_32  = 9,
+  CLK_CCO_CPU_DIV_64  = 10,
+  CLK_CCO_HSI         = 11,
+  CLK_CCO_MASTER      = 12
+} CLK_CCO_SOURCE;
+
 inline void clk_output_source_set(CLK_CCO_SOURCE source) {
     CLK->CCOR = (CLK->CCOR & ~(0x0F << 1)) | ((uint8_t)source << 1);
 }
@@ -329,6 +328,8 @@ inline uint8_t clk_configurable_clock_output_src_is_switching(void) {
 
 
 /* HSI clock calibration trimming register (CLK_HSITRIMR) */
+#define CLK_HSI_TRIM_CLR_MASK 0xF8 
+
 inline void clk_hsi_osc_trim_value_set(uint8_t trim_val) {
   CLK->HSITRIMR = ((CLK->HSITRIMR & CLK_HSI_TRIM_CLR_MASK) | (trim_val & 0x07));
 }
