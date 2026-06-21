@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "STM8-SDCC-4.5.0",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "defines": [
+        "__SDCC",
+        "__STM8",
+        "__SDCC_VERSION=40500"
+      ],
+      "compilerPath": "C:\\Program Files\\SDCC\\bin\\sdcc.exe",
+      "cStandard": "c99",
+      "intelliSenseMode": "windows-gcc-x64"
+    }
+  ],
+  "version": 4
+}
