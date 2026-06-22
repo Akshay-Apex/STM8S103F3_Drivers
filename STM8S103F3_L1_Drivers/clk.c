@@ -7,21 +7,21 @@
  *
  *=============================================================*/
 
-/*@Important: Returns 0 if the selected clock source is HSE */
-uint32_t clk_fmaster_freq_get(void) {
+uint16_t clk_fmaster_freq_khz_get(void) {
   CLK_MASTER_SRC fmaster_src = clk_master_get_source();
-  uint32_t base_freq = 0;
+  uint16_t base_freq = 0;
 
   if(fmaster_src == CLK_MASTER_SRC_HSE) {
-    return base_freq;    
+    return HSE_OSC_FREQ_KHZ;    
 
   } else if(fmaster_src == CLK_MASTER_SRC_HSI) {
-    const uint32_t HSI_MAX_FREQ = 16000000UL;
-    HSI_DIV_PRESCALAR hsi_div_psc = clk_hsi_div_prescalar_read();    
+    const uint16_t HSI_MAX_FREQ = 16000U;
+    HSI_DIV_PRESCALAR hsi_div_psc = clk_hsi_div_prescalar_read();  
+    // Divides the max HSI frequency by the prescaler to get the base frequency   
     base_freq = (HSI_MAX_FREQ >> hsi_div_psc);
     
   } else if(fmaster_src == CLK_MASTER_SRC_LSI) {
-    base_freq = 128000UL;    
+    base_freq = 128U;    
   }
 
   return base_freq;

@@ -30,7 +30,8 @@ typedef struct {
 
 #define CLK ((CLK_REG *)0x50C0) // Base address binding of clock registers
 
-
+/* Global Variables and constants */
+uint16_t HSE_OSC_FREQ_KHZ = 0;
 
 /*=============================================================*
  * 
@@ -120,7 +121,8 @@ inline uint8_t clk_hse_osc_is_ready(void) {
   return ((CLK->ECKR >> 1) & 1);
 }
 
-inline void clk_hse_osc_enable(void) {
+inline void clk_hse_osc_enable(uint16_t hse_osc_crystal_freq) {
+  HSE_OSC_FREQ_KHZ = hse_osc_crystal_freq;
   CLK->ECKR |= (1U << 0);
 }
 
