@@ -30,14 +30,15 @@ typedef struct {
 
 #define CLK ((CLK_REG *)0x50C0) // Base address binding of clock registers
 
-/* Global Variables and constants */
-extern uint16_t HSE_OSC_FREQ_KHZ;
 
 /*=============================================================*
- * 
- * Clock Public API Declarations BEGIN 
- *
- *=============================================================*/
+* 
+* Clock Public API Declarations BEGIN 
+*
+*=============================================================*/
+
+/* Global Variable and Constant Declarations */
+extern uint16_t HSE_OSC_FREQ_KHZ;
 
 uint16_t clk_fmaster_freq_khz_get(void);
 

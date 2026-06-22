@@ -1,12 +1,12 @@
-#include "../STM8S103F3_L0_Drivers/clk.h"
-
+#include "./clk.h"
 
 /*=============================================================*
  * 
- * Clock Public API Definitions BEGIN 
+ * Clock Public API Definitions 
  *
  *=============================================================*/
-/* Definition of global clock frequency variable (shared via extern in clk.h) */
+
+/* Definition of global clock frequency variables (shared via extern in clk.h) */
 uint16_t HSE_OSC_FREQ_KHZ = 0;
 
 
