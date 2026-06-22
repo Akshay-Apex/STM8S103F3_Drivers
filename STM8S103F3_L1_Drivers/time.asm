@@ -11,7 +11,7 @@
 	.globl _time_delay_sec
 	.globl _time_delay_ms
 	.globl _time_delay_us
-	.globl _clk_fmaster_freq_get
+	.globl _clk_fmaster_freq_khz_get
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
@@ -94,36 +94,22 @@ __sdcc_program_startup:
 ;	 function time_delay_us
 ;	-----------------------------------------
 _time_delay_us:
-	sub	sp, #10
-	ldw	(0x09, sp), x
-;	.\time.c: 7: uint32_t fmaster_freq = clk_fmaster_freq_get();
-	call	_clk_fmaster_freq_get
+	sub	sp, #6
+	ldw	(0x05, sp), x
+;	.\time.c: 7: uint16_t fmaster_freq_khz = clk_fmaster_freq_khz_get();
+	call	_clk_fmaster_freq_khz_get
+	ldw	(0x01, sp), x
 	ldw	(0x03, sp), x
-	ldw	(0x01, sp), y
-	ldw	y, (0x03, sp)
-	ldw	(0x07, sp), y
-	ldw	y, (0x01, sp)
-	ldw	(0x05, sp), y
-;	.\time.c: 9: if(fmaster_freq == 0 || us == 0) {
-	ldw	x, (0x03, sp)
-	jrne	00182$
+;	.\time.c: 9: if(fmaster_freq_khz == 0 || us == 0) {
 	ldw	x, (0x01, sp)
 	jreq	00121$
-00182$:
-	ldw	x, (0x09, sp)
+	ldw	x, (0x05, sp)
 ;	.\time.c: 10: return;
 	jreq	00121$
-;	.\time.c: 13: uint8_t divisor = fmaster_freq / 1000000UL;
-	push	#0x40
-	push	#0x42
-	push	#0x0f
-	push	#0x00
-	ldw	x, (0x0b, sp)
-	pushw	x
-	ldw	x, (0x0b, sp)
-	pushw	x
-	call	__divulong
-	addw	sp, #8
+;	.\time.c: 13: uint8_t divisor = fmaster_freq_khz / 1000U;  
+	ldw	x, (0x03, sp)
+	ldw	y, #0x03e8
+	divw	x, y
 ;	.\time.c: 16: while(divisor > 1) {
 	clr	a
 00104$:
@@ -144,20 +130,20 @@ _time_delay_us:
 	ld	0x5347, a
 ;	.\time.c: 23: while(us > 0) {
 00110$:
-	ldw	x, (0x09, sp)
+	ldw	x, (0x05, sp)
 	jreq	00112$
 ;	.\time.c: 24: uint16_t chunk = (us >= 256) ? 256 : us;
-	ldw	x, (0x09, sp)
+	ldw	x, (0x05, sp)
 	cpw	x, #0x0100
 	jrc	00123$
 	ldw	x, #0x0100
 	.byte 0xc5
 00123$:
-	ldw	x, (0x09, sp)
+	ldw	x, (0x05, sp)
 00124$:
-	ldw	(0x07, sp), x
+	ldw	(0x03, sp), x
 ;	.\time.c: 25: tim4_auto_reload_set((chunk - 1));
-	ld	a, (0x08, sp)
+	ld	a, (0x04, sp)
 	dec	a
 ;	.\../STM8S103F3_L0_Drivers/timer.h: 224: TIM4->ARR = value;
 	ld	0x5348, a
@@ -175,9 +161,9 @@ _time_delay_us:
 ;	.\../STM8S103F3_L0_Drivers/timer.h: 119: TIM4->CR1 &= ~(1U << 0);
 	bres	0x5340, #0
 ;	.\time.c: 34: us -= chunk;
-	ldw	x, (0x09, sp)
-	subw	x, (0x07, sp)
-	ldw	(0x09, sp), x
+	ldw	x, (0x05, sp)
+	subw	x, (0x03, sp)
+	ldw	(0x05, sp), x
 	jra	00110$
 00112$:
 ;	.\../STM8S103F3_L0_Drivers/timer.h: 173: TIM4->SR &= ~(1U << 0);
@@ -185,7 +171,7 @@ _time_delay_us:
 ;	.\time.c: 37: tim4_update_irq_flag_clear();  
 00121$:
 ;	.\time.c: 38: }
-	addw	sp, #10
+	addw	sp, #6
 	ret
 ;	.\time.c: 41: void time_delay_ms(uint16_t ms) {
 ;	-----------------------------------------
@@ -234,9 +220,9 @@ _time_delay_sec:
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	.\time.c: 56: time_delay_ms(250);
+;	.\time.c: 56: time_delay_us(250);
 	ldw	x, #0x00fa
-	call	_time_delay_ms
+	call	_time_delay_us
 ;	.\time.c: 58: while(1);
 00102$:
 	jra	00102$

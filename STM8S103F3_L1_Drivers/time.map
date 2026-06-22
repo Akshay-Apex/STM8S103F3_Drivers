@@ -12,8 +12,6 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  l_CONST                         
      00000000  l_DABS                          
      00000000  l_DATA                          
-     00000000  l_INITIALIZED                   
-     00000000  l_INITIALIZER                   
      00000000  l__CODE                         
      00000000  s_CABS                          
      00000000  s_DABS                          
@@ -21,33 +19,37 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000001  l_SSEG                          
      00000001  s_DATA                          
      00000001  s_INITIALIZED                   
-     00000001  s_SSEG                          
+     00000002  l_INITIALIZED                   
+     00000002  l_INITIALIZER                   
      00000003  l_GSFINAL                       
+     00000003  s_SSEG                          
      00000007  l_HOME                          
      00000023  l_GSINIT                        
-     00000153  l_CODE                          
+     000000C3  l_CODE                          
      00008000  s_HOME                          
      00008007  s_GSINIT                        
      0000802A  s_GSFINAL                       
-     0000802D  s_CODE                          
      0000802D  s_CONST                         
      0000802D  s_INITIALIZER                   
+     0000802F  s_CODE                          
 
 ASxxxx Linker V03.00/V05.40 + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-SSEG                                00000001    00000001 =           1. bytes (REL,CON)
+INITIALIZED                         00000001    00000002 =           2. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
+     00000001  _HSE_OSC_FREQ_KHZ                  clk
+
 ASxxxx Linker V03.00/V05.40 + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-HOME                                00008000    00000007 =           7. bytes (REL,CON)
+SSEG                                00000003    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -56,7 +58,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-GSINIT                              00008007    00000023 =          35. bytes (REL,CON)
+HOME                                00008000    00000007 =           7. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -65,7 +67,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-GSFINAL                             0000802A    00000003 =           3. bytes (REL,CON)
+GSINIT                              00008007    00000023 =          35. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -74,19 +76,35 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CODE                                0000802D    00000153 =         339. bytes (REL,CON)
+GSFINAL                             0000802A    00000003 =           3. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000802D  _time_delay_us                     time
-     000080AE  _time_delay_ms                     time
-     000080C1  _time_delay_sec                    time
-     000080D4  _main                              time
-     000080DD  _clk_fmaster_freq_get              clk
-     00008123  __divulong                         _divulong
-     0000817E  ___sdcc_external_startup           _startup
-
 ASxxxx Linker V03.00/V05.40 + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZER                         0000802D    00000002 =           2. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00/V05.40 + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                0000802F    000000C3 =         195. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000802F  _time_delay_us                     time
+     00008098  _time_delay_ms                     time
+     000080AB  _time_delay_sec                    time
+     000080BE  _main                              time
+     000080C7  _clk_fmaster_freq_khz_get          clk
+     000080F0  ___sdcc_external_startup           _startup
+ASxxxx Linker V03.00/V05.40 + sdld,  page 9.
 
 Files Linked                              [ module(s) ]
 
@@ -97,11 +115,9 @@ time.rel                                  [ time ]
 Libraries Linked                          [ object file ]
 
 C:\Program Files\SDCC\bin\..\lib\stm8/stm8.lib
-                                          [ _divulong.rel ]
-C:\Program Files\SDCC\bin\..\lib\stm8/stm8.lib
                                           [ _startup.rel ]
 
-ASxxxx Linker V03.00/V05.40 + sdld,  page 8.
+ASxxxx Linker V03.00/V05.40 + sdld,  page 10.
 
 User Base Address Definitions
 

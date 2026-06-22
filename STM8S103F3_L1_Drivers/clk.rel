@@ -1,48 +1,51 @@
 XH3
-H B areas 2 global symbols
+H B areas 3 global symbols
 M clk
 S .__.ABS. Def000000
 A _CODE size 0 flags 0 addr 0
 A DATA size 0 flags 0 addr 0
-A INITIALIZED size 0 flags 0 addr 0
+A INITIALIZED size 2 flags 0 addr 0
+S _HSE_OSC_FREQ_KHZ Def000000
 A DABS size 0 flags 8 addr 0
 A HOME size 0 flags 0 addr 0
 A GSINIT size 0 flags 0 addr 0
 A GSFINAL size 0 flags 0 addr 0
 A CONST size 0 flags 0 addr 0
-A INITIALIZER size 0 flags 0 addr 0
-A CODE size 46 flags 0 addr 0
-S _clk_fmaster_freq_get Def000000
+A INITIALIZER size 2 flags 0 addr 0
+A CODE size 29 flags 0 addr 0
+S _clk_fmaster_freq_khz_get Def000000
 A CABS size 0 flags 8 addr 0
 T 00 00 00
+R 00 00 00 02
+T 00 00 00
+R 00 00 00 02
+T 00 00 00
 R 00 00 00 09
-T 00 00 00 52 04 C6 50 C3 5F 1F 03 1F 01 A1 B4 26
+T 00 00 00 C6 50 C3 A1 B4 26 04 CE 00 00 81
+R 00 00 00 09 10 0B 00 02
+T 00 00 0B
 R 00 00 00 09
-T 00 00 0D 05 5F 90 5F 20 30
+T 00 00 0B A1 E1 26 10 C6 50 C6 A4 18 AE 3E 80 4D
 R 00 00 00 09
-T 00 00 13
+T 00 00 18 27 04
 R 00 00 00 09
-T 00 00 13 A1 E1 26 1B C6 50 C6 A4 18 AE 24 00 90
+T 00 00 1A
 R 00 00 00 09
-T 00 00 20 AE 00 F4 4D 27 06
+T 00 00 1A 54 4A 26 FC
 R 00 00 00 09
-T 00 00 26
+T 00 00 1E
 R 00 00 00 09
-T 00 00 26 90 54 56 4A 26 FA
+T 00 00 1E 81
 R 00 00 00 09
-T 00 00 2C
+T 00 00 1F
 R 00 00 00 09
-T 00 00 2C 1F 03 17 01 20 0D
+T 00 00 1F A1 D2 26 04 AE 00 80 81
 R 00 00 00 09
-T 00 00 32
+T 00 00 27
 R 00 00 00 09
-T 00 00 32 A1 D2 26 09 AE F4 00 1F 03 5F 5C 1F 01
+T 00 00 27 5F 81
 R 00 00 00 09
-T 00 00 3F
-R 00 00 00 09
-T 00 00 3F 1E 03 16 01
-R 00 00 00 09
-T 00 00 43
-R 00 00 00 09
-T 00 00 43 5B 04 81
-R 00 00 00 09
+T 00 00 00
+R 00 00 00 08
+T 00 00 00 00 00
+R 00 00 00 08
