@@ -242,19 +242,19 @@ inline void  clk_hsi_and_cpu_div_prescalar_set(HSI_DIV_PRESCALAR hsi_value, CPU_
 /* Peripheral clock gating register 1 (CLK_PCKENR1) */
 /* Peripheral clock gating bit assignments in CLK_PCKENR1/2 registers */
 typedef enum {
-  I2C   = 0,
-  SPI   = 1,
-  UART1 = 3,
-  TIM4  = 4,
-  TIM2  = 5,
-  TIM1  = 7
+  CLK_I2C   = 0,
+  CLK_SPI   = 1,
+  CLK_UART1 = 3,
+  CLK_TIM4  = 4,
+  CLK_TIM2  = 5,
+  CLK_TIM1  = 7
 } PERIPHERAL_1_CLK;
 
-inline void clk_periph_1_clock_enable(PERIPHERAL_1_CLK periph) {
+inline void clk_peripheral_1_clock_enable(PERIPHERAL_1_CLK periph) {
   CLK->PCKENR1 |= (1U << periph);
 }
 
-inline void clk_periph_1_clock_disable(PERIPHERAL_1_CLK periph) {
+inline void clk_peripheral_1_clock_disable(PERIPHERAL_1_CLK periph) {
   CLK->PCKENR1 &= ~(1U << periph);
 }
 
@@ -263,11 +263,11 @@ typedef enum {
   ADC = 3  
 } PERIPHERAL_2_CLK;
 
-inline void clk_periph_2_clock_enable(PERIPHERAL_2_CLK periph) {
+inline void clk_peripheral_2_clock_enable(PERIPHERAL_2_CLK periph) {
   CLK->PCKENR2 |= (1U << periph);
 }
 
-inline void clk_periph_2_clock_disable(PERIPHERAL_2_CLK periph) {
+inline void clk_peripheral_2_clock_disable(PERIPHERAL_2_CLK periph) {
   CLK->PCKENR2 &= ~(1U << periph);
 }
 
