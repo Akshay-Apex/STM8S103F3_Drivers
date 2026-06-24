@@ -11,13 +11,9 @@
 /* Definition of global time service variables (shared via extern in time.h) */
 uint8_t TIM4_PSC_VAL_FOR_1MHZ = 0;
 
+/* Timing Parameters Calibration Function */
 /*@Important: Call this function at every Clock (clk) Frequency Change */
-void time_init(void) {
-  /* Initialize the Peripheral clock gating enable */
-  clk_peripheral_1_clock_enable(CLK_TIM4);
-  clk_peripheral_1_clock_enable(CLK_TIM2);
-  clk_peripheral_1_clock_enable(CLK_TIM1);
-
+void time_timing_calibrate(void) {
   /* Initialize the TIM4 Prescaler to run the Counter at 1MHz (TIM4_PSC_VAL_FOR_1MHZ) */
   uint8_t fmaster_freq_mhz = (clk_fmaster_freq_khz_get() >> 10) + 1;
   TIM4_PSC_VAL_FOR_1MHZ = 0;
@@ -28,13 +24,20 @@ void time_init(void) {
 }
 
 
+/* Time INIT and DEINIT Functions */
+void time_init(void) {
+  /* Initialize the Peripheral clock gating enable */
+  clk_peripheral_1_clock_enable(CLK_TIM4);
+  clk_peripheral_1_clock_enable(CLK_TIM2);
+  clk_peripheral_1_clock_enable(CLK_TIM1);
+}
+
+
 void time_deinit(void) {
   /* Initialize the Peripheral clock gating enable */
   clk_peripheral_1_clock_disable(CLK_TIM4);
   clk_peripheral_1_clock_disable(CLK_TIM2);
   clk_peripheral_1_clock_disable(CLK_TIM1);
-
-  TIM4_PSC_VAL_FOR_1MHZ = 0;
 }
 
 
