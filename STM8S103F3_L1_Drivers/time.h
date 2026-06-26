@@ -15,10 +15,9 @@ extern uint8_t TIM4_PSC_VAL_FOR_1MHZ;
 /* Timing Parameters Calibration Function */
 void time_timing_calibrate(void);
 
-/* Time INIT and DEINIT Functions */
+/* Time Initialization Function */
 void time_init(void);
 
-void time_deinit(void);
 
 /* Low Precision Clock based delay functions */
 void time_delay_lsi_ms(uint16_t ms);

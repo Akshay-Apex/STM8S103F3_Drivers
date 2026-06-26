@@ -24,20 +24,9 @@ void time_timing_calibrate(void) {
 }
 
 
-/* Time INIT and DEINIT Functions */
-void time_init(void) {
-  /* Initialize the Peripheral clock gating enable */
-  clk_peripheral_1_clock_enable(CLK_TIM4);
-  clk_peripheral_1_clock_enable(CLK_TIM2);
-  clk_peripheral_1_clock_enable(CLK_TIM1);
-}
-
-
-void time_deinit(void) {
-  /* Initialize the Peripheral clock gating enable */
-  clk_peripheral_1_clock_disable(CLK_TIM4);
-  clk_peripheral_1_clock_disable(CLK_TIM2);
-  clk_peripheral_1_clock_disable(CLK_TIM1);
+/* Time Initialization Function */
+void time_init(void) {  
+  clk_peripheral_1_clock_enable(CLK_TIM4);  
 }
 
 
@@ -46,8 +35,8 @@ void time_deinit(void) {
 void time_delay_lsi_ms(uint16_t ms) {
   tim4_prescaler_set(TIM4_PRESCALER_1);
   tim4_counter_enable();
+  tim4_auto_reload_set(127U);
   while(ms--) {    
-    tim4_auto_reload_set(127U);
     // Resets the counter on every update generated
     tim4_update_event_generate();
     tim4_update_irq_flag_clear();
