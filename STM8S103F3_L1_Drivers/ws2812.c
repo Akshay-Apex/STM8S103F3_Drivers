@@ -37,24 +37,24 @@ void ws2812_timing_calibrate(void) {
 }
 
 
-void ws2812_init(uint8_t pin) {    
+void ws2812_init(WS2812_CHANNEL_PIN pin) {    
   gpio_out_push_pull_fast_mode(GPIO_D, pin);
   clk_peripheral_1_clock_enable(CLK_TIM2);  
   tim2_auto_reload_preload_enable();
 
-  if(pin == 4) {    
+  if(pin == WS2812_CH1_PD4) {    
     tim2_cc1_channel_mode_set(TIM2_CC1_OUTPUT);
     tim2_output_compare1_mode_set(TIM2_OC_PWM_MODE_1);
     tim2_cc1_preload_enable();
     tim2_cc1_enable();
 
-  } else if(pin == 3) {    
+  } else if(pin == WS2812_CH2_PD3) {    
     tim2_cc2_channel_mode_set(TIM2_CC2_OUTPUT);
     tim2_output_compare2_mode_set(TIM2_OC_PWM_MODE_1);
     tim2_cc2_preload_enable();
     tim2_cc2_enable();
 
-  } else if(pin == 2) {    
+  } else if(pin == WS2812_CH3_PD2) {    
     tim2_cc3_channel_mode_set(TIM2_CC3_OUTPUT);
     tim2_output_compare3_mode_set(TIM2_OC_PWM_MODE_1);
     tim2_cc3_preload_enable();

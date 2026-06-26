@@ -9,6 +9,14 @@
 *
 *=============================================================*/
 
+/* WS2812 Channel and Pin Selection */
+typedef enum {
+  WS2812_CH1_PD4 = 4,
+  WS2812_CH2_PD3 = 3,
+  WS2812_CH3_PD2 = 2
+} WS2812_CHANNEL_PIN;
+
+
 /* Global Variable and Constant Declarations */
 extern uint8_t TIM2_ARR;
 extern uint8_t TIM2_COMPARE_BIT_0;
@@ -20,7 +28,7 @@ void ws2812_timing_calibrate(void);
 
 
 /* WS2812 Initialization Function */
-void ws2812_init(uint8_t pin);
+void ws2812_init(WS2812_CHANNEL_PIN pin);
 
 
 /* WS2812 Write Functions */
