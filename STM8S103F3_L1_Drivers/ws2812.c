@@ -60,6 +60,8 @@ void ws2812_init(WS2812_CHANNEL_PIN pin) {
     tim2_cc3_preload_enable();
     tim2_cc3_enable();
   }
+
+  ws2812_timing_calibrate();
 }
 
 

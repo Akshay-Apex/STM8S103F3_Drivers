@@ -27,6 +27,7 @@ void time_timing_calibrate(void) {
 /* Time Initialization Function */
 void time_init(void) {  
   clk_peripheral_1_clock_enable(CLK_TIM4);  
+  time_timing_calibrate();
 }
 
 
