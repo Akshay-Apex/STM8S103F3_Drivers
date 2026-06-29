@@ -42,6 +42,15 @@ extern uint16_t HSE_OSC_FREQ_KHZ;
 
 uint16_t clk_fmaster_freq_khz_get(void);
 
+/* Clock Master Source Selection and Comparision Constants */
+typedef enum {
+  CLK_MASTER_SRC_HSI = 0xE1,
+  CLK_MASTER_SRC_LSI = 0xD2,
+  CLK_MASTER_SRC_HSE = 0xB4
+} CLK_MASTER_SRC;
+
+void clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC src);
+
 /*=============================================================*
  * Clock Public API Declarations END
  *=============================================================*/
@@ -134,13 +143,6 @@ inline void clk_hse_osc_disable(void) {
 
 
 /* Clock master status register (CLK_CMSR) */
-/* Clock Master Source Selection and Comparision Constants */
-typedef enum {
-  CLK_MASTER_SRC_HSI = 0xE1,
-  CLK_MASTER_SRC_LSI = 0xD2,
-  CLK_MASTER_SRC_HSE = 0xB4
-} CLK_MASTER_SRC;
-
 inline CLK_MASTER_SRC clk_master_get_source(void) {
   return (CLK_MASTER_SRC)CLK->CMSR;
 }

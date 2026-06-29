@@ -9,81 +9,117 @@
  *=============================================================*/
 
 /* Definition of global time service variables (shared via extern in time.h) */
-uint8_t TIM4_PSC_VAL_FOR_1MHZ = 0;
+uint8_t TIM4_PSC_VAL_FOR_125KHZ = 0;
+
 
 /* Timing Parameters Calibration Function */
 /*@Important: Call this function at every Clock (clk) Frequency Change */
-void time_timing_calibrate(void) {
-  /* Initialize the TIM4 Prescaler to run the Counter at 1MHz (TIM4_PSC_VAL_FOR_1MHZ) */
-  uint8_t fmaster_freq_mhz = (clk_fmaster_freq_khz_get() >> 10) + 1;
-  TIM4_PSC_VAL_FOR_1MHZ = 0;
-  while(fmaster_freq_mhz > 1) {
-    fmaster_freq_mhz >>= 1;
-    TIM4_PSC_VAL_FOR_1MHZ++;
+void time_timing_calibrate(void) {  
+  uint8_t fmaster_freq_mhz = (clk_fmaster_freq_khz_get() / 1000U);    
+
+  // Calculates the prescaler value for the timer 4 to run at 125KHz
+  switch(fmaster_freq_mhz) {
+    case 16:
+      TIM4_PSC_VAL_FOR_125KHZ = 7;
+      break;
+    case 8:
+      TIM4_PSC_VAL_FOR_125KHZ = 6;
+      break;
+    case 4:
+      TIM4_PSC_VAL_FOR_125KHZ = 5;
+      break;
+    case 2:
+      TIM4_PSC_VAL_FOR_125KHZ = 4;
+      break;
+    case 1:
+      TIM4_PSC_VAL_FOR_125KHZ = 3;
+      break;
+    default:
+      TIM4_PSC_VAL_FOR_125KHZ = 0;
+      break;
   }    
 }
-
-
+  
+  
 /* Time Initialization Function */
 void time_init(void) {  
   clk_peripheral_1_clock_enable(CLK_TIM4);  
+  tim4_auto_reload_preload_enable();      
   time_timing_calibrate();
 }
 
 
 /* Low Precision Clock based delay functions */
-/*@Important: Functions properly only when LSI Oscillator is the fmaster source */
+/*@Important: Functions properly only when LSI Oscillator is the fmaster source */  
 void time_delay_lsi_ms(uint16_t ms) {
-  tim4_prescaler_set(TIM4_PRESCALER_1);
-  tim4_counter_enable();
-  tim4_auto_reload_set(127U);
-  while(ms--) {    
-    // Resets the counter on every update generated
-    tim4_update_event_generate();
-    tim4_update_irq_flag_clear();
-    while(!tim4_update_irq_flag_read());    
-  }
-  tim4_counter_disable();
+  if(ms == 0) return;
+    
+  tim4_prescaler_set(0);
+  tim4_auto_reload_set(127);
+
+  tim4_update_event_generate();
   tim4_update_irq_flag_clear();
+
+  tim4_counter_enable();
+
+  while(ms--) {
+    while(!tim4_update_irq_flag_read());
+    tim4_update_irq_flag_clear();
+  }
+
+  tim4_counter_disable();
 }
 
 
-void time_delay_lsi_sec(uint16_t sec) {
+void time_delay_lsi_sec(uint16_t sec) {  
   while(sec--) {
     time_delay_lsi_ms(1000U);
-  }
+  }  
 }
 
 
 
 /* High Precision Clock based delay functions */
 /*@Important: Functions properly only when HSE or HSI Oscillator is the fmaster source */
-void time_delay_us(uint16_t us) {
-  tim4_prescaler_set(TIM4_PSC_VAL_FOR_1MHZ);
-  tim4_counter_enable();
-  while(us > 0) {
-    uint16_t chunk = (us >= 256U) ? 256U : us;
-    tim4_auto_reload_set((chunk - 1));
-    // Resets the counter on every update generated
-    tim4_update_event_generate();
-    tim4_update_irq_flag_clear();
-    while(!tim4_update_irq_flag_read());
-    us -= chunk;
-  }
-  tim4_counter_disable();
-  tim4_update_irq_flag_clear();
+void time_delay_us_16mhz(uint16_t us) {
+    if (us == 0) return;
+
+    while (us--) {        
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop"); 
+        __asm__("nop");         
+    }
 }
 
 
 void time_delay_ms(uint16_t ms) {
+  if(ms == 0) return;
+
+  tim4_prescaler_set(TIM4_PSC_VAL_FOR_125KHZ);
+  tim4_auto_reload_set(124);
+
+  tim4_update_event_generate();
+  tim4_update_irq_flag_clear();
+
+  tim4_counter_enable();
+
   while(ms--) {
-    time_delay_us(1000U);
+    while(!tim4_update_irq_flag_read());
+    tim4_update_irq_flag_clear();
   }
+
+  tim4_counter_disable();
 }
 
 
-void time_delay_sec(uint16_t sec) {
+void time_delay_sec(uint16_t sec) {  
   while(sec--) {
     time_delay_ms(1000U);
-  }
+  }  
 }
+
