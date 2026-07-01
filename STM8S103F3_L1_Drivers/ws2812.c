@@ -18,8 +18,8 @@
 /* WS2812 Prescaler Value */
 #define WS2812_TIM2_PSC 0
 #define WS2812_TIM2_ARR 19U
-#define WS2812_TIM2_COMPARE_BIT_0 6U
-#define WS2812_TIM2_COMPARE_BIT_1 12U
+#define WS2812_TIM2_COMPARE_BIT_0 7U
+#define WS2812_TIM2_COMPARE_BIT_1 15U
 
 
 void ws2812_init(WS2812_CHANNEL_PIN pin) {     
@@ -82,8 +82,8 @@ void ws2812_write_frame_ch1(uint8_t *frame, uint8_t frame_len) {
   tim2_counter_disable();
   tim2_cc1_irq_flag_clear();
   tim2_update_irq_flag_clear();
-    
-  time_delay_us(300U);    
+  
+  time_delay_us_16mhz(300U);    
   
   clk_fmaster_switch_src_auto_mode(current_clock_src);
   clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
@@ -124,7 +124,7 @@ void ws2812_write_frame_ch2(uint8_t *frame, uint8_t frame_len) {
   tim2_cc2_irq_flag_clear();
   tim2_update_irq_flag_clear();
   
-  time_delay_us(300U);    
+  time_delay_us_16mhz(300U);    
   
   clk_fmaster_switch_src_auto_mode(current_clock_src);
   clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
@@ -165,7 +165,7 @@ void ws2812_write_frame_ch3(uint8_t *frame, uint8_t frame_len) {
   tim2_cc3_irq_flag_clear();
   tim2_update_irq_flag_clear();
 
-  time_delay_us(300U);    
+  time_delay_us_16mhz(300U);    
   
   clk_fmaster_switch_src_auto_mode(current_clock_src);
   clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
