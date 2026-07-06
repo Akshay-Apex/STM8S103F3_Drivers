@@ -34,6 +34,10 @@ uint16_t clk_fmaster_freq_khz_get(void) {
 
 
 void clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC src) {
+  if(clk_master_get_source() == src) {
+    return;
+  }
+  
   clk_switch_irq_flag_clear();
   clk_switch_exec_enable();
   clk_master_switch_src(src);  

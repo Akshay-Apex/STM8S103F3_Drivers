@@ -80,23 +80,6 @@ void time_delay_lsi_sec(uint16_t sec) {
 
 
 /* High Precision Clock based delay functions */
-/*@Important: Functions properly only when HSE or HSI Oscillator is the fmaster source */
-void time_delay_us_16mhz(uint16_t us) {
-    if (us == 0) return;
-
-    while (us--) {        
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop"); 
-        __asm__("nop");         
-    }
-}
-
-
 void time_delay_ms(uint16_t ms) {
   if(ms == 0) return;
 

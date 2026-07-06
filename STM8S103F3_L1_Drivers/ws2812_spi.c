@@ -18,6 +18,8 @@
 #define BIT_0 0x3800
 #define BIT_1 0x3F00
 
+uint8_t WS2812_BRIGHTNESS = 255;
+
 
 
 void ws2812_spi_init(void) {
@@ -29,7 +31,7 @@ void ws2812_spi_init(void) {
 
 void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();
+  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
   CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
   HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
 
@@ -63,4 +65,49 @@ void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
   clk_fmaster_switch_src_auto_mode(current_clock_src);
   clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
   global_interrupt_enable();
+}
+
+
+void ws2812_frame_pixel_write(uint8_t *frame, uint8_t pixel_index, uint8_t r, uint8_t g, uint8_t b) {
+  pixel_index *= 3;
+
+  frame[pixel_index + 0] = g;
+  frame[pixel_index + 1] = r;
+  frame[pixel_index + 2] = b;
+}
+
+
+void ws2812_frame_nibble_write(uint8_t *frame, uint8_t start_index, uint8_t lower_nibble, uint8_t digit,  uint8_t r, uint8_t g, uint8_t b) {
+  uint8_t count = 4;
+  while(count--) {
+    if(digit & 1) {
+      ws2812_frame_pixel_write(frame, start_index, r, g, b);
+    } else {
+      if(lower_nibble) {
+        ws2812_frame_pixel_write(frame, start_index, 1, 1, 1);        
+      } else {
+        ws2812_frame_pixel_write(frame, start_index, 1, 0, 1);        
+      }
+    }
+
+    start_index++;
+    digit >>= 1;
+  }
+}
+
+
+void ws2812_frame_build_bcd(uint8_t *frame, uint8_t size, uint16_t number) {
+  uint8_t index = 0;
+  uint8_t pixel_length = size / 3;
+  while(index < pixel_length) {
+    uint8_t digit_1 = number % 10;
+    number = number / 10;
+    uint8_t digit_2 = number % 10;
+    number = number / 10;
+
+    ws2812_frame_nibble_write(frame, index, 1, digit_1, 0, WS2812_BRIGHTNESS, 0);
+    index += 4;
+    ws2812_frame_nibble_write(frame, index, 0, digit_2, 0, 0, WS2812_BRIGHTNESS);
+    index += 4;
+  }
 }
