@@ -19,33 +19,23 @@ int main(void) {
   while(1) {
     gpio_output_toggle(GPIO_B, 5);    
     time_delay_sec(1);
-    if(ds18b20_reset_and_detect_slave()) {
-      CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-      CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-      HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-      clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-      clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
-      
-
-      ds18b20_byte_write(0x33);            
-      for(uint8_t i = 0; i < 8; i++) {        
-        ws2812_frame_build_bcd(frame, sizeof(frame), ds18b20_byte_read());
-        time_delay_sec(1);
-        ws2812_send_frame(frame, sizeof(frame)); 
-      }                  
-
-
-
-      clk_fmaster_switch_src_auto_mode(current_clock_src);
-      clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
-    } else {
+    uint16_t temp = ds18b20_temperature_non_blocking_read();
+    if(temp == DS18B20_ERROR_CODE) {
       for(uint8_t i = 0; i < (sizeof(frame) / 3); i++) {
         ws2812_frame_pixel_write(frame, i, 255, 0, 0);
       }      
-      ws2812_send_frame(frame, sizeof(frame));   
+    } else if(temp == DS18B20_PROCESSING_TEMP) {
+      // for(uint8_t i = 0; i < (sizeof(frame) / 3); i++) {
+      //   ws2812_frame_pixel_write(frame, i, 255, 147, 41);
+      // }      
+      // time_delay_sec(1);
+      uint8_t x = 0;
+    } else {
+      ws2812_frame_build_bcd(frame, sizeof(frame), ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(temp));      
     }
-             
+    
+    ws2812_send_frame(frame, sizeof(frame));   
+    time_delay_sec(2);
   }
 }
 
