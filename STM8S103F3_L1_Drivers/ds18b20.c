@@ -36,8 +36,11 @@ uint16_t ds18b20_temperature_blocking_read(ONE_WIRE_BUS *ow_bus) {
     one_wire_byte_write(ow_bus, 0xCC); 
     // Send Convert Temperature Command
     one_wire_byte_write(ow_bus, 0x44);
-    // Wait for 750 ms for the convertion to finish
-    time_delay_ms(750U);
+    // Waits for the one wire bus to go high or the timeout to occur
+    uint16_t timeout = 750U;        
+    while(!gpio_input_read(ow_bus->gpio_port, ow_bus->gpio_pin) && timeout--) {
+      time_delay_ms(1);
+    }
 
 
     // Reset And Check For Device Presense
