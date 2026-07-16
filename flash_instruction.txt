@@ -1,3 +1,8 @@
+// Checks if the Programmer or the MCU is connected or not 
 stm8flash -c stlinkv2 -p stm8s103f3
 
+// Compiles demo.c to demo.rel object file
+sdcc -mstm8 --std-c99 -c .\demo.c
+
+// Flashes the main.ihx code to the mcu 
 stm8flash -c stlinkv2 -p stm8s103f3 -w main.ihx

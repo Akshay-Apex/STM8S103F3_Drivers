@@ -14,12 +14,12 @@ int main(void) {
   gpio_out_push_pull(GPIO_B, 5);
   time_init();
   ws2812_spi_init();
-  ds18b20_init(GPIO_D, 4);
+  ONE_WIRE_BUS temp_sensor = ds18b20_init(GPIO_D, 4);
 
   while(1) {
     gpio_output_toggle(GPIO_B, 5);    
         
-    uint16_t temp = ds18b20_temperature_non_blocking_read();
+    uint16_t temp = ds18b20_temperature_blocking_read(&temp_sensor);
     if(temp == DS18B20_ERROR_CODE) {
       for(uint8_t i = 0; i < (sizeof(frame) / 3); i++) {
         ws2812_frame_pixel_write(frame, i, 255, 0, 0);
