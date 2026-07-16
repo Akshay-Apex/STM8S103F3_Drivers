@@ -18,24 +18,17 @@ int main(void) {
 
   while(1) {
     gpio_output_toggle(GPIO_B, 5);    
-    time_delay_sec(1);
+        
     uint16_t temp = ds18b20_temperature_non_blocking_read();
     if(temp == DS18B20_ERROR_CODE) {
       for(uint8_t i = 0; i < (sizeof(frame) / 3); i++) {
         ws2812_frame_pixel_write(frame, i, 255, 0, 0);
-      }      
-    } else if(temp == DS18B20_PROCESSING_TEMP) {
-      // for(uint8_t i = 0; i < (sizeof(frame) / 3); i++) {
-      //   ws2812_frame_pixel_write(frame, i, 255, 147, 41);
-      // }      
-      // time_delay_sec(1);
-      uint8_t x = 0;
-    } else {
+      }          
+    } else if(temp != DS18B20_PROCESSING_TEMP) {
       ws2812_frame_build_bcd(frame, sizeof(frame), ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(temp));      
     }
     
-    ws2812_send_frame(frame, sizeof(frame));   
-    time_delay_sec(2);
+    ws2812_send_frame(frame, sizeof(frame));       
   }
 }
 
