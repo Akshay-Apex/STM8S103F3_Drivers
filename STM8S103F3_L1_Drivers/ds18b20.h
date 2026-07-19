@@ -6,6 +6,14 @@
 
 #include "../STM8S103F3_L1_Drivers/one_wire.h"
 
+
+/*=============================================================*
+* 
+* DS18B20 Public API Declarations BEGIN 
+*
+*=============================================================*/
+
+
 #define DS18B20_ERROR_CODE      0xEEEE // Error status code 
 #define DS18B20_PROCESSING_TEMP 0xEEEF // Temp conversion in progress code
 
@@ -15,8 +23,14 @@ ONE_WIRE_BUS ds18b20_init(GPIO_PORT_REG *port, uint8_t pin);
 
 
 /* Temperature Read Functions */
+/* Busy Waits till the temperature reading is received */
 uint16_t ds18b20_temperature_blocking_read(ONE_WIRE_BUS *ow_bus);
 
+
+/* Issues the convert temperature command and then doesn't busy wait to get the temp reading
+ * If called multiple times after the convert temp command has been issued then it would check the status
+ * When conversion is finished it will get the temperature reading 
+ */
 uint16_t ds18b20_temperature_non_blocking_read(ONE_WIRE_BUS *ow_bus);
 
 
@@ -39,5 +53,9 @@ uint16_t ds18b20_temperature_non_blocking_read(ONE_WIRE_BUS *ow_bus);
  * before using the magnitude.
  */
 uint16_t ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(uint16_t temp);
+
+/*=============================================================*
+ * DS18B20 Public API Declarations END
+ *=============================================================*/
 
 #endif

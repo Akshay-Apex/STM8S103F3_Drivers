@@ -25,7 +25,7 @@ int main(void) {
         ws2812_frame_pixel_write(frame, i, 255, 0, 0);
       }          
     } else if(temp != DS18B20_PROCESSING_TEMP) {
-      ws2812_frame_build_bcd(frame, sizeof(frame), ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(temp));      
+      ws2812_frame_bcd_number_write(frame, sizeof(frame), ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(temp));      
     }
     
     ws2812_send_frame(frame, sizeof(frame));       

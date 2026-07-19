@@ -2,12 +2,21 @@
 #include "./one_wire.h"
 
 
+/*=============================================================*
+ * 
+ * One_Wire Public API Definitions
+ *
+ *=============================================================*/
+
+/* One Wire Initialization Function */
 void one_wire_init(ONE_WIRE_BUS *ow_bus) {      
   gpio_out_open_drain(ow_bus->gpio_port, ow_bus->gpio_pin);
   gpio_output_set(ow_bus->gpio_port, ow_bus->gpio_pin);
 }
 
 
+/* One Wire Driver Core Functions */
+/* Function that resets and detects the slave presense */
 uint8_t one_wire_reset_and_detect_slave(ONE_WIRE_BUS *ow_bus) {
   gpio_output_clear(ow_bus->gpio_port, ow_bus->gpio_pin);
   time_delay_us_16mhz(480U);
@@ -31,6 +40,7 @@ uint8_t one_wire_reset_and_detect_slave(ONE_WIRE_BUS *ow_bus) {
 }
 
 
+/* Writes a Bit to the one wire bus */
 void one_wire_bit_write(ONE_WIRE_BUS *ow_bus, uint8_t bit) {
   if(bit) {
     gpio_output_clear(ow_bus->gpio_port, ow_bus->gpio_pin);
@@ -46,6 +56,7 @@ void one_wire_bit_write(ONE_WIRE_BUS *ow_bus, uint8_t bit) {
 }
 
 
+/* Writes a Byte to the one wire bus */
 void one_wire_byte_write(ONE_WIRE_BUS *ow_bus, uint8_t data) {
   uint8_t counter = 8;
   while(counter--) {    
@@ -55,6 +66,7 @@ void one_wire_byte_write(ONE_WIRE_BUS *ow_bus, uint8_t data) {
 }
 
 
+/* Reads a Bit from the one wire bus */
 uint8_t one_wire_bit_read(ONE_WIRE_BUS *ow_bus) {
   uint8_t data = 0;    
   gpio_output_clear(ow_bus->gpio_port, ow_bus->gpio_pin);
@@ -68,6 +80,7 @@ uint8_t one_wire_bit_read(ONE_WIRE_BUS *ow_bus) {
 }
 
 
+/* Reads a Byte from the one wire bus */
 uint8_t one_wire_byte_read(ONE_WIRE_BUS *ow_bus) {
   uint8_t data = 0;  
   for(uint8_t i = 0; i < 8; i++) {       

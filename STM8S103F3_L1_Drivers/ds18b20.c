@@ -3,15 +3,23 @@
 #include "../STM8S103F3_L1_Drivers/time.h"
 #include "./ds18b20.h"
 
+/*=============================================================*
+ * 
+ * DS18B20 Public API Definitions
+ *
+ *=============================================================*/
+
+
 /* Interrupt Enable and Disable */
 #define global_interrupt_enable()  __asm__("rim") 
 #define global_interrupt_disable() __asm__("sim")
 
 
-// Local Variable
+/* Local Variable */
 uint8_t TEMP_CONV_PROCESS_INITIATED = 0;
 
 
+/* DS18B20 Initialization Function */
 ONE_WIRE_BUS ds18b20_init(GPIO_PORT_REG *port, uint8_t pin) {  
   ONE_WIRE_BUS ds18b20_bus = {port, pin};
   one_wire_init(&ds18b20_bus);
@@ -20,6 +28,8 @@ ONE_WIRE_BUS ds18b20_init(GPIO_PORT_REG *port, uint8_t pin) {
 
 
 
+/* Temperature Read Functions */
+/* Busy Waits till the temperature reading is received */
 uint16_t ds18b20_temperature_blocking_read(ONE_WIRE_BUS *ow_bus) {
   global_interrupt_disable();  
   CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
@@ -66,7 +76,10 @@ uint16_t ds18b20_temperature_blocking_read(ONE_WIRE_BUS *ow_bus) {
 }
 
 
-
+/* Issues the convert temperature command and then doesn't busy wait to get the temp reading
+ * If called multiple times after the convert temp command has been issued then it would check the status
+ * When conversion is finished it will get the temperature reading 
+ */
 uint16_t ds18b20_temperature_non_blocking_read(ONE_WIRE_BUS *ow_bus) {
   if(TEMP_CONV_PROCESS_INITIATED == 1 && !one_wire_bit_read(ow_bus)) {
     return DS18B20_PROCESSING_TEMP;
@@ -119,6 +132,24 @@ uint16_t ds18b20_temperature_non_blocking_read(ONE_WIRE_BUS *ow_bus) {
 
 
 
+/**
+ * Converts a DS18B20 raw temperature (Q11.4 two's complement) into a
+ * sign-encoded fixed-point value with two decimal digits of precision.
+ *
+ * Return format:
+ *   Bit 15 : Sign bit (0 = positive, 1 = negative)
+ *   Bits 14:0 : Temperature magnitude in centi-degrees (°C × 100)
+ *
+ * Examples:
+ *   +25.06°C -> 2506
+ *   -25.06°C -> 0x8000 | 2506
+ *   +99.99°C -> 9999
+ *
+ * Temperatures above +99.99°C are saturated to +99.99°C.
+ *
+ * The returned magnitude is always positive. Check and clear the sign bit
+ * before using the magnitude.
+ */
 uint16_t ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(uint16_t temp) {
   uint16_t sign_en_fixed_point = temp & 0x8000;  
   if(sign_en_fixed_point) {

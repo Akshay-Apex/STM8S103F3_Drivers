@@ -15,13 +15,16 @@
 #define global_interrupt_enable()  __asm__("rim") 
 #define global_interrupt_disable() __asm__("sim")
 
+/* Bit Values */
 #define BIT_0 0x3800
 #define BIT_1 0x3F00
 
+/* Global Variable and Constant Declarations */
 uint8_t WS2812_BRIGHTNESS = 255;
 
 
 
+/* WS2812 Initilization Function */
 void ws2812_spi_init(void) {
   clk_peripheral_1_clock_enable(CLK_SPI);   
   gpio_out_push_pull_fast_mode(GPIO_C, 6);
@@ -29,6 +32,8 @@ void ws2812_spi_init(void) {
 }
 
 
+
+/* Writes the Data-Frame to WS2812 */
 void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
   global_interrupt_disable();  
   CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
@@ -68,6 +73,9 @@ void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
 }
 
 
+
+/* WS2812 Data-Frame Build Functions */
+/* Writes to Individual Pixel of a Data-Frame */
 void ws2812_frame_pixel_write(uint8_t *frame, uint8_t pixel_index, uint8_t r, uint8_t g, uint8_t b) {
   pixel_index *= 3;
 
@@ -77,13 +85,14 @@ void ws2812_frame_pixel_write(uint8_t *frame, uint8_t pixel_index, uint8_t r, ui
 }
 
 
-void ws2812_frame_nibble_write(uint8_t *frame, uint8_t start_index, uint8_t lower_nibble, uint8_t digit,  uint8_t r, uint8_t g, uint8_t b) {
+/* Writes the Digit in BCD in Upper or Lower Nibble which can be selected using lower_nibble_flag */
+void ws2812_frame_bcd_digit_write(uint8_t *frame, uint8_t start_index, uint8_t lower_nibble_flag, uint8_t digit,  uint8_t r, uint8_t g, uint8_t b) {
   uint8_t count = 4;
   while(count--) {
     if(digit & 1) {
       ws2812_frame_pixel_write(frame, start_index, r, g, b);
     } else {
-      if(lower_nibble) {
+      if(lower_nibble_flag) {
         ws2812_frame_pixel_write(frame, start_index, 1, 1, 1);        
       } else {
         ws2812_frame_pixel_write(frame, start_index, 1, 0, 1);        
@@ -96,7 +105,8 @@ void ws2812_frame_nibble_write(uint8_t *frame, uint8_t start_index, uint8_t lowe
 }
 
 
-void ws2812_frame_build_bcd(uint8_t *frame, uint8_t size, uint16_t number) {
+/* Writes the Number in BCD format to the Data-Frame */
+void ws2812_frame_bcd_number_write(uint8_t *frame, uint8_t size, uint16_t number) {
   uint8_t index = 0;
   uint8_t pixel_length = size / 3;
   while(index < pixel_length) {
@@ -105,9 +115,9 @@ void ws2812_frame_build_bcd(uint8_t *frame, uint8_t size, uint16_t number) {
     uint8_t digit_2 = number % 10;
     number = number / 10;
 
-    ws2812_frame_nibble_write(frame, index, 1, digit_1, 0, WS2812_BRIGHTNESS, 0);
+    ws2812_frame_bcd_digit_write(frame, index, 1, digit_1, 0, WS2812_BRIGHTNESS, 0);
     index += 4;
-    ws2812_frame_nibble_write(frame, index, 0, digit_2, 0, 0, WS2812_BRIGHTNESS);
+    ws2812_frame_bcd_digit_write(frame, index, 0, digit_2, 0, 0, WS2812_BRIGHTNESS);
     index += 4;
   }
 }
