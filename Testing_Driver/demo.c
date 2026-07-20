@@ -15,7 +15,8 @@ int main(void) {
   time_init();
   ws2812_spi_init();
   ONE_WIRE_BUS temp_sensor = ds18b20_init(GPIO_D, 4);
-
+  
+  // uint16_t counter = 0;
   while(1) {
     gpio_output_toggle(GPIO_B, 5);    
         
@@ -27,8 +28,15 @@ int main(void) {
     } else if(temp != DS18B20_PROCESSING_TEMP) {
       ws2812_frame_bcd_number_write(frame, sizeof(frame), ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(temp));      
     }
-    
     ws2812_send_frame(frame, sizeof(frame));       
+
+    // if(counter >= 10000U) {
+    //   counter = 0;
+    // } 
+    // time_delay_ms(20);
+
+    // ws2812_frame_bcd_number_write(frame, sizeof(frame), counter++);
+    // ws2812_send_frame(frame, sizeof(frame));
   }
 }
 
