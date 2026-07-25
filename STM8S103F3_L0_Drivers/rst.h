@@ -1,3 +1,10 @@
+ /**
+ * @file rst.h
+ * @brief STM8S103F3 Reset driver.
+ *
+ * @details Implements the complete STM8S103F3 Reset interface.
+ */
+
 #ifndef RST_H
 #define RST_H
 
@@ -7,15 +14,18 @@
 #define RST_SR (*(volatile uint8_t *)0x50B3) 
 
 /* Reset Flags */
-#define RST_WWDG_FLAG_MASK  (1U << 0)
-#define RST_IWDG_FLAG_MASK  (1U << 1)
-#define RST_ILLOP_FLAG_MASK (1U << 2)
-#define RST_SWIM_FLAG_MASK  (1U << 3)
-#define RST_EMC_FLAG_MASK   (1U << 4)
+typedef enum {
+  RST_WWDG_FLAG  = (1U << 0),
+  RST_IWDG_FLAG  = (1U << 1),
+  RST_ILLOP_FLAG = (1U << 2),
+  RST_SWIM_FLAG  = (1U << 3),
+  RST_EMC_FLAG   = (1U << 4)
+} RST_FLAGS;
 
 
 /* Clears the specified reset flags */
-inline void rst_flags_clear(uint8_t flag_mask) {
+/* @Note: Combine multiple flags with the bitwise OR (|) operator */
+inline void rst_flags_clear(RST_FLAGS flag_mask) {
   RST_SR = flag_mask;
 }
 
