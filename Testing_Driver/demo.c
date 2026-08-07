@@ -11,7 +11,7 @@ uint8_t frame[16 * 3];
 int main(void) {      
   WS2812_BRIGHTNESS = 40; 
   clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);  
-  gpio_out_push_pull(GPIO_B, 5);
+  gpio_output_mode_push_pull_init(GPIO_B, 5);
   time_init();
   ws2812_spi_init();
   ONE_WIRE_BUS temp_sensor = ds18b20_init(GPIO_D, 4);

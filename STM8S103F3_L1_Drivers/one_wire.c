@@ -9,8 +9,8 @@
  *=============================================================*/
 
 /* One Wire Initialization Function */
-void one_wire_init(ONE_WIRE_BUS *ow_bus) {      
-  gpio_out_open_drain(ow_bus->gpio_port, ow_bus->gpio_pin);
+void one_wire_init(ONE_WIRE_BUS *ow_bus) {        
+  gpio_output_mode_open_drain_init(ow_bus->gpio_port, ow_bus->gpio_pin);
   gpio_output_set(ow_bus->gpio_port, ow_bus->gpio_pin);
 }
 

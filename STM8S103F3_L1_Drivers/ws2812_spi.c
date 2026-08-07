@@ -27,7 +27,7 @@ uint8_t WS2812_BRIGHTNESS = 255;
 /* WS2812 Initilization Function */
 void ws2812_spi_init(void) {
   clk_peripheral_1_clock_enable(CLK_SPI);   
-  gpio_out_push_pull_fast_mode(GPIO_C, 6);
+  gpio_output_mode_push_pull_fast_mode_init(GPIO_C, 6);
   gpio_output_clear(GPIO_C, 6);
 }
 
