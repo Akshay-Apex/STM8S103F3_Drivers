@@ -2,7 +2,8 @@
  * @file ext_irq.h
  * @brief STM8S103F3 External Interrupt driver.
  *
- * @details Implements the complete STM8S103F3 External Interrupt interface.
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          External Interrupt peripheral.
  */
 
 #ifndef EXT_IRQ_H

@@ -2,7 +2,8 @@
  * @file wwdg.h
  * @brief STM8S103F3 Window Watchdog driver.
  *
- * @details Implements the complete STM8S103F3 Window Watchdog interface.
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          Window Watchdog peripheral.
  */
 
 #ifndef WWDG_H

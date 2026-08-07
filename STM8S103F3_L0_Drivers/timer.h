@@ -2,7 +2,8 @@
  * @file timer.h
  * @brief STM8S103F3 timer driver.
  *
- * @details Implements the complete STM8S103F3 Timer peripheral interface.
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          Timer peripheral.
  */
 
 #ifndef TIMER_H

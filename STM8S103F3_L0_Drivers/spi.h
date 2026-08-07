@@ -2,7 +2,8 @@
  * @file spi.h
  * @brief STM8S103F3 SPI driver.
  *
- * @details Implements the complete STM8S103F3 Serial Peripheral Interface (SPI).
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          Serial Peripheral Interface (SPI).
  */
 
 #ifndef SPI_H

@@ -2,7 +2,8 @@
  * @file iwdg.h
  * @brief STM8S103F3 Independent Watchdog driver.
  *
- * @details Implements the complete STM8S103F3 Independent Watchdog interface.
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          Independent Watchdog peripheral.
  */
 
 #ifndef IWDG_H

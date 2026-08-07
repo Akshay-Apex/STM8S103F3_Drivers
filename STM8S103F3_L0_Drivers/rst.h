@@ -2,7 +2,8 @@
  * @file rst.h
  * @brief STM8S103F3 Reset driver.
  *
- * @details Implements the complete STM8S103F3 Reset interface.
+ * @details Provides an API for configuring and controlling the STM8S103F3
+ *          Reset peripheral.
  */
 
 #ifndef RST_H
