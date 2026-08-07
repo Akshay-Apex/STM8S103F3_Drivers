@@ -46,7 +46,7 @@ typedef enum {
 
 
 /* GPIO Pin Generic Multi Mode Configuration Function */
-inline void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin) {
+inline void gpio_multi_mode_init(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR = (port->DDR & ~pin_mask) | ((uint8_t)DDR_SET_HIGH(mode) << pin);
   port->CR1 = (port->CR1 & ~pin_mask) | ((uint8_t)CR1_SET_HIGH(mode) << pin);
@@ -56,28 +56,28 @@ inline void gpio_multi_mode_config(GPIO_PORT_REG *port, GPIO_MULTI_MODE mode, ui
 
 /* Fast GPIO Pin Multi Mode Configuration Functions */
 /* GPIO Input Modes */
-inline void gpio_in_float_no_irq(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_mode_float_no_irq_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR &= ~(pin_mask);
   port->CR1 &= ~(pin_mask);
   port->CR2 &= ~(pin_mask);
 }
 
-inline void gpio_in_pull_up_no_irq(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_mode_pull_up_no_irq_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR &= ~(pin_mask);
   port->CR1 |= (pin_mask);
   port->CR2 &= ~(pin_mask);
 }
 
-inline void gpio_in_float_with_irq(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_mode_float_with_irq_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR &= ~(pin_mask);
   port->CR1 &= ~(pin_mask);
   port->CR2 |= (pin_mask);
 }
  
-inline void gpio_in_pull_up_with_irq(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_mode_pull_up_with_irq_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR &= ~(pin_mask);
   port->CR1 |= (pin_mask); 
@@ -86,28 +86,28 @@ inline void gpio_in_pull_up_with_irq(GPIO_PORT_REG *port, uint8_t pin) {
 
 
 /* GPIO Output Modes */
-inline void gpio_out_open_drain(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_mode_open_drain_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR |= (pin_mask);
   port->CR1 &= ~(pin_mask);
   port->CR2 &= ~(pin_mask);
 }
 
-inline void gpio_out_push_pull(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_mode_push_pull_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR |= (pin_mask);
   port->CR1 |= (pin_mask);
   port->CR2 &= ~(pin_mask);
 }
 
-inline void gpio_out_open_drain_fast_mode(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_mode_open_drain_fast_mode_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR |= (pin_mask);
   port->CR1 &= ~(pin_mask);
   port->CR2 |= (pin_mask);
 }
 
-inline void gpio_out_push_pull_fast_mode(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_mode_push_pull_fast_mode_init(GPIO_PORT_REG *port, uint8_t pin) {
   uint8_t pin_mask = (1U << pin);
   port->DDR |= (pin_mask);
   port->CR1 |= (pin_mask);
@@ -117,54 +117,48 @@ inline void gpio_out_push_pull_fast_mode(GPIO_PORT_REG *port, uint8_t pin) {
 
 /* Fast GPIO Pin Advanced Single Mode Configuration Functions */
 /* GPIO I/O Mode Selection */
-inline void gpio_mode_output_init(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_mode_init(GPIO_PORT_REG *port, uint8_t pin) {
   port->DDR |= (1U << pin);
 }
 
-inline void gpio_mode_input_init(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_mode_init(GPIO_PORT_REG *port, uint8_t pin) {
   port->DDR &= ~(1U << pin);
 }
 
 
 /* GPIO Input Modes */
-inline void gpio_in_pull_up_enable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_pull_up_enable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR1 |= (1U << pin);
 }
 
-inline void gpio_in_pull_up_disable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_pull_up_disable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR1 &= ~(1U << pin);
 }
 
-inline void gpio_in_irq_enable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_irq_enable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR2 |= (1U << pin);
 }
 
-inline void gpio_in_irq_disable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_input_irq_disable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR2 &= ~(1U << pin);
 }
 
 
 /* GPIO Output Modes */
-inline void gpio_out_push_pull_enable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_push_pull_enable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR1 |= (1U << pin);
 }
 
-inline void gpio_out_open_drain_enable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_open_drain_enable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR1 &= ~(1U << pin);
 }
 
-inline void gpio_out_fast_mode_enable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_fast_mode_enable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR2 |= (1U << pin);
 }
 
-inline void gpio_out_fast_mode_disable(GPIO_PORT_REG *port, uint8_t pin) {
+inline void gpio_output_fast_mode_disable(GPIO_PORT_REG *port, uint8_t pin) {
   port->CR2 &= ~(1U << pin);
-}
-
-
-/* GPIO Input Read Functions */
-inline uint8_t gpio_input_read(GPIO_PORT_REG *port, uint8_t pin) {
-   return ((port->IDR >> pin) & 1);   
 }
 
 
@@ -180,7 +174,13 @@ inline void gpio_output_clear(GPIO_PORT_REG *port, uint8_t pin) {
 }
 
 
-/* GPIO Read Output */
+
+/* GPIO Input Read Function */
+inline uint8_t gpio_input_read(GPIO_PORT_REG *port, uint8_t pin) {
+   return ((port->IDR >> pin) & 1);   
+}
+
+/* GPIO Output Read Function */
 inline uint8_t gpio_output_read(GPIO_PORT_REG *port, uint8_t pin) {
   return ((port->ODR >> pin) & 1);
 }
