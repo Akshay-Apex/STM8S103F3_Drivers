@@ -32,12 +32,12 @@ typedef struct {
  *   and will successfully write the value to the counter register
  * - Any value above the max value will be truncated to the max value      
  */
-inline void wwdg_init_and_counter_write(uint8_t value) {
+inline void wwdg_activate_and_counter_write(uint8_t value) {
   WWDG->CR = (WWDG_ACTIVATE_MASK) | (value & WWDG_MAX_VALUE_MASK);
 }
 
 inline void wwdg_feed(uint8_t counter_value) {
-  wwdg_init_and_counter_write(counter_value);
+  wwdg_activate_and_counter_write(counter_value);
 }
 
 
@@ -51,7 +51,7 @@ inline void wwdg_window_upper_threshold_write(uint8_t value) {
 /* Initialization */
 inline void wwdg_init(uint8_t counter_value, uint8_t window_value) {
   wwdg_window_upper_threshold_write(window_value);
-  wwdg_init_and_counter_write(counter_value);
+  wwdg_activate_and_counter_write(counter_value);
 }
 
 #endif 
