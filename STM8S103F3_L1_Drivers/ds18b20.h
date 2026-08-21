@@ -61,7 +61,7 @@ uint16_t ds18b20_temperature_non_blocking_read(DS18B20_SENSOR *sensor);
  * The returned magnitude is always positive. Check and clear the sign bit
  * before using the magnitude.
  */
-uint16_t ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(uint16_t temp);
+uint16_t ds18b20_temp_to_sign_encoded_abs_centi_celsius(uint16_t temp);
 
 
 

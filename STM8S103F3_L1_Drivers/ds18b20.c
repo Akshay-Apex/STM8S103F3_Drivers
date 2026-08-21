@@ -151,18 +151,24 @@ uint16_t ds18b20_temperature_non_blocking_read(DS18B20_SENSOR *sensor) {
  * The returned magnitude is always positive. Check and clear the sign bit
  * before using the magnitude.
  */
-uint16_t ds18b20_temp_to_sign_encoded_fixed_point_max_99_celc(uint16_t temp) {
+uint16_t ds18b20_temp_to_sign_encoded_abs_centi_celsius(uint16_t temp) {
   uint16_t sign_en_fixed_point = temp & 0x8000;  
+  // Takes two's complement if the number has a signed bit
   if(sign_en_fixed_point) {
     temp = (~temp + 1);
   }
+
   uint16_t integer = ((temp >> 4));
+  // If the number is greater than or equal to [+|-] 100 then it rounds it to [+|-] 9999 fixed point integer
   if(integer >= 100U) {
     integer = 99U * 100U;
+    return (sign_en_fixed_point | (integer + 99U));
   } else {
     integer *= 100U;
   }
-  sign_en_fixed_point |= integer + ((temp & 0x000F) * 100U / 16U);
+  // Performs Nearest-Neighbor Rounding 
+  uint8_t fraction = (((temp & 0x000F) * 100U) + 8) / 16U;
+  sign_en_fixed_point |= integer + fraction;
   return sign_en_fixed_point;
 }
 
