@@ -26,6 +26,7 @@ uint8_t one_wire_reset_and_detect_slave(ONE_WIRE_BUS *ow_bus) {
 
   uint16_t timeout = 250U;
   uint8_t device_present = 0;
+  gpio_input_mode_pull_up_no_irq_init(ow_bus->gpio_port, ow_bus->gpio_pin);
   if(!gpio_input_read(ow_bus->gpio_port, ow_bus->gpio_pin)) {    
     while(!gpio_input_read(ow_bus->gpio_port, ow_bus->gpio_pin) && timeout--) {
       time_delay_us_16mhz(1);
@@ -35,6 +36,7 @@ uint8_t one_wire_reset_and_detect_slave(ONE_WIRE_BUS *ow_bus) {
       device_present = 1; 
     } 
   }
+  gpio_output_mode_open_drain_init(ow_bus->gpio_port, ow_bus->gpio_pin);
 
   return device_present;
 }
