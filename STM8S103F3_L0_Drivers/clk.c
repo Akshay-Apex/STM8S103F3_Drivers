@@ -44,3 +44,22 @@ void clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC src) {
   while(!clk_switch_event_occured_auto_mode());
   clk_switch_irq_flag_clear();
 }
+
+
+/* Clock Context Switch and Restore */
+CLK_CONTEXT clk_context_get_and_switch(CLK_MASTER_SRC src, HSI_DIV_PRESCALAR hsi_value, CPU_DIV_PRESCALAR cpu_value) {
+  CLK_CONTEXT context;
+  context.current_clock_src = clk_master_get_source();  
+  context.current_cpu_divider = clk_cpu_div_prescalar_read();
+  context.current_hsi_divider = clk_hsi_div_prescalar_read();
+
+  clk_fmaster_switch_src_auto_mode(src);
+  clk_hsi_and_cpu_div_prescalar_set(hsi_value, cpu_value);
+    
+  return context;
+}
+
+void clk_context_restore(CLK_CONTEXT *context) {
+  clk_fmaster_switch_src_auto_mode(context->current_clock_src);
+  clk_hsi_and_cpu_div_prescalar_set(context->current_hsi_divider, context->current_cpu_divider);
+}

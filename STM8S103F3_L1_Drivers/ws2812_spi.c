@@ -36,12 +36,7 @@ void ws2812_spi_init(void) {
 /* Writes the Data-Frame to WS2812 */
 void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-  CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-  HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-  clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-  clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
+  CLK_CONTEXT context = clk_context_get_and_switch(CLK_MASTER_SRC_HSI, CLK_HSI_DIV_1, CLK_CPU_DIV_1);
   
   spi_master_mode_set(SPI_MASTER_CONFIGURATION);
   spi_baud_rate_prescaler_set(SPI_BAUD_RATE_PSC_2); 
@@ -67,8 +62,7 @@ void ws2812_send_frame(uint8_t *frame, uint8_t frame_len) {
   spi_disable();
   time_delay_us_16mhz(300U);
   
-  clk_fmaster_switch_src_auto_mode(current_clock_src);
-  clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
+  clk_context_restore(&context);
   global_interrupt_enable();
 }
 

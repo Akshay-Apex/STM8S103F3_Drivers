@@ -31,12 +31,7 @@ DS18B20_SENSOR ds18b20_init(GPIO_PORT_REG *port, uint8_t pin) {
 /* Busy Waits till the temperature reading is received */
 uint16_t ds18b20_temperature_blocking_read(DS18B20_SENSOR *sensor) {
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-  CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-  HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-  clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-  clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
+  CLK_CONTEXT context = clk_context_get_and_switch(CLK_MASTER_SRC_HSI, CLK_HSI_DIV_1, CLK_CPU_DIV_1);  
   
   ONE_WIRE_BUS *ow_bus = &(sensor->ow_bus);
   uint16_t temp = DS18B20_ERROR_CODE;
@@ -68,8 +63,7 @@ uint16_t ds18b20_temperature_blocking_read(DS18B20_SENSOR *sensor) {
     } 
   } 
   
-  clk_fmaster_switch_src_auto_mode(current_clock_src);
-  clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
+  clk_context_restore(&context);
   global_interrupt_enable();
 
   return temp;
@@ -82,12 +76,7 @@ uint16_t ds18b20_temperature_blocking_read(DS18B20_SENSOR *sensor) {
  */
 uint16_t ds18b20_temperature_non_blocking_read(DS18B20_SENSOR *sensor) {  
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-  CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-  HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-  clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-  clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
+  CLK_CONTEXT context = clk_context_get_and_switch(CLK_MASTER_SRC_HSI, CLK_HSI_DIV_1, CLK_CPU_DIV_1);  
   
   ONE_WIRE_BUS *ow_bus = &(sensor->ow_bus);
   uint16_t temp;
@@ -124,8 +113,7 @@ uint16_t ds18b20_temperature_non_blocking_read(DS18B20_SENSOR *sensor) {
     }
   }
   
-  clk_fmaster_switch_src_auto_mode(current_clock_src);
-  clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
+  clk_context_restore(&context);
   global_interrupt_enable();
    
   return temp;
@@ -199,12 +187,7 @@ bool ds18b20_crc8_is_valid(uint8_t *scratchpad, uint8_t size) {
 /* Issues Temperature Convertion Command with either Blocking or Non-Blocking Mode */
 uint16_t ds18b20_begin_temp_convertion(DS18B20_SENSOR *sensor, bool blocking_temp_conversion) {
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-  CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-  HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-  clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-  clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
+  CLK_CONTEXT context = clk_context_get_and_switch(CLK_MASTER_SRC_HSI, CLK_HSI_DIV_1, CLK_CPU_DIV_1); 
   
   ONE_WIRE_BUS *ow_bus = &(sensor->ow_bus);
   uint16_t OPERATION_STATUS = DS18B20_ERROR_CODE;
@@ -247,8 +230,7 @@ uint16_t ds18b20_begin_temp_convertion(DS18B20_SENSOR *sensor, bool blocking_tem
     }        
   }
   
-  clk_fmaster_switch_src_auto_mode(current_clock_src);
-  clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
+  clk_context_restore(&context);
   global_interrupt_enable();
 
   return OPERATION_STATUS; 
@@ -263,12 +245,7 @@ uint16_t ds18b20_begin_temp_convertion(DS18B20_SENSOR *sensor, bool blocking_tem
  */
 uint16_t ds18b20_scratchpad_read(uint8_t *scratchpad, DS18B20_SENSOR *sensor) {
   global_interrupt_disable();  
-  CLK_MASTER_SRC current_clock_src = clk_master_get_source();  
-  CPU_DIV_PRESCALAR current_cpu_divider = clk_cpu_div_prescalar_read();
-  HSI_DIV_PRESCALAR current_hsi_divider = clk_hsi_div_prescalar_read();
-
-  clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC_HSI);
-  clk_hsi_and_cpu_div_prescalar_set(CLK_HSI_DIV_1, CLK_CPU_DIV_1);
+  CLK_CONTEXT context = clk_context_get_and_switch(CLK_MASTER_SRC_HSI, CLK_HSI_DIV_1, CLK_CPU_DIV_1);  
     
   ONE_WIRE_BUS *ow_bus = &(sensor->ow_bus);
   uint16_t ERROR_CODE = DS18B20_ERROR_CODE;
@@ -287,8 +264,7 @@ uint16_t ds18b20_scratchpad_read(uint8_t *scratchpad, DS18B20_SENSOR *sensor) {
   } 
 
   
-  clk_fmaster_switch_src_auto_mode(current_clock_src);
-  clk_hsi_and_cpu_div_prescalar_set(current_hsi_divider, current_cpu_divider);
+  clk_context_restore(&context);
   global_interrupt_enable();
 
   return ERROR_CODE; 

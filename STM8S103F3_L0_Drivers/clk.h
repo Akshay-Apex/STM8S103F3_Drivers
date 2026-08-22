@@ -52,6 +52,39 @@ typedef enum {
 
 void clk_fmaster_switch_src_auto_mode(CLK_MASTER_SRC src);
 
+
+
+/* Clock Context Switch and Restore */
+/* CPU Divider Values */
+typedef enum {
+  CLK_CPU_DIV_1   = 0,
+  CLK_CPU_DIV_2   = 1,
+  CLK_CPU_DIV_4   = 2,
+  CLK_CPU_DIV_8   = 3,
+  CLK_CPU_DIV_16  = 4,
+  CLK_CPU_DIV_32  = 5,
+  CLK_CPU_DIV_64  = 6,
+  CLK_CPU_DIV_128 = 7
+} CPU_DIV_PRESCALAR;
+
+/* HSI Divider Values */
+typedef enum {
+  CLK_HSI_DIV_1 = 0,
+  CLK_HSI_DIV_2 = 1,
+  CLK_HSI_DIV_4 = 2,
+  CLK_HSI_DIV_8 = 3
+} HSI_DIV_PRESCALAR;
+
+typedef struct {
+  CLK_MASTER_SRC current_clock_src;
+  CPU_DIV_PRESCALAR current_cpu_divider;
+  HSI_DIV_PRESCALAR current_hsi_divider;
+} CLK_CONTEXT;
+
+CLK_CONTEXT clk_context_get_and_switch(CLK_MASTER_SRC src, HSI_DIV_PRESCALAR hsi_value, CPU_DIV_PRESCALAR cpu_value);
+
+void clk_context_restore(CLK_CONTEXT *context);
+
 /*=============================================================*
  * Clock Public API Declarations END
  *=============================================================*/
@@ -194,18 +227,6 @@ inline void clk_switch_irq_flag_clear(void) {
 
 
 /* Clock divider register (CLK_CKDIVR) */
-/* CPU Divider Values */
-typedef enum {
-  CLK_CPU_DIV_1   = 0,
-  CLK_CPU_DIV_2   = 1,
-  CLK_CPU_DIV_4   = 2,
-  CLK_CPU_DIV_8   = 3,
-  CLK_CPU_DIV_16  = 4,
-  CLK_CPU_DIV_32  = 5,
-  CLK_CPU_DIV_64  = 6,
-  CLK_CPU_DIV_128 = 7
-} CPU_DIV_PRESCALAR;
-
 #define CLK_CKDIVR_CPU_CLR_MASK 0xF8
 
 inline void clk_cpu_div_prescalar_set(CPU_DIV_PRESCALAR value) {
@@ -217,14 +238,7 @@ inline CPU_DIV_PRESCALAR clk_cpu_div_prescalar_read(void) {
 }
 
 
-/* HSI Divider Values */
-typedef enum {
-  CLK_HSI_DIV_1 = 0,
-  CLK_HSI_DIV_2 = 1,
-  CLK_HSI_DIV_4 = 2,
-  CLK_HSI_DIV_8 = 3
-} HSI_DIV_PRESCALAR;
-
+/* HSI Divider Prescalar */
 #define CLK_CKDIVR_HSI_CLR_MASK 0xE7
 
 inline void clk_hsi_div_prescalar_set(HSI_DIV_PRESCALAR value) {
