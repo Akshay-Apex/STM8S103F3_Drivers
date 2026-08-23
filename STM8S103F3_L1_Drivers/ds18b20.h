@@ -67,7 +67,7 @@ uint16_t ds18b20_temp_to_sign_encoded_abs_centi_celsius(uint16_t temp);
 
 /* Validates full 9-byte scratchpad integrity, returns true if data is valid */
 /* @Note: Must pass the full 9-byte Scratchpad from the DS18B20 sensor */
-bool ds18b20_crc8_is_valid(uint8_t *scratchpad, uint8_t size);    
+bool ds18b20_crc8_is_valid(uint8_t *scratchpad);    
 
 
 

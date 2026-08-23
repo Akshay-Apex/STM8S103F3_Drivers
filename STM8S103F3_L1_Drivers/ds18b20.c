@@ -166,9 +166,9 @@ uint16_t ds18b20_temp_to_sign_encoded_abs_centi_celsius(uint16_t temp) {
 /* @Note: Must pass the full 9-byte Scratchpad from the sensor */
 #define CRC_8_BIT_POLYNOMIAL_REFLECTED 0x8C
 
-bool ds18b20_crc8_is_valid(uint8_t *scratchpad, uint8_t size) {
+bool ds18b20_crc8_is_valid(uint8_t *scratchpad) {
   uint8_t crc = 0;
-  for(uint8_t i = 0; i < size; i ++) {
+  for(uint8_t i = 0; i < 9; i ++) {
     crc ^= scratchpad[i];        
     for(uint8_t j = 0; j < 8; j++) {            
       if(crc & 1) {

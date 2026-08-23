@@ -41,7 +41,7 @@ int main(void) {
     } else if(CODE == DS18B20_DONE_PROCESSING) {
       CODE = ds18b20_scratchpad_read(scratchpad, &temp_sensor);
       
-      if(CODE == DS18B20_ERROR_CODE || !ds18b20_crc8_is_valid(scratchpad, sizeof(scratchpad))) {
+      if(CODE == DS18B20_ERROR_CODE || !ds18b20_crc8_is_valid(scratchpad)) {
         for(uint8_t i = 0; i < sizeof(frame) / 3; i++) {
           ws2812_frame_pixel_write(frame, i, 255, 0, 0);
         }
