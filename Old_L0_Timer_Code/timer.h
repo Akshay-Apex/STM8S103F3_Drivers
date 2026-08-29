@@ -508,7 +508,7 @@ inline void tim2_input_capture1_filter_set(TIM2_INPUT_CAPTURE_FILTER filter) {
 }
 
 inline TIM2_INPUT_CAPTURE_FILTER tim2_input_capture1_filter_read(void) {
-  return (TIM2_INPUT_CAPTURE_FILTER)(TIM2->CCMR1 >> 4) & 0x0F;
+  return (TIM2_INPUT_CAPTURE_FILTER)((TIM2->CCMR1 >> 4) & 0x0F);
 }
 
 

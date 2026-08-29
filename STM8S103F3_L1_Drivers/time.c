@@ -1,5 +1,5 @@
 #include "../STM8S103F3_L0_Drivers/clk.h"
-#include "../STM8S103F3_L0_Drivers/timer.h"
+#include "../STM8S103F3_L0_Drivers/timer4.h"
 #include "./time.h"
 
 /*=============================================================*

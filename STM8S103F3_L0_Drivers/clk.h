@@ -1,6 +1,6 @@
 /**
  * @file clk.h
- * @brief STM8S103F3 clock driver.
+ * @brief STM8S103F3 Clock driver.
  *
  * @details Provides an API for configuring and controlling the STM8S103F3
  *          Clock peripheral.
